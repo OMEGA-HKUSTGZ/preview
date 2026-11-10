@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://omega-hkustgz.github.io/projects/lightvln/" />
+    <title>LightVLN — OMEGA Lab</title>
+    <meta name="description" content="LightVLN: lightweight aerial vision-and-language navigation with a 0.5B language backbone, single-token history and at most 48 visual tokens. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="LightVLN — OMEGA Lab" />
+    <meta property="og:description" content="LightVLN: lightweight aerial vision-and-language navigation with a 0.5B language backbone, single-token history and at most 48 visual tokens. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/lightvln/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/lightvln/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="LightVLN overview: three lightweight components, benchmarks, and the closed-loop hardware-in-the-loop evaluation" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="../../" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="../../research/">Research</a>
+          <a href="../../publications/">Publications</a>
+          <a href="../../people/">People</a>
+          <a href="../../join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="../../">OMEGA Lab</a></li>
+          <li><a href="../../research/#embodied-navigation">Vision-Language Navigation</a></li>
+          <li aria-current="page">LightVLN</li>
+        </ol>
+        <a class="crumbs-back" href="../../research/#embodied-navigation"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>VISION-LANGUAGE NAVIGATION · 2026</p>
+        <h1>LightVLN</h1>
+        <p class="subtitle">Efficient Aerial Vision-and-Language Navigation with Compact Memory and History-Guided Local Aggregation</p>
+
+        <ul class="authors">
+          <li>Yiming Zhao</li>
+          <li>Tianshun Li</li>
+          <li>Jingle He</li>
+          <li>Ruonan Chai</li>
+          <li>Xinhu Zheng<sup>*</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li>The Hong Kong University of Science and Technology (Guangzhou)</li>
+          <li><sup>*</sup>Corresponding author</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2610.05024">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://github.com/zhaoyiming/LightVLN">Code <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/overview.webp" width="2400" height="940" alt="Top: LightVLN's three lightweight components (a Qwen2.5-0.5B language backbone, single-token historical compression, and history- and instruction-conditioned local aggregation) and its two benchmarks, OpenFly and AerialVLN-S. Bottom: the closed-loop onboard-compute hardware-in-the-loop evaluation in four steps: campus reconstruction into a digital twin, Unreal Engine rendering of the current observation, LightVLN on a Jetson Orin NX predicting an action, and the simulator applying it to a virtual UAV." />
+          <figcaption>
+            Lightweight components, benchmark evaluation, and closed-loop onboard-compute hardware-in-the-loop (HIL).
+            In the Unreal Engine campus environment, AirSim acquires images, LightVLN predicts actions on the Orin NX,
+            and AirSim applies them to the virtual UAV to obtain the next observation.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#demos">Demos</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>Aerial navigation on a 0.5B language backbone and 48 visual tokens</h2>
+          </div>
+          <p>
+            Aerial vision-and-language navigation asks a UAV to follow long natural-language
+            instructions from what it sees. Recent models rely on large vision-language backbones
+            and dense visual histories, which makes them costly to run on board. LightVLN pairs a
+            compact 0.5B language backbone with compact representations of both past and current
+            observations: each past frame becomes a single token, and the current view is reduced
+            from 256 to 32 tokens. With up to 16 past frames, the policy reads at most 48
+            observation-derived tokens.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>Compact language backbone</h3>
+            <p>Qwen2.5-0.5B reads the instruction and the visual tokens. The complete policy has about 1.276B parameters; 0.5B refers to the language backbone.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>One token per past frame</h3>
+            <p>History is built from visual features the policy has already computed, with no separate memory encoder and no re-encoding of past images.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>256 → 32 current-view tokens</h3>
+            <p>History and instruction guide a local aggregation over 32 fixed regions, so the compact view keeps its spatial coverage.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>Compact memory and history-guided local aggregation</h2>
+            </div>
+            <p>
+              At each step the policy predicts the next action from the current RGB frame, the
+              instruction and up to 16 history tokens. Frozen DINOv2 and SigLIP encoders turn the
+              frame into a 16&nbsp;×&nbsp;16 grid of patch features. A memory branch pools that
+              grid into one token for the history cache; the main path aggregates it into 32
+              tokens. Qwen2.5-0.5B reads the tokens and a small action head picks one of eight
+              actions.
+            </p>
+          </div>
+
+          <figure class="media-frame">
+            <img src="assets/media/architecture.webp" width="2400" height="1520" loading="lazy" alt="LightVLN architecture in five stages: inputs (instruction and one RGB frame), encoding (Qwen token embedding; shared DINOv2 and SigLIP encoders giving 256 visual tokens), current-frame compression by history- and instruction-conditioned local aggregation into 32 tokens, a multimodal token interface of text embeddings, 32 current tokens and 16 history tokens, and prediction by the Qwen2.5-0.5B backbone and an action head. Below, a persistent memory branch compresses each frame from 256 tokens to 1 and updates a first-in, first-out cache of the latest 16 frames." />
+            <figcaption>
+              The main inference pipeline has five stages: inputs, encoding, current-observation
+              compression, the multimodal token interface and action prediction. A persistent
+              memory branch builds one compact representation per observed frame and updates the
+              history after each prediction. With a history of 16 frames, the policy receives at
+              most 48 observation-derived tokens together with the instruction.
+              <span class="figure-source">Fig. 2 of the paper.</span>
+            </figcaption>
+          </figure>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Single-token history</h3>
+              <p>A learned query pools a frame's 256 patch features into one token with multi-head attention. After each action the feature joins a first-in, first-out cache of the latest 16 frames.</p>
+            </li>
+            <li>
+              <h3>History-conditioned instruction</h3>
+              <p>A summary of the history tokens attends over the instruction to select what matters at the current state. It refines the mean-pooled instruction through a learnable residual scale.</p>
+            </li>
+            <li>
+              <h3>Local aggregation</h3>
+              <p>The 16&nbsp;×&nbsp;16 grid is split into 32 non-overlapping 4&nbsp;×&nbsp;2 regions. Each region's eight tokens are combined by a softmax weighting against one shared query, giving one token per region.</p>
+            </li>
+            <li>
+              <h3>Two-stage training</h3>
+              <p>A single-frame base policy is trained first. Stage&nbsp;1 freezes it and learns the history tokenizer; Stage&nbsp;2 trains the final policy on cached history features.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Benchmarks, efficiency and onboard evaluation</h2>
+          </div>
+          <p>
+            Separate policies are trained on the released OpenFly and AerialVLN-S training splits
+            from RGB images and instructions. A run succeeds when the UAV stops within 20&nbsp;m of
+            the goal; collisions count as failures. Efficiency is profiled on an RTX&nbsp;4090 and,
+            in a closed loop, on a Jetson Orin NX 16&nbsp;GB.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>OpenFly · Test-Seen</dt>
+            <dd>50.93%</dd>
+            <dd class="stat-note">Success rate; 36.14% on Test-Unseen. Table&nbsp;I.</dd>
+          </div>
+          <div>
+            <dt>AerialVLN-S · Val-Seen</dt>
+            <dd>25.83%</dd>
+            <dd class="stat-note">Success rate, from RGB observations only. Table&nbsp;II.</dd>
+          </div>
+          <div>
+            <dt>Observation tokens</dt>
+            <dd>≤ 48</dd>
+            <dd class="stat-note">32 current-view tokens plus up to 16 history tokens, against 272 with a dense current view.</dd>
+          </div>
+          <div>
+            <dt>Jetson Orin NX · HIL</dt>
+            <dd>14.61 Hz</dd>
+            <dd class="stat-note">Model inference; 11.13&nbsp;Hz end-to-end decision updates in the closed loop.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>OpenFly</h3>
+          <p>In the public OpenFly setting, LightVLN has the best navigation error, success rate and path efficiency on both splits among the compared methods, with a 0.5B language backbone against 7B.</p>
+          <p class="table-caption">Table I of the paper: OpenFly results. Scale is the language-backbone size. NE: navigation error; SR: success rate; OSR: oracle success rate; SPL: success weighted by path length.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">Method</th>
+                  <th scope="col" rowspan="2">Scale</th>
+                  <th scope="colgroup" colspan="4">Test-Seen</th>
+                  <th scope="colgroup" colspan="4">Test-Unseen</th>
+                </tr>
+                <tr>
+                  <th scope="col">NE ↓ (m)</th>
+                  <th scope="col">SR ↑ (%)</th>
+                  <th scope="col">OSR ↑ (%)</th>
+                  <th scope="col">SPL ↑ (%)</th>
+                  <th scope="col">NE ↓ (m)</th>
+                  <th scope="col">SR ↑ (%)</th>
+                  <th scope="col">OSR ↑ (%)</th>
+                  <th scope="col">SPL ↑ (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="10">AirSim-only setting: 6 Seen scenes, 1,210 episodes</th>
+                </tr>
+                <tr>
+                  <th scope="row">AeroAct †</th>
+                  <td>8B</td>
+                  <td>38.00</td><td>54.50</td><td>72.10</td><td>49.90</td>
+                  <td>–</td><td>–</td><td>–</td><td>–</td>
+                </tr>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="10">Public dataset setting: 7 Seen scenes / 1,392 episodes, 1 Unseen scene / 404 episodes</th>
+                </tr>
+                <tr>
+                  <th scope="row">CMA ‡</th>
+                  <td>–</td>
+                  <td>313.03</td><td>7.97</td><td>69.32</td><td>6.26</td>
+                  <td>230.05</td><td>5.69</td><td class="best">73.02</td><td>3.92</td>
+                </tr>
+                <tr>
+                  <th scope="row">AerialVLN ‡</th>
+                  <td>–</td>
+                  <td>176.29</td><td>16.52</td><td>65.66</td><td>14.63</td>
+                  <td>161.19</td><td>9.65</td><td>68.07</td><td>7.93</td>
+                </tr>
+                <tr>
+                  <th scope="row">OpenFly-Agent (reported)</th>
+                  <td>7B</td>
+                  <td>118.72</td><td>28.76</td><td>63.10</td><td>18.71</td>
+                  <td>164.40</td><td>26.20</td><td>68.80</td><td>18.00</td>
+                </tr>
+                <tr>
+                  <th scope="row">OpenFly-Agent (our re-eval.) §</th>
+                  <td>7B</td>
+                  <td>107.39</td><td>25.07</td><td>56.68</td><td>22.54</td>
+                  <td>140.66</td><td>19.06</td><td>68.81</td><td>16.19</td>
+                </tr>
+                <tr>
+                  <th scope="row">DreamFly</th>
+                  <td>7B</td>
+                  <td>44.87</td><td>32.04</td><td>46.77</td><td>28.22</td>
+                  <td>45.29</td><td>29.46</td><td>46.78</td><td>23.54</td>
+                </tr>
+                <tr class="is-ours">
+                  <th scope="row">LightVLN</th>
+                  <td>0.5B</td>
+                  <td class="best">40.25</td><td class="best">50.93</td><td class="best">71.41</td><td class="best">44.68</td>
+                  <td class="best">42.22</td><td class="best">36.14</td><td>62.13</td><td class="best">30.45</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            † AeroAct trains only on AirSim and evaluates on six AirSim scenes; the public evaluation
+            additionally includes one Seen and one Unseen scene, so the two groups are not directly comparable.
+            ‡ Results reported by DreamFly. § Released checkpoint re-evaluated on the same episodes and
+            pipeline as LightVLN. Highlighted values are the best in the public dataset setting.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>AerialVLN-S</h3>
+          <p>On Val-Seen, LightVLN leads all four reported metrics, including against methods that use depth, panoramic observations or odometry.</p>
+          <p class="table-caption">Table II of the paper: AerialVLN-S Val-Seen. SDTW: success weighted by normalized dynamic time warping.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">NE ↓ (m)</th>
+                  <th scope="col">SR ↑ (%)</th>
+                  <th scope="col">OSR ↑ (%)</th>
+                  <th scope="col">SDTW ↑ (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="5">With additional depth, panoramic observations or odometry</th>
+                </tr>
+                <tr><th scope="row">LAG</th><td>90.2</td><td>7.2</td><td>15.7</td><td>2.4</td></tr>
+                <tr><th scope="row">STMR</th><td>96.3</td><td>12.6</td><td>31.6</td><td>2.7</td></tr>
+                <tr><th scope="row">CityNavAgent</th><td>80.8</td><td>13.9</td><td>30.2</td><td>5.1</td></tr>
+                <tr><th scope="row">LookasideVLN</th><td>77.1</td><td>14.7</td><td>31.2</td><td>5.4</td></tr>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="5">Monocular RGB</th>
+                </tr>
+                <tr><th scope="row">NaVid</th><td>105.1</td><td>6.8</td><td>15.5</td><td>1.1</td></tr>
+                <tr><th scope="row">OpenFly-Agent</th><td>127.2</td><td>8.1</td><td>21.8</td><td>1.6</td></tr>
+                <tr><th scope="row">AeroAct</th><td>79.6</td><td>11.4</td><td>37.7</td><td>6.3</td></tr>
+                <tr class="is-ours">
+                  <th scope="row">LightVLN</th>
+                  <td class="best">65.61</td><td class="best">25.83</td><td class="best">41.74</td><td class="best">22.76</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>Efficiency</h3>
+          <p>
+            Against a dense-current counterpart with the same history and 256 current-view tokens,
+            LightVLN cuts observation-derived tokens from 272 to 48. Full-model computation falls
+            from 711.59 to 539.84 GFLOPs and RTX&nbsp;4090 latency from 31.79 to 24.90&nbsp;ms. On
+            the Jetson Orin NX 16&nbsp;GB it averages 68.45&nbsp;ms per model inference and
+            89.81&nbsp;ms end to end, against 86.53 and 107.92&nbsp;ms for the dense-current model.
+          </p>
+          <div class="pair">
+            <figure class="media-frame">
+              <img src="assets/media/efficiency.webp" width="2400" height="1271" loading="lazy" alt="Bar charts of parameters, GFLOPs and RTX 4090 latency for OpenFly-Agent (7.541 B, 6584.40, 242.21 ms), the dense-current model (1.274 B, 711.59, 31.79 ms) and LightVLN (1.276 B, 539.84, 24.90 ms)." />
+              <figcaption>Model size, computation and inference latency, profiled on an RTX&nbsp;4090. <span class="figure-source">Fig. 3 of the paper.</span></figcaption>
+            </figure>
+            <figure class="media-frame">
+              <img src="assets/media/latency.webp" width="2400" height="1611" loading="lazy" alt="Stacked bars of mean latency on the Jetson Orin NX. Dense current, 256 tokens: 107.92 ms end to end (9.27 Hz), of which 86.53 ms is inference. LightVLN, 32 tokens: 89.81 ms end to end (11.13 Hz), of which 68.45 ms is inference; the decoder share drops from 33.47 to 14.85 ms." />
+              <figcaption>Latency breakdown in the closed loop on the Jetson Orin NX: image acquisition, communication, pose update and model inference. <span class="figure-source">Fig. 4 of the paper.</span></figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>Unseen campus, in the loop</h3>
+          <p>
+            The authors reconstructed a campus from drone imagery, imported it into Unreal
+            Engine / AirSim and built a 500-episode unseen evaluation set. With an OpenFly-trained
+            checkpoint running on the Jetson Orin NX in the closed loop, LightVLN reaches 8.00%
+            success rate, 65.00% oracle success rate and 56.06&nbsp;m navigation error. The paper
+            notes the gap between the two rates: reaching the goal's vicinity does not always end
+            in a successful stop in the unseen environment.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="demos">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>DEMOS</p>
+              <h2>Real onboard computation, virtual flight</h2>
+            </div>
+            <p>
+              In the hardware-in-the-loop setup, a Jetson Orin NX 16&nbsp;GB mounted on a
+              stationary, disarmed DJI M350 RTK runs LightVLN. A laptop renders the reconstructed
+              campus in Unreal Engine / AirSim, sends RGB observations and applies the predicted
+              actions to a virtual UAV.
+            </p>
+          </div>
+          <div class="demo-grid">
+            <figure class="media-frame video-frame" data-evidence="hil">
+              <video src="assets/media/hil.mp4" poster="assets/media/hil-poster.jpg" width="1280" height="720" controls playsinline preload="none"></video>
+              <figcaption>
+                <span class="evidence-tag">Hardware-in-the-loop</span>The Jetson Orin NX on the
+                aircraft runs LightVLN in a closed loop with the simulated campus on the laptop.
+                The aircraft does not fly; the motion is the virtual UAV's. The frame rate shown
+                on screen is instantaneous and differs from the averages reported above.
+              </figcaption>
+            </figure>
+            <figure class="media-frame video-frame" data-evidence="simulation">
+              <video src="assets/media/offline-comparison.mp4" poster="assets/media/offline-comparison-poster.jpg" width="1280" height="720" controls playsinline preload="none"></video>
+              <figcaption>
+                <span class="evidence-tag">Simulation</span>Offline, step-aligned replay of
+                recorded OpenFly trajectories for one instruction: OpenFly-Agent and LightVLN.
+                A selected case replayed from recorded results, not onboard inference and not a
+                measure of aggregate performance or speed.
+              </figcaption>
+            </figure>
+            <figure class="media-frame wide" data-evidence="hil">
+              <img src="assets/media/hil-rollout.webp" width="2400" height="566" loading="lazy" alt="Five first-person views from the simulated campus for the instruction: fly straight toward the library, ascend and turn right, then fly straight to the football field. The steps are: approach the library, ascend 10 m, turn right 90 degrees, fly forward, reach the field." />
+              <figcaption>
+                <span class="evidence-tag">Hardware-in-the-loop</span>A successful LightVLN rollout
+                in the campus environment under closed-loop onboard-compute HIL, with representative
+                observations and grouped predicted actions.
+                <span class="figure-source">Fig. 5 of the paper.</span>
+              </figcaption>
+            </figure>
+          </div>
+          <p class="availability">No real-world flight is shown or claimed on this page: all motion is simulated.</p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@misc{zhao2026lightvln,
+  title={LightVLN: Efficient Aerial Vision-and-Language Navigation with Compact Memory and History-Guided Local Aggregation},
+  author={Yiming Zhao and Tianshun Li and Jingle He and Ruonan Chai and Xinhu Zheng},
+  year={2026},
+  eprint={2610.05024},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2610.05024},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="../../">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>LightVLN is part of OMEGA Lab's research on vision-language navigation at HKUST(GZ).</p>
+        <a class="text-link" href="../../research/#embodied-navigation">More in Vision-Language Navigation <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>
