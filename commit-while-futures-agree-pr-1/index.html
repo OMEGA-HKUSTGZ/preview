@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Commit While Futures Agree — OMEGA Lab</title>
+    <meta name="description" content="Commit While Futures Agree (CA³C): an inference-time method that decides how much of a predicted action chunk a robot executes by finding where imagined futures diverge. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="Commit While Futures Agree — OMEGA Lab" />
+    <meta property="og:description" content="Commit While Futures Agree (CA³C): an inference-time method that decides how much of a predicted action chunk a robot executes by finding where imagined futures diverge. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/commit-while-futures-agree/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/commit-while-futures-agree/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="Fixed action chunking against CA³C, which commits longer while imagined futures agree and replans sooner when they diverge" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="../../" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="../../research/">Research</a>
+          <a href="../../publications/">Publications</a>
+          <a href="../../people/">People</a>
+          <a href="../../join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="../../">OMEGA Lab</a></li>
+          <li><a href="../../research/#robot-learning">Robot Learning &amp; Manipulation</a></li>
+          <li aria-current="page">Commit While Futures Agree</li>
+        </ol>
+        <a class="crumbs-back" href="../../research/#robot-learning"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>ROBOT MANIPULATION · 2026</p>
+        <h1 class="title-long">Commit While Futures Agree</h1>
+        <p class="subtitle">Consequence-Aware Adaptive Action Chunking for Robot Manipulation</p>
+
+        <ul class="authors">
+          <li>Yuyan Li<sup>1,2</sup></li>
+          <li>Yujia Wang<sup>3</sup></li>
+          <li>Yusong Huang<sup>1,2</sup></li>
+          <li>Junjie Yang<sup>1,4</sup></li>
+          <li>Yanggang Sheng<sup>1</sup></li>
+          <li>Ziyi Shi<sup>4</sup></li>
+          <li>Wenpeng Xu<sup>1</sup></li>
+          <li>Xiaoyang Zhou<sup>1,2</sup></li>
+          <li>Haoang Li<sup>1</sup></li>
+          <li>Hongliang Lu<sup>5</sup></li>
+          <li>Xinhu Zheng<sup>1,*</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)</li>
+          <li><sup>2</sup>ANU Intelligent</li>
+          <li><sup>3</sup>Victoria University of Wellington</li>
+          <li><sup>4</sup>The Hong Kong University of Science and Technology</li>
+          <li><sup>5</sup>Southern University of Science and Technology</li>
+          <li><sup>*</sup>Corresponding author</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2610.07949">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/teaser.webp" width="2400" height="1473" alt="Two pipelines. Top, fixed action chunk: an action policy predicts an action chunk and the robot always executes the same fixed-length prefix of it. Bottom, CA³C: the action policy proposes K candidate action trajectories, a world model imagines the future of each, and a plot of imagined-future disagreement marks a trustworthy horizon h* and a selected candidate. When the futures disagree the robot replans sooner; when they agree it commits longer." />
+          <figcaption>
+            Fixed action chunking executes a preset prefix at every decision step. CA<sup>3</sup>C
+            compares the imagined consequences of multiple candidates, commits longer while their
+            futures agree, replans sooner when they diverge, and executes the candidate closest to
+            future consensus.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#demos">Rollouts</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>How much of an action chunk should a robot commit to?</h2>
+          </div>
+          <p>
+            Action-chunking policies predict several control steps at once, and most systems then
+            execute a fixed-length prefix before replanning, as if the same horizon were
+            trustworthy in every state. Consequence-Aware Adaptive Action Chunking
+            (CA<sup>3</sup>C) decides it at each replanning point instead. An action-conditioned
+            world model imagines the futures of several candidate chunks; the robot commits
+            while those futures agree and replans when they diverge. The base policy is neither
+            modified nor retrained.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>Consequences, not actions</h3>
+            <p>Different actions can lead to the same successful outcome, and similar actions near contact can lead to different futures. Commitment is decided by agreement among imagined futures, not by similarity in action space.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>Inference-time only</h3>
+            <p>Neither the policy nor the world model is updated. The only requirement on the policy is that it can produce multiple plausible action chunks under the same condition.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>No task-specific threshold</h3>
+            <p>Where to stop is a Bayesian change-point decision on the disagreement curve. A shorter prefix is chosen only when the evidence for a change point justifies it.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>Commit while imagined futures agree, replan when they diverge</h2>
+            </div>
+            <p>
+              At every replanning point the frozen policy samples several candidate action
+              chunks. The world model predicts the latent future of each one, CA<sup>3</sup>C
+              finds where those futures start to disagree faster, and the robot executes the
+              candidate closest to their consensus up to that boundary.
+            </p>
+          </div>
+
+          <figure class="media-frame">
+            <img src="assets/media/framework.webp" width="2400" height="1016" loading="lazy" alt="Overview in four parts. A diffusion policy takes image, text, system and noisy tokens and samples K candidate action trajectories. A world model turns them into K imagined visual future states. Two plots follow: candidate futures and their mean in latent space over time steps, and relative disagreement U over time steps, flat inside a shaded trustworthy horizon and rising after h*, the point found with BIC. Finally the robot executes the first h* actions of the selected trajectory." />
+            <figcaption>
+              (a) The diffusion policy samples <i>K</i> candidate action chunks. (b) The
+              action-conditioned world model imagines their visual future states under shared
+              sampling noise. (c) CA<sup>3</sup>C detects where their future latent features begin
+              to disagree, determines the trustworthy horizon <i>h</i>*, and selects the candidate
+              closest to future consensus. (d) The robot executes the first <i>h</i>* actions of
+              the selected chunk before replanning.
+              <span class="figure-source">Fig. 2 of the paper.</span>
+            </figcaption>
+          </figure>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Candidate chunks</h3>
+              <p>The policy samples <i>K</i>&nbsp;=&nbsp;3 candidate action chunks under the same observation, robot state and instruction.</p>
+            </li>
+            <li>
+              <h3>Paired imagined futures</h3>
+              <p>The world model, adapted from IRASim, predicts each candidate's future latents from the same sampling noise, so the futures differ only through the proposed actions.</p>
+            </li>
+            <li>
+              <h3>Trustworthy horizon</h3>
+              <p>Disagreement among the futures is measured as a share of total predicted scene change. The Bayesian information criterion compares a single trend against one with a change point; without support for a change point, the longest valid prefix is executed.</p>
+            </li>
+            <li>
+              <h3>Future-consensus selection</h3>
+              <p>Among the candidates, the one whose imagined future is closest to the others over the selected prefix is executed: a representative consequence rather than an extreme one.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Three simulation benchmarks, four base policies, one real robot</h2>
+          </div>
+          <p>
+            CA<sup>3</sup>C is added to released, benchmark-fine-tuned checkpoints of GR00T N1.7,
+            π<sub>0</sub> and π<sub>0.5</sub> on LIBERO, LIBERO-Plus and RoboCasa Kitchen, and to
+            ACOT on an AgiBot G2. All values are success rates; every comparison is against the
+            same policy without CA<sup>3</sup>C.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>LIBERO-Plus · <span class="keep-case">π<sub>0.5</sub></span> · Object</dt>
+            <dd>71.8%</dd>
+            <dd class="stat-note">Relative reduction in failure rate, the largest reported: success rises from 88.3% to 96.7%. Table&nbsp;2.</dd>
+          </div>
+          <div>
+            <dt>LIBERO-Plus · GR00T N1.7</dt>
+            <dd>79.0%</dd>
+            <dd class="stat-note">Average success over 24 tasks, up from 45.8% for the policy alone. Table&nbsp;2.</dd>
+          </div>
+          <div>
+            <dt>Real world · AgiBot G2</dt>
+            <dd>72.0%</dd>
+            <dd class="stat-note">Average success over two tasks with ACOT, up from 67.0%; 50 rollouts per task. Table&nbsp;6.</dd>
+          </div>
+          <div>
+            <dt>Retraining</dt>
+            <dd>None</dd>
+            <dd class="stat-note">Four base policies are used as released: GR00T N1.7, π<sub>0</sub>, π<sub>0.5</sub> and ACOT.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>LIBERO-Plus</h3>
+          <p>CA<sup>3</sup>C improves all three policies on all four suites. Average failure rate falls by 61.3% for GR00T, 30.5% for π<sub>0</sub> and 45.4% for π<sub>0.5</sub>, relative to each baseline.</p>
+          <p class="table-caption">Table 2 of the paper: success rates (%) on 24 LIBERO-Plus tasks. Each suite contains three Robot Initial States tasks and three Objects Layout tasks and is evaluated with 120 rollouts. Brackets: change from the baseline, in percentage points.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Spatial</th>
+                  <th scope="col">Object</th>
+                  <th scope="col">Goal</th>
+                  <th scope="col">L-10</th>
+                  <th scope="col">Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">GR00T</th><td>47.5</td><td>48.3</td><td>45.8</td><td>41.7</td><td>45.8</td></tr>
+                <tr class="is-ours"><th scope="row">GR00T + CA<sup>3</sup>C</th><td>86.7 <span class="delta">(+39.2)</span></td><td>80.8 <span class="delta">(+32.5)</span></td><td>68.3 <span class="delta">(+22.5)</span></td><td>80.0 <span class="delta">(+38.3)</span></td><td>79.0 <span class="delta">(+33.2)</span></td></tr>
+                <tr><th scope="row">π<sub>0</sub></th><td>75.0</td><td>60.8</td><td>60.0</td><td>75.8</td><td>67.9</td></tr>
+                <tr class="is-ours"><th scope="row">π<sub>0</sub> + CA<sup>3</sup>C</th><td>75.8 <span class="delta">(+0.8)</span></td><td>80.8 <span class="delta">(+20.0)</span></td><td>60.8 <span class="delta">(+0.8)</span></td><td>93.3 <span class="delta">(+17.5)</span></td><td>77.7 <span class="delta">(+9.8)</span></td></tr>
+                <tr><th scope="row">π<sub>0.5</sub></th><td>93.3</td><td>88.3</td><td>73.3</td><td>97.5</td><td>88.1</td></tr>
+                <tr class="is-ours"><th scope="row">π<sub>0.5</sub> + CA<sup>3</sup>C</th><td>96.7 <span class="delta">(+3.4)</span></td><td>96.7 <span class="delta">(+8.4)</span></td><td>80.8 <span class="delta">(+7.5)</span></td><td>100.0 <span class="delta">(+2.5)</span></td><td>93.5 <span class="delta">(+5.4)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>LIBERO, in and out of distribution</h3>
+          <p>The out-of-distribution setting enlarges object initialization ranges by 3–9&nbsp;cm. Average failure rate there falls by 3.5–17.1% relative to the baselines. In distribution, where the baselines are already high, GR00T's average is unchanged and both π policies improve.</p>
+          <p class="table-caption">Table 1 of the paper: success rates (%) on LIBERO, in distribution (ID) and out of distribution (OOD). L-10: LIBERO-10. Brackets: change from the baseline, in percentage points.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">Method</th>
+                  <th scope="colgroup" colspan="5">ID</th>
+                  <th scope="colgroup" colspan="5">OOD</th>
+                </tr>
+                <tr>
+                  <th scope="col">Spatial</th>
+                  <th scope="col">Object</th>
+                  <th scope="col">Goal</th>
+                  <th scope="col">L-10</th>
+                  <th scope="col">Avg.</th>
+                  <th scope="col">Spatial</th>
+                  <th scope="col">Object</th>
+                  <th scope="col">Goal</th>
+                  <th scope="col">L-10</th>
+                  <th scope="col">Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">GR00T</th><td>99.00</td><td>98.00</td><td>98.00</td><td>95.00</td><td>97.50</td><td>47.00</td><td>50.00</td><td>42.00</td><td>63.00</td><td>50.50</td></tr>
+                <tr class="is-ours"><th scope="row">GR00T + CA<sup>3</sup>C</th><td>98.00 <span class="delta">(−1.00)</span></td><td>98.00</td><td>98.00</td><td>96.00 <span class="delta">(+1.00)</span></td><td>97.50</td><td>50.00 <span class="delta">(+3.00)</span></td><td>52.00 <span class="delta">(+2.00)</span></td><td>42.00</td><td>65.00 <span class="delta">(+2.00)</span></td><td>52.25 <span class="delta">(+1.75)</span></td></tr>
+                <tr><th scope="row">π<sub>0</sub></th><td>95.00</td><td>99.00</td><td>97.00</td><td>77.00</td><td>92.00</td><td>48.00</td><td>67.00</td><td>48.00</td><td>61.00</td><td>56.00</td></tr>
+                <tr class="is-ours"><th scope="row">π<sub>0</sub> + CA<sup>3</sup>C</th><td>94.00 <span class="delta">(−1.00)</span></td><td>99.00</td><td>95.50 <span class="delta">(−1.50)</span></td><td>87.50 <span class="delta">(+10.50)</span></td><td>94.00 <span class="delta">(+2.00)</span></td><td>48.00</td><td>77.00 <span class="delta">(+10.00)</span></td><td>51.00 <span class="delta">(+3.00)</span></td><td>65.00 <span class="delta">(+4.00)</span></td><td>60.25 <span class="delta">(+4.25)</span></td></tr>
+                <tr><th scope="row">π<sub>0.5</sub></th><td>97.00</td><td>99.00</td><td>96.00</td><td>95.00</td><td>96.75</td><td>74.00</td><td>87.00</td><td>76.00</td><td>78.50</td><td>78.88</td></tr>
+                <tr class="is-ours"><th scope="row">π<sub>0.5</sub> + CA<sup>3</sup>C</th><td>99.00 <span class="delta">(+2.00)</span></td><td>99.00</td><td>98.00 <span class="delta">(+2.00)</span></td><td>95.00</td><td>97.75 <span class="delta">(+1.00)</span></td><td>76.00 <span class="delta">(+2.00)</span></td><td>90.00 <span class="delta">(+3.00)</span></td><td>80.00 <span class="delta">(+4.00)</span></td><td>84.00 <span class="delta">(+5.50)</span></td><td>82.50 <span class="delta">(+3.62)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>RoboCasa Kitchen</h3>
+          <p>Average failure rate falls by 11.6% for GR00T, 4.6% for π<sub>0</sub> and 7.0% for π<sub>0.5</sub>, relative to each baseline.</p>
+          <p class="table-caption">Table 3 of the paper: success rates (%) on 24 RoboCasa Kitchen tasks. Relocation, Container, Rotation and Button contain 10, 6, 5 and 3 tasks; each task is evaluated with 20 rollouts. Brackets: change from the baseline, in percentage points.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Relocation</th>
+                  <th scope="col">Container</th>
+                  <th scope="col">Rotation</th>
+                  <th scope="col">Button</th>
+                  <th scope="col">Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">GR00T</th><td>54.0</td><td>80.8</td><td>77.0</td><td>96.7</td><td>70.8</td></tr>
+                <tr class="is-ours"><th scope="row">GR00T + CA<sup>3</sup>C</th><td>57.5 <span class="delta">(+3.5)</span></td><td>85.0 <span class="delta">(+4.2)</span></td><td>81.0 <span class="delta">(+4.0)</span></td><td>96.7</td><td>74.2 <span class="delta">(+3.4)</span></td></tr>
+                <tr><th scope="row">π<sub>0</sub></th><td>19.0</td><td>55.8</td><td>46.0</td><td>56.7</td><td>38.5</td></tr>
+                <tr class="is-ours"><th scope="row">π<sub>0</sub> + CA<sup>3</sup>C</th><td>21.0 <span class="delta">(+2.0)</span></td><td>58.3 <span class="delta">(+2.5)</span></td><td>49.0 <span class="delta">(+3.0)</span></td><td>61.7 <span class="delta">(+5.0)</span></td><td>41.3 <span class="delta">(+2.8)</span></td></tr>
+                <tr><th scope="row">π<sub>0.5</sub></th><td>44.0</td><td>59.2</td><td>59.0</td><td>60.0</td><td>52.9</td></tr>
+                <tr class="is-ours"><th scope="row">π<sub>0.5</sub> + CA<sup>3</sup>C</th><td>46.0 <span class="delta">(+2.0)</span></td><td>63.3 <span class="delta">(+4.1)</span></td><td>62.0 <span class="delta">(+3.0)</span></td><td>66.7 <span class="delta">(+6.7)</span></td><td>56.2 <span class="delta">(+3.3)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>Real robot</h3>
+          <p>On an AgiBot G2 with ACOT as the base policy, Block Separation separates two stacked blocks into distinct target areas, and Parcel Sorting transfers a parcel to a conveyor, flipping it first if its QR code faces down. Average success rises from 67.0% to 72.0%, a 15.2% relative reduction in failure rate.</p>
+          <p class="table-caption">Table 6 of the paper: success rates (%) on real-world tasks using AgiBot G2, 50 rollouts per task for each method. Brackets: change from the baseline, in percentage points.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Block Separation</th>
+                  <th scope="col">Parcel Sorting</th>
+                  <th scope="col">Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">ACOT</th><td>78.0</td><td>56.0</td><td>67.0</td></tr>
+                <tr class="is-ours"><th scope="row">ACOT + CA<sup>3</sup>C</th><td>82.0 <span class="delta">(+4.0)</span></td><td>62.0 <span class="delta">(+6.0)</span></td><td>72.0 <span class="delta">(+5.0)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>How the horizon moves within an episode</h3>
+          <p>
+            In the episode below the selected horizon moves between 4 and 10 across coarse
+            approach, fine grasp alignment, transport and door closing, where the baseline always
+            executes 5 steps. Over 5,141 replanning events on LIBERO-Plus with the horizon-only
+            variant, the full horizon of 10 is the most frequent choice in every suite, and
+            31.7% of decisions select a shorter horizon between 4 and 9.
+          </p>
+          <div class="pair">
+            <figure class="media-frame">
+              <img src="assets/media/adaptive-commitment.webp" width="2400" height="1367" loading="lazy" alt="Panel a: the selected commitment horizon h* over about 260 environment timesteps of one simulated episode, stepping between 4 and 10, with a dashed line at the fixed baseline of 5 and four task stages: coarse approach (h* = 10), fine grasp alignment (h* = 4, marked A), transport to the microwave (h* = 5) and door closing (h* = 10, marked B). Panel b, decision A at t = 71: smoothed relative disagreement is flat for future steps 1 to 4 and rises from step 5, so four steps are executed before replanning. Panel c, decision B at t = 259: disagreement stays low for all ten steps, so the full chunk is executed." />
+              <figcaption>Adaptive commitment over one simulated episode, for the instruction “Put the yellow and white mug in the microwave and close it.” <span class="figure-source">Fig. 3 of the paper.</span></figcaption>
+            </figure>
+            <figure class="media-frame">
+              <img src="assets/media/horizon-distribution.webp" width="2400" height="1963" loading="lazy" alt="Bar charts of selected commitment horizons from 4 to 10 for the four LIBERO-Plus suites, normalized within each suite and labelled with event counts, mean horizons and the most frequent horizon. A horizon of 10 dominates in every suite, with smaller shares spread over 4 to 9." />
+              <figcaption>Distribution of selected horizons by suite on LIBERO-Plus. <span class="figure-source">Fig. 5 of the paper.</span></figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>Ablations and scope</h3>
+          <p>
+            With π<sub>0.5</sub> on LIBERO-Plus, adaptive horizon estimation alone gives a 26.9%
+            relative reduction in failure rate; consensus selection alone does not improve the
+            fixed-horizon baseline; the two together reach 45.4%. Fixed horizons of 8 and 10 also
+            beat the default of 5, but neither is best across all suites (Tables 4 and 5 of the
+            paper).
+          </p>
+          <p>
+            The paper states the conditions: CA<sup>3</sup>C needs a generative policy with
+            meaningful candidate diversity and an action-sensitive world model, and imagining
+            futures adds inference cost.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="demos">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>ROLLOUTS</p>
+              <h2>Execution examples from the paper</h2>
+            </div>
+            <p>
+              Still frames from two figures of the paper: a matched pair of simulated rollouts,
+              and the two tasks run on the real robot.
+            </p>
+          </div>
+          <div class="demo-grid">
+            <figure class="media-frame wide" data-evidence="simulation">
+              <img src="assets/media/failure-to-success.webp" width="2400" height="775" loading="lazy" alt="Two rows of five simulation frames, from initial state to final state, for the same starting scene of a tabletop with a drawer cabinet, a bowl and a plate. Top row, π0.5 alone: the final frame has a red border, a failure. Bottom row, π0.5 with CA³C: the final frame has a green border, with the bowl placed in the open drawer, a success." />
+              <figcaption>
+                <span class="evidence-tag">Simulation</span>Matched rollouts on LIBERO-Goal OOD for
+                the instruction “Open the top drawer and put the bowl inside”, from the same
+                initial state: π<sub>0.5</sub> alone (top) and with CA<sup>3</sup>C (bottom). Red
+                and green borders mark the final failure and success. One selected pair; the
+                tables above give the aggregate rates.
+                <span class="figure-source">Fig. 4 of the paper.</span>
+              </figcaption>
+            </figure>
+            <figure class="media-frame wide" data-evidence="real-world">
+              <img src="assets/media/real-world.webp" width="2400" height="530" loading="lazy" alt="Two rows of eight photographs from above a two-armed robot. Task 1, Block Separation: the arms take two stacked blocks apart and place them on separate target areas. Task 2, Parcel Sorting: the arms handle a parcel on a green table and move it toward a conveyor." />
+              <figcaption>
+                <span class="evidence-tag">Real-world</span>Execution examples on the AgiBot G2
+                with ACOT and CA<sup>3</sup>C: Block Separation (top) and Parcel Sorting (bottom).
+                <span class="figure-source">Fig. 6 of the paper.</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@misc{li2026commit,
+  title={Commit While Futures Agree: Consequence-Aware Adaptive Action
+         Chunking for Robot Manipulation},
+  author={Yuyan Li and Yujia Wang and Yusong Huang and Junjie Yang and
+          Yanggang Sheng and Ziyi Shi and Wenpeng Xu and Xiaoyang Zhou and
+          Haoang Li and Hongliang Lu and Xinhu Zheng},
+  year={2026},
+  eprint={2610.07949},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2610.07949},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="../../">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>Commit While Futures Agree is part of OMEGA Lab's research on robot learning and manipulation at HKUST(GZ).</p>
+        <a class="text-link" href="../../research/#robot-learning">More in Robot Learning &amp; Manipulation <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>
