@@ -1,0 +1,16 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* The lead figure (Fig. 2) is nearly square: cap its width so it does not fill a whole screen. */
+.media-frame.lead-figure img {
+  display: block;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+/* The one inline link in the Scope paragraph should read as a link. */
+.result-block p a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

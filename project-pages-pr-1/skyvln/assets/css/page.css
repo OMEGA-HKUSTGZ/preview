@@ -1,0 +1,23 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* The simulator overview (Fig. 5) is taller than it is wide: keep it from filling the
+   whole container, and space the second row of method figures. */
+.demo-grid > .narrow {
+  grid-column: 1 / -1;
+  width: min(100%, 760px);
+  justify-self: center;
+}
+.method-figures {
+  margin-top: 28px;
+}
+
+/* In Table I the full model is not the best in every column, so within its highlighted row
+   only the best values keep the bold accent. */
+.data-table tr.is-ours > td:not(.best) {
+  font-weight: 400;
+}
+.data-table tr.is-ours > td.best {
+  font-weight: 700;
+  color: var(--brand);
+}

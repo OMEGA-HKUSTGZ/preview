@@ -1,0 +1,9 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* The "Ours" row is not the best in every column of Table III, so the best values keep
+   their highlight inside the tinted row too. */
+.data-table tr.is-ours > td.best {
+  color: var(--brand);
+  font-weight: 700;
+}

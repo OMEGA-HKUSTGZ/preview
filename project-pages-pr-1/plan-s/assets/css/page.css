@@ -1,0 +1,17 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* PLAN-S is not the best in every column, and the NAVSIM table has two PLAN-S rows. Inside
+   the highlighted rows only the best values stay bold, so the mark means the same thing in
+   every row. */
+.data-table tr.is-ours > td {
+  font-weight: 400;
+}
+.data-table tr.is-ours > td.best {
+  font-weight: 700;
+}
+/* Text columns read from the left, under their heading. */
+.data-table td.label,
+.data-table thead th.label {
+  text-align: left;
+}

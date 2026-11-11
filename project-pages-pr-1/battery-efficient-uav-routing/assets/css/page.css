@@ -1,0 +1,23 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* Figs. 2 and 4 follow the method list, one under the other. */
+.method-figures {
+  display: grid;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Fig. 2 is nearly square: cap its width so it does not fill a whole screen. */
+.media-frame.figure-narrow img {
+  display: block;
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+/* The one inline link in the scope paragraph should read as a link. */
+.result-block p a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

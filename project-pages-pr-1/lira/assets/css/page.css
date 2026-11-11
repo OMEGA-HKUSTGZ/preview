@@ -1,0 +1,11 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* Figures placed between the paragraphs of a result block. */
+.result-block > .media-frame {
+  margin: 24px 0;
+}
+/* The platform photograph is 4:3; keep it narrower than the tables. */
+.result-block > .media-frame.platform-photo {
+  max-width: 640px;
+}

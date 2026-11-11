@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>SkyVLN — OMEGA Lab</title>
+    <meta name="description" content="SkyVLN: LLM-based vision-and-language navigation combined with nonlinear model predictive control for UAVs in urban environments, evaluated in an AirSim city simulator (IROS 2025). A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="SkyVLN — OMEGA Lab" />
+    <meta property="og:description" content="SkyVLN: LLM-based vision-and-language navigation combined with nonlinear model predictive control for UAVs in urban environments, evaluated in an AirSim city simulator (IROS 2025). A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/skyvln/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/skyvln/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="The SkyVLN task: an LLM describes a landing spot by its landmarks, and the UAV checks three candidate places against the description until one matches" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/research/#embodied-navigation">Vision-Language Navigation</a></li>
+          <li aria-current="page">SkyVLN</li>
+        </ol>
+        <a class="crumbs-back" href="/research/#embodied-navigation"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>VISION-LANGUAGE NAVIGATION · IROS 2025</p>
+        <h1>SkyVLN</h1>
+        <p class="subtitle">Vision-and-Language Navigation and NMPC Control for UAVs in Urban Environments</p>
+
+        <ul class="authors">
+          <li>Tianshun Li<sup>1</sup></li>
+          <li>Tianyi Huai<sup>1</sup></li>
+          <li>Zhen Li<sup>1</sup></li>
+          <li>Yichun Gao<sup>1</sup></li>
+          <li>Haoang Li<sup>2</sup></li>
+          <li>Xinhu Zheng<sup>3,*</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>1</sup>Intelligent Transportation, Hub of Systems, The Hong Kong University of Science and Technology (Guangzhou), China</li>
+          <li><sup>2</sup>Intelligent Transportation Thrust and Robotics and Autonomous Systems Thrust, Systems Hub, The Hong Kong University of Science and Technology (Guangzhou), China</li>
+          <li><sup>3</sup>Intelligent Transportation Thrust, Systems Hub, Internet of Things Thrust, Information Hub, The Hong Kong University of Science and Technology (Guangzhou), China</li>
+          <li><sup>*</sup>Corresponding author</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2507.06564">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://doi.org/10.1109/IROS60139.2025.11247609">IEEE Xplore <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/task.webp" width="2400" height="1072" alt="Four-panel schematic. (a) A UAV asks “Where is the landing spot?” and an LLM answers “There is a KFC and McDonald’s on different sides”. (b) Over a road with traffic, the UAV sees a KFC and a Burger King: the McDonald’s check fails. (c) The UAV sees a KFC and a McDonald’s on the same side of the road: the “different sides” check fails. (d) The UAV sees a McDonald’s and a KFC on opposite sides of the road: all three checks pass, and it has found the correct location to land." />
+          <figcaption>
+            Vision-and-language navigation for UAVs with place recognition, as a schematic. The
+            LLM gives the UAV a verbal description of the designated landing spot (a). The UAV
+            compares its visual observations with the description (b)–(d) and reasons about
+            whether they match, confirming (d) as the correct place.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#demos">Simulator</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>An LLM navigation agent paired with NMPC control for urban UAV flight</h2>
+          </div>
+          <p>
+            SkyVLN is a framework for vision-and-language navigation with a UAV in a city: the
+            aircraft follows a natural-language instruction from its own front-view observations.
+            A multimodal agent assembled from off-the-shelf vision and language models, with no
+            supervised training, extracts the landmarks an instruction mentions, describes where
+            they appear in view, and keeps a memory of the path flown so that it can backtrack. A
+            large language model reasons over these prompts and issues motion commands, and a
+            nonlinear model predictive controller (NMPC) executes them while avoiding dynamic
+            obstacles. The system is evaluated in a 3D urban simulator built on AirSim and
+            Unreal Engine&nbsp;4.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>Fine-grained spatial descriptions</h3>
+            <p>A High-resolution Spatial Descriptor divides each view into nine sectors, so a landmark is described by where it lies within the view and not only by which view it is in.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>A memory to backtrack with</h3>
+            <p>A TrackBack Memory Array stores visited landmarks and the instructions between them as a graph, from which the agent derives a feasible path when an instruction is ambiguous.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>NMPC for dynamic obstacles</h3>
+            <p>The controller optimises thrust and roll and pitch references over a prediction horizon, under collision-avoidance and input-rate constraints.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>Perceive, refine the prompt, reason, then control</h2>
+            </div>
+            <p>
+              The system has a multimodal perception module and an action module based on
+              nonlinear model predictive control. The agent perceives the environment from the
+              instruction and from front-view RGB, depth and semantic images. Wayfinding Prompt
+              Optimization (WPO) extracts richer spatial information from the perception results
+              and draws on a memory of past trajectories. An LLM motion generator takes these
+              navigation prompts together with a system prompt and an action prompt, and outputs
+              its current thought and action. Navigation ends when the agent predicts STOP or
+              reaches the maximum number of actions.
+            </p>
+          </div>
+
+          <figure class="media-frame">
+            <img src="assets/media/architecture.webp" width="2400" height="1448" loading="lazy" alt="Block diagram in three parts connected in a loop. Multimodal Perception: visual observations (RGB image, depth image, another view, 2D semantic masks) go to a visual foundation model, and a landmark extractor turns the navigation instruction into sub-goals such as white building, road and billboard. Wayfinding Prompt Optimization: a High-resolution Spatial Descriptor goes from a coarse observation through candidate locations and fine-grained spatial information extraction to a spatial description; a TrackBack Memory Array turns an ambiguous navigation instruction into a concrete one through a memory graph of observed landmarks and history paths. An LLM-based motion command generator produces a motion instruction set (go up, turn left, spin around, move backwards, stop). Nonlinear MPC Control for Dynamic Obstacle Avoidance: AirSim supplies the UAV state and the obstacle position and velocity; obstacle trajectory generation feeds an NMPC module with an optimization engine, whose roll and pitch references and thrust pass through a body rotation to an attitude controller that outputs motor commands." />
+            <figcaption>
+              The overall architecture of the agent, which takes both the instruction and visual
+              perceptions into account and needs no supervised training. Wayfinding Prompt
+              Optimization refines the localization precision; the motion commands generated by
+              the LLM are tracked by the NMPC controller, which receives the UAV and obstacle
+              states from AirSim.
+              <span class="figure-source">Fig. 2 of the paper.</span>
+            </figcaption>
+          </figure>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Landmarks and sub-goals</h3>
+              <p>The drone's front camera pitches up and down but does not turn sideways, so the drone rotates to capture a panorama. GroundingDINO detects landmarks coarsely in each image, and an LLM extracts the landmark phrases from the instruction and decomposes it into sub-goals.</p>
+            </li>
+            <li>
+              <h3>High-resolution Spatial Descriptor</h3>
+              <p>Each view is divided into nine labelled sectors. For a landmark query the system takes the top-K candidate views; the LLM writes a description for each query–candidate pair and ranks the candidates from those descriptions.</p>
+            </li>
+            <li>
+              <h3>TrackBack Memory Array</h3>
+              <p>A graph whose nodes are landmarks already encountered and whose edges store the navigation instructions between them. A shortest-path search returns a navigable path between any two nodes, and a formatted prompt lets the LLM ask the commander a clarification question.</p>
+            </li>
+            <li>
+              <h3>NMPC with obstacle constraints</h3>
+              <p>Dynamic obstacles are modelled as spheres with a safety radius, with one constraint per predicted time step. The problem is solved with the PANOC algorithm through the OpEn optimization engine, and the outputs go to a low-level attitude controller.</p>
+            </li>
+          </ul>
+
+          <div class="pair method-figures">
+            <figure class="media-frame">
+              <img src="assets/media/spatial-descriptor.webp" width="2400" height="1349" loading="lazy" alt="Diagram. A landmark text, “A building entrance with park billboard”, and an observation image of a simulated street divided into nine numbered views, #0 to #8, enter Grounding DINO (text encoder, multi-layer BERT, cross-attention, Swin Transformer, visual encoder). The resulting word features and visual features form a similarity-score matrix of the extracted sub-goal words against view IDs 0 to 8. The top 3 candidates, #3, #4 and #6, go to a multimodal LLM, which answers that the most likely spot is #3, located upper-forward, because its description matches the query most." />
+              <figcaption>
+                The fine-grained visual recognizer for landmarks. In the score matrix, larger
+                blocks mean higher scores. The LLM evaluates and ranks query–view pairs from the
+                descriptive text.
+                <span class="figure-source">Fig. 4 of the paper.</span>
+              </figcaption>
+            </figure>
+            <figure class="media-frame">
+              <img src="assets/media/memory-graph.webp" width="2400" height="1337" loading="lazy" alt="Top left, “Action space caused by ambiguous instructions”: the UAV faces three available nodes, and the LLM says that no available choice aligns with the directive and proceeds to explore the west area. Top right, “Memory graph guided reasoning chain”: a graph of numbered places with the UAV at place 4; the LLM reasons that it has yet to visit place 1 starting from place 0, and should retrace its steps to place 3, a junction to reach place 2 and then place 0. Bottom: the same graph drawn over an aerial view of the simulated city, with incorrect paths in blue from node 3 to nodes 5 and 6, backstepping arrows in red to nodes 3, 2 and 0, and the correct path dashed from node 0 to node 1, next to a legend of node and path types." />
+              <figcaption>
+                The agent's thinking process without and with the memory graph. Given an
+                ambiguous instruction, the agent without it may explore aimlessly, especially
+                after a navigation error; with it, the agent retraces its steps. The map is a
+                view of the simulated city.
+                <span class="figure-source">Fig. 3 of the paper.</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Navigation on the AVDN dataset, in simulation</h2>
+          </div>
+          <p>
+            The experiments use the AVDN dataset (Aerial Vision-and-Dialog Navigation), whose
+            average path length the paper gives as 287&nbsp;m. The algorithm is evaluated in
+            AirSim and Unreal Engine&nbsp;4 with GPT-4, on a laptop with a 12th-generation Intel
+            i9 CPU and an NVIDIA GeForce RTX&nbsp;4070 GPU. The depth sensor perceives
+            100&nbsp;m ahead and the camera has a 90-degree field of view. The metrics are
+            success rate (SR) and success weighted by path length (SPL). Every result below is
+            from simulation.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>Success rate · unseen test</dt>
+            <dd>42.37%</dd>
+            <dd class="stat-note">Full SkyVLN. NavGPT, the strongest baseline, reaches 16.6%. Table&nbsp;I.</dd>
+          </div>
+          <div>
+            <dt>SPL · unseen test</dt>
+            <dd>28.11%</dd>
+            <dd class="stat-note">Success weighted by path length, against 18.9% for NavGPT. Table&nbsp;I.</dd>
+          </div>
+          <div>
+            <dt>Success rate · unseen validation</dt>
+            <dd>20.44%</dd>
+            <dd class="stat-note">Against 10.8% for NavGPT. Table&nbsp;I.</dd>
+          </div>
+          <div>
+            <dt>Success rate · seen validation</dt>
+            <dd>17.3%</dd>
+            <dd class="stat-note">Against 14.6% for NavGPT; SPL 14.7% against 12.3%. Table&nbsp;I.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>AVDN</h3>
+          <p>The full model has the highest SPL and success rate on the seen validation and unseen test splits, and the highest success rate on unseen validation. On unseen validation its SPL (16.62%) is below that of the two variants without one of the prompt modules (18.3%) and of the NMPC variant (17.1%).</p>
+          <p class="table-caption">Table I of the paper: comparison on the validation and unseen test sets of the AVDN dataset, in simulation. SPL: success weighted by path length; SR: success rate. Both in %, higher is better.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">Model</th>
+                  <th scope="colgroup" colspan="2">Seen validation</th>
+                  <th scope="colgroup" colspan="2">Unseen validation</th>
+                  <th scope="colgroup" colspan="2">Unseen testing</th>
+                </tr>
+                <tr>
+                  <th scope="col">SPL ↑</th>
+                  <th scope="col">SR ↑</th>
+                  <th scope="col">SPL ↑</th>
+                  <th scope="col">SR ↑</th>
+                  <th scope="col">SPL ↑</th>
+                  <th scope="col">SR ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="7">Baselines</th>
+                </tr>
+                <tr><th scope="row">Random</th><td>0.5</td><td>1.6</td><td>0.2</td><td>1</td><td>0.5</td><td>1.1</td></tr>
+                <tr><th scope="row">CMA</th><td>8.2</td><td>10.5</td><td>12.8</td><td>6.7</td><td>8.3</td><td>9.7</td></tr>
+                <tr><th scope="row">Seq2Seq</th><td>5.1</td><td>6.4</td><td>7.9</td><td>4.2</td><td>5.6</td><td>5.1</td></tr>
+                <tr><th scope="row">NavGPT</th><td>12.3</td><td>14.6</td><td>15.2</td><td>10.8</td><td>18.9</td><td>16.6</td></tr>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="7">SkyVLN variants, labelled as in the paper</th>
+                </tr>
+                <tr><th scope="row">w PID</th><td>6.8</td><td>8.7</td><td>9.4</td><td>5.3</td><td>6.9</td><td>12.9</td></tr>
+                <tr><th scope="row">w MPC</th><td>14.34</td><td class="best">17.3</td><td>16.5</td><td>20.4</td><td>12.9</td><td>15.17</td></tr>
+                <tr><th scope="row">w NMPC</th><td>13.9</td><td>16.2</td><td>17.1</td><td>18.5</td><td>22.4</td><td>26.8</td></tr>
+                <tr><th scope="row">w/o HSD</th><td>11.6</td><td>13</td><td class="best">18.3</td><td>20</td><td>12.6</td><td>14.1</td></tr>
+                <tr><th scope="row">w/o TMA</th><td>11.57</td><td>12.97</td><td class="best">18.3</td><td>19.95</td><td>18.17</td><td>15.32</td></tr>
+                <tr class="is-ours">
+                  <th scope="row">Ours Full</th>
+                  <td class="best">14.7</td><td class="best">17.3</td><td>16.62</td><td class="best">20.44</td><td class="best">28.11</td><td class="best">42.37</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            The row labels are the paper's. w PID, w MPC and w NMPC are named after the
+            controller; w/o HSD and w/o TMA are without the High-resolution Spatial Descriptor
+            and without the TrackBack Memory Array. Highlighted values are the best in each
+            column, ties included.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>Controllers, language models and scope</h3>
+          <p>
+            Among the controller variants in Table&nbsp;I, the NMPC variant reaches 22.4% SPL and
+            26.8% success rate on the unseen test split, against 12.9% and 15.17% with MPC and
+            6.9% and 12.9% with PID. The paper also plots position, attitude and tracking-error
+            curves for NMPC and for AirSim's Simple Flight controller, which uses PID, along a
+            reference trajectory in a static-obstacle case and with an additional dynamic
+            obstacle (Figs.&nbsp;7 and 8 of the paper). An ablation over the language model on
+            the unseen test split compares GPT-4V, GPT-4o and GPT-4 Turbo: GPT-4V has the highest
+            success rate (34.9%) and the lowest navigation error (62.35&nbsp;m), and GPT-4o the
+            highest SPL (34.25%) (Table&nbsp;II of the paper).
+          </p>
+          <p>
+            All experiments in the paper run in the AirSim / Unreal Engine&nbsp;4 simulator; it
+            reports no hardware-in-the-loop or real-flight tests. The paper notes that AirSim's
+            rotor aerodynamic model is rough, which can cause significant issues when agile,
+            high-speed control is transferred from simulation to a real aircraft. It names as
+            future work the balance between safety and mission efficiency, coordinated multi-UAV
+            operation, and severe environmental conditions.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="demos">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>SIMULATOR</p>
+              <h2>The city simulator and an example task</h2>
+            </div>
+            <p>
+              The paper builds a 3D city on AirSim and Unreal Engine&nbsp;4, with buildings,
+              streets, vehicles, pedestrians, street furniture and vegetation. The space is
+              continuous, so the simulated drone can fly to any point in the environment. At each
+              step the simulator outputs an RGB image, a depth image and a semantic-segmentation
+              image of the front view.
+            </p>
+          </div>
+          <div class="demo-grid">
+            <figure class="media-frame wide" data-evidence="simulation">
+              <img src="assets/media/example-task.webp" width="2400" height="1302" loading="lazy" alt="Left: an aerial view of a simulated city block with a yellow trajectory that loops around buildings to a chequered flag, three inset images (depth image, semantic mask, first-person view), and the instruction: go past the intersection and turn left; fly along the right side of the street at least 5 metres from the building; after delivering the package at the sixth floor at the next crossroad, continue to the larger roof of the pink building, which is the landing point; then reset to the original point. Centre: five first-person frames labelled start point, landmark 1, delivery spot, landmark 2 and landing point. Right: the system prompt, which casts the LLM as an embodied UAV assistant that may only use the defined functions, and the action prompt, which describes the AirSim interface: ask a clarification question, give a reason, or output code with the commands get_position and fly_to." />
+              <figcaption>
+                <span class="evidence-tag">Simulation</span>An illustration of the embodied VLN
+                task in the city environment. The yellow line is the agent's ground-truth
+                trajectory and the chequered flag marks its end. The observation input is a depth
+                image, a semantic mask and a first-person view; the system prompt describes the
+                embodiment and the action prompt the available actions and the output format.
+                <span class="figure-source">Fig. 9 of the paper.</span>
+              </figcaption>
+            </figure>
+            <figure class="media-frame narrow" data-evidence="simulation">
+              <img src="assets/media/simulator.webp" width="2000" height="2267" loading="lazy" alt="A grid of twenty simulator screenshots in four groups. Streets: horizontal view, top-down view, vehicles, pedestrians. Urban elements: chairs, fountain, bus station, tree, bicycle, street lamp, brand sign, statue. Buildings: office building, dormitory, store, signal tower. Building details: gate, solar panel, air-conditioning, billboard." />
+              <figcaption>
+                <span class="evidence-tag">Simulation</span>Components of the city simulator.
+                Details are added on the roofs and exterior walls of high-rise buildings so that
+                aerial agents can recognise them.
+                <span class="figure-source">Fig. 5 of the paper.</span>
+              </figcaption>
+            </figure>
+          </div>
+          <p class="availability">No hardware-in-the-loop or real-world flight is shown or claimed on this page: every image is from the simulator.</p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@inproceedings{li2025skyvln,
+  title={SkyVLN: Vision-and-Language Navigation and NMPC Control for UAVs
+         in Urban Environments},
+  author={Tianshun Li and Tianyi Huai and Zhen Li and Yichun Gao and
+          Haoang Li and Xinhu Zheng},
+  booktitle={2025 IEEE/RSJ International Conference on Intelligent Robots
+             and Systems (IROS)},
+  pages={17199--17206},
+  year={2025},
+  doi={10.1109/IROS60139.2025.11247609},
+  eprint={2507.06564},
+  archivePrefix={arXiv},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>SkyVLN is part of OMEGA Lab's research on vision-language navigation at HKUST(GZ).</p>
+        <a class="text-link" href="/research/#embodied-navigation">More in Vision-Language Navigation <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

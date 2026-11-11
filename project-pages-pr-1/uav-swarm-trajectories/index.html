@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>UAV Swarm Trajectory Prediction and Control — OMEGA Lab</title>
+    <meta name="description" content="A framework for UAV swarms that couples axis-wise 4D trajectory forecasting and diffusion-based residual dynamics refinement with distributed nonlinear model predictive control, with a three-UAV trajectory dataset. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="UAV Swarm Trajectory Prediction and Control — OMEGA Lab" />
+    <meta property="og:description" content="A framework for UAV swarms that couples axis-wise 4D trajectory forecasting and diffusion-based residual dynamics refinement with distributed nonlinear model predictive control, with a three-UAV trajectory dataset. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/uav-swarm-trajectories/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/uav-swarm-trajectories/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="A prediction-only trajectory forecasting module against the proposed loop of axis-decoupled forecasting, residual-based refinement and distributed NMPC control" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/research/#multi-agent-systems">Multi-Agent Systems</a></li>
+          <li aria-current="page">UAV Swarm Trajectory Prediction and Control</li>
+        </ol>
+        <a class="crumbs-back" href="/research/#multi-agent-systems"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>UAV SWARMS · IROS 2026</p>
+        <h1 class="title-long">UAV Swarm Trajectory Prediction and Control</h1>
+        <p class="subtitle">Diffusion-based 4D Trajectory Prediction and Distributed Control for UAV Swarms</p>
+
+        <ul class="authors">
+          <li>Tianshun Li<sup>1</sup></li>
+          <li>Hongliang Lu<sup>2</sup></li>
+          <li>Haoang Li<sup>3</sup></li>
+          <li>Xinhu Zheng<sup>3,*</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou), China</li>
+          <li><sup>2</sup>Southern University of Science and Technology, China and MoSense Technologies, China</li>
+          <li><sup>3</sup>The Hong Kong University of Science and Technology (Guangzhou), China</li>
+          <li><sup>*</sup>Corresponding author</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2606.31197">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/teaser.webp" width="2400" height="1546" alt="Two pipelines, each starting from a photograph of UAVs in the sky above city buildings. (a) A conventional prediction-only forecasting module: a trajectory feature goes through a decoder, and the predicted regions of two UAVs overlap, marked as a potential collision. (b) The proposed pipeline: an axis-decoupled trajectory feature goes through a denoising head for residual-based refinement and yields separate reference trajectories for three UAVs. These go to distributed NMPC control, which sends an optimized control command; the actual status is fed back as the current status of each UAV." />
+          <figcaption>
+            A conceptual comparison. (a) A conventional forecasting module predicts trajectories
+            with no control feedback. (b) The proposed coarse-to-fine integration of prediction
+            and control: axis-decoupled forecasting, residual-based refinement by a denoising
+            head, and distributed NMPC that closes the loop on each UAV's actual status.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#dataset">Dataset</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>Trajectory prediction and formation control in one loop</h2>
+          </div>
+          <p>
+            A UAV swarm that holds a compact formation needs each aircraft to be at the right
+            place at the right time: a 4D problem, 3D position plus time. Communication delay,
+            downwash and other aerodynamic disturbances make the swarm's coupled motion hard to
+            model, and most trajectory predictors are built and scored on their own, without
+            control feedback. This work couples the two. A coarse forecast is made separately
+            along each spatial axis, a diffusion model refines it by estimating the residual
+            dynamics that the nominal model misses, and the refined rollouts go into a
+            distributed nonlinear model predictive controller (DNMPC) that keeps the formation.
+            The paper also introduces a dataset of synchronized three-UAV trajectories in six
+            scenarios.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>Axis-wise forecasting</h3>
+            <p>Forecasting is factorized by dimension: key points and trajectories are predicted separately for x, y and z from one interaction-aware encoding, so that errors are not entangled across spatial dimensions.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>Diffusion for the residual only</h3>
+            <p>The diffusion model generates neither whole trajectories nor control actions. It samples the residual dynamics over a short horizon, the part that carries temporally correlated disturbances.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>Distributed control with a stability bound</h3>
+            <p>Each UAV solves its own NMPC problem with the estimated residual in its prediction model. Assuming recursive feasibility, the paper bounds the closed-loop tracking error by the residual-estimation error and the error in neighbours' predicted states.</p>
+          </li>
+          <li>
+            <span class="cap-index">04</span>
+            <h3>A 4D swarm dataset</h3>
+            <p>Over 7,900 frames of synchronized three-UAV trajectories across urban, lab, factory and rural scenarios, annotated per frame with speed intention and target sector.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>Coarse forecast, diffusion-refined residual, distributed NMPC</h2>
+            </div>
+            <p>
+              From the past 8 frames of observed positions the predictor forecasts the next 12,
+              as key points at the 3rd, 6th, 9th and 12th steps that are interpolated into the
+              NMPC reference trajectory. A diffusion model estimates the residual dynamics along
+              the way, and each UAV's controller uses that estimate when it optimizes its control
+              inputs under inter-UAV distance constraints.
+            </p>
+          </div>
+
+          <figure class="media-frame">
+            <img src="assets/media/framework.webp" width="2400" height="805" loading="lazy" alt="Framework from left to right. A 3D plot of observed trajectories of three UAVs among building blocks enters a trajectory encoder. Three parallel branches for x, y and z each contain key point extraction, an MLP encoder and a trajectory predictor, and output a coarse prediction curve per axis. A residual dynamics learning block combines a nominal model with a diffusion model that learns temporally correlated residuals from past positions and control inputs, under disturbances and unmodeled dynamics such as communication delay, inter-UAV airflow and downwash. It outputs refined per-axis predictions and a 3D plot of predicted reference trajectories, which feed a DNMPC control law with prediction horizon N that loops back to the residual block." />
+            <figcaption>
+              Future trajectories are first predicted separately along each spatial axis from the
+              observed history. A diffusion-based residual dynamics module refines them by
+              compensating for unmodeled dynamics. The refined trajectories enter the DNMPC
+              controller, where each UAV optimizes its control inputs over a finite horizon under
+              inter-UAV formation constraints.
+              <span class="figure-source">Fig. 2 of the paper.</span>
+            </figcaption>
+          </figure>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Decoupled trajectory predictor</h3>
+              <p>The encoder of LBEBM extracts an interaction-aware feature from the observed history. Axis-specific predictors output key points for x, y and z; the key points are encoded into a compact structural descriptor, and each axis is then decoded independently from the feature and the descriptor.</p>
+            </li>
+            <li>
+              <h3>Residual dynamics refinement</h3>
+              <p>The quadrotor's translational dynamics are written with a nominal mass, and everything else is collected into a residual Δ, assumed bounded and locally Lipschitz. The diffusion model samples Δ over an estimation horizon <i>T</i> given positions, velocities, accelerations and control inputs. It is applied per UAV with parameters shared across the swarm.</p>
+            </li>
+            <li>
+              <h3>Distributed NMPC</h3>
+              <p>Each UAV solves a local NMPC problem over a horizon <i>N</i> ≥ <i>T</i>, with the residual estimate in its prediction model, to track its reference while keeping the desired distance to its neighbours. Only the first control input is applied at each step.</p>
+            </li>
+            <li>
+              <h3>Real-time sampling</h3>
+              <p>The noise predictor is a temporal U-Net with three residual stages, trained with 20 diffusion steps. DDIM sampling brings inference from 48&nbsp;ms to 29&nbsp;ms for 70 agents on an NVIDIA RTX&nbsp;4070 GPU.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section container" id="dataset">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>DATASET</p>
+            <h2>Three UAVs in formation, six scenarios, recorded in flight</h2>
+          </div>
+          <p>
+            The paper introduces a 4D trajectory dataset collected from UAVs operating in real
+            environments, recorded with positioning devices installed on the aircraft. In each of
+            the six scenarios three UAVs follow predefined formations. It holds over 7,900
+            frames, 800 to 2,000 per scenario, and every frame is annotated with a speed
+            intention and one of eight target sectors.
+          </p>
+        </div>
+
+        <div class="demo-grid">
+          <figure class="media-frame wide" data-evidence="real-world">
+            <img src="assets/media/dataset-trajectories.webp" width="2400" height="696" loading="lazy" alt="Four plots of the same three UAV trajectories in the scenario U1-Dense, drawn as a solid blue, a dashed red and a dotted green line with circles at one end and squares at the other. (a) Orthographic projection over axes North, East and Height: the three lines run side by side at about 70 m, above grey building blocks up to about 60 m tall. (b) North against East: the lines weave across about 90 m of travel, a few metres apart. (c) North against Height: the lines stay near 70 m. (d) East against Height: the lines cluster within a few metres of each other above the buildings." />
+            <figcaption>
+              <span class="evidence-tag">Real-world</span>Recorded flight data from the dataset,
+              not a run of the proposed controller: the time-indexed trajectories of three UAVs
+              in the urban scenario U1-Dense (North, East, Height), as an orthographic projection
+              and three plane views. The paper attributes the curvature of the trajectories to
+              communication delay and external wind.
+              <span class="figure-source">Fig. 3 of the paper.</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Scenarios</h3>
+          <p>Mean inter-UAV distance ranges from 1.3&nbsp;m indoors to 5.8&nbsp;m in the sparse urban scenario, and mean speed from 2.4 to 5.6&nbsp;m/s, covering both smooth cruising and sharper directional changes.</p>
+          <p class="table-caption">From Table I of the paper: scenario-wise trajectory statistics (mean ± std). U, L, F and R denote Urban, Lab, Factory and Rural scenarios. The per-scenario counts of speed-intention and target-sector labels are in the paper.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Scenario</th>
+                  <th scope="col">Frames</th>
+                  <th scope="col">Inter-UAV distance (m)</th>
+                  <th scope="col">Speed (m/s)</th>
+                  <th scope="col">Turning intensity (1/m)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">U1-Dense</th><td>800</td><td>3.45 ± 0.18</td><td>3.20 ± 0.60</td><td>0.18 ± 0.10</td></tr>
+                <tr><th scope="row">U2-Sparse</th><td>1600</td><td>5.80 ± 0.22</td><td>4.10 ± 0.70</td><td>0.12 ± 0.08</td></tr>
+                <tr><th scope="row">L1-Indoor</th><td>1200</td><td>1.30 ± 0.15</td><td>2.40 ± 0.50</td><td>0.22 ± 0.12</td></tr>
+                <tr><th scope="row">F1-Large</th><td>1500</td><td>1.70 ± 0.25</td><td>4.80 ± 0.80</td><td>0.09 ± 0.06</td></tr>
+                <tr><th scope="row">F2-Complex</th><td>2000</td><td>1.55 ± 0.20</td><td>4.20 ± 0.75</td><td>0.15 ± 0.09</td></tr>
+                <tr><th scope="row">R1-Open</th><td>900</td><td>3.90 ± 0.30</td><td>5.60 ± 0.90</td><td>0.07 ± 0.05</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="results">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+              <h2>Prediction accuracy, tracking error and formation keeping</h2>
+            </div>
+            <p>
+              Trajectory prediction is evaluated offline on the recorded dataset, with average
+              and final displacement error (ADE, FDE). For control, the diffusion model (DM) is
+              compared with a physics-driven DNMPC baseline and with Gaussian-process (GP),
+              deep-neural-network (DNN) and GPT-based residual models. All learned models are
+              trained on the same offline dataset and placed in the same control law, and each
+              method is evaluated over 10 independent trials. The paper does not describe the
+              platform on which the closed-loop runs were carried out, so they are not presented
+              here as flight tests.
+            </p>
+          </div>
+
+          <dl class="stats">
+            <div>
+              <dt>Prediction · ADE / FDE</dt>
+              <dd>0.15 / 0.27</dd>
+              <dd class="stat-note">With DDIM sampling, the lowest in the table. The best baseline values are 0.18 (UKF) and 0.33 (MTRTraj). Table&nbsp;II.</dd>
+            </div>
+            <div>
+              <dt>Inference · 70 agents</dt>
+              <dd>29 ms</dd>
+              <dd class="stat-note">About 34 FPS with DDIM sampling on an NVIDIA RTX 4070 GPU; 48 ms without it. Table&nbsp;II.</dd>
+            </div>
+            <div>
+              <dt>Tracking error · Urban</dt>
+              <dd>0.066 m</dd>
+              <dd class="stat-note">DM-NMPC; 0.055 m in Factory. The next-best controller, GPT-NMPC, has 0.075 m and 0.063 m. Table&nbsp;III.</dd>
+            </div>
+            <div>
+              <dt>Formation RMSE · 10 m/s, 0.8 m</dt>
+              <dd>0.137 m</dd>
+              <dd class="stat-note">DM-NMPC at the higher speed and the tighter reference distance; the other controllers range from 0.156 to 0.189 m. Table&nbsp;IV.</dd>
+            </div>
+          </dl>
+
+          <div class="result-block">
+            <h3>Trajectory prediction</h3>
+            <p>The baselines span classical filters, deterministic sequence models and generative predictors, all modified to take 4D observed trajectories and predict 4D futures. With DDIM sampling the proposed predictor has the lowest ADE and FDE. Against the best baseline values in the table, ADE falls from 0.18 to 0.15 (16.7%) and FDE from 0.33 to 0.27 (18.2%), at 29&nbsp;ms per inference.</p>
+            <p class="table-caption">Table II of the paper: trajectory prediction efficiency and accuracy on the dataset. All methods are evaluated on an NVIDIA RTX 4070 GPU with an input size of 70 × 8 × 3, where 70 is the number of agents predicted simultaneously. KF and UKF have no learnable parameters. Highlighted: the paper's best value in each column.</p>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th scope="col" rowspan="2">Method</th>
+                    <th scope="colgroup" colspan="3">Efficiency</th>
+                    <th scope="colgroup" colspan="2">Accuracy ↓</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Params (M)</th>
+                    <th scope="col">FLOPs (G)</th>
+                    <th scope="col">Speed (ms)</th>
+                    <th scope="col">ADE</th>
+                    <th scope="col">FDE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">KF</th><td>–</td><td class="best">0.08</td><td>18</td><td>0.31</td><td>0.58</td></tr>
+                  <tr><th scope="row">UKF</th><td>–</td><td>0.11</td><td>22</td><td>0.18</td><td>0.52</td></tr>
+                  <tr><th scope="row">TCN</th><td class="best">0.21</td><td>0.18</td><td>26</td><td>0.24</td><td>0.43</td></tr>
+                  <tr><th scope="row">MSRL</th><td>0.62</td><td>0.14</td><td>20</td><td>0.23</td><td>0.41</td></tr>
+                  <tr><th scope="row">LBEBM</th><td>1.31</td><td>0.12</td><td class="best">15</td><td>0.20</td><td>0.36</td></tr>
+                  <tr><th scope="row">NPSN</th><td>0.28</td><td>0.19</td><td>29</td><td>0.21</td><td>0.38</td></tr>
+                  <tr><th scope="row">GAN</th><td>0.44</td><td>0.24</td><td>31</td><td>0.22</td><td>0.39</td></tr>
+                  <tr><th scope="row">CVAE</th><td>0.58</td><td>0.27</td><td>34</td><td>0.20</td><td>0.36</td></tr>
+                  <tr><th scope="row">MTRTraj</th><td>4.52</td><td>6.80</td><td>34</td><td>0.28</td><td>0.33</td></tr>
+                  <tr class="is-ours"><th scope="row">Ours</th><td>3.48</td><td>0.42</td><td>48</td><td>0.17</td><td>0.31</td></tr>
+                  <tr class="is-ours"><th scope="row">Ours with DDIM</th><td>3.48</td><td>0.26</td><td>29</td><td class="best">0.15</td><td class="best">0.27</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="result-block">
+            <h3>Residual models inside the controller</h3>
+            <p>The prediction error, in newtons, measures how well each model estimates the interaction-induced and environment-dependent disturbance forces between neighbouring UAVs, which the control law uses for compensation. The diffusion model has the lowest prediction and tracking errors in all four scenario types.</p>
+            <p class="table-caption">Table III of the paper: force prediction error (N) and tracking error (m) of DNMPC-based controllers with different residual models. U, L, F, R: Urban, Lab, Factory, Rural. Lower is better.</p>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th scope="col" rowspan="2">Method</th>
+                    <th scope="colgroup" colspan="4">Prediction error (N)</th>
+                    <th scope="colgroup" colspan="4">Tracking error (m)</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">U</th>
+                    <th scope="col">L</th>
+                    <th scope="col">F</th>
+                    <th scope="col">R</th>
+                    <th scope="col">U</th>
+                    <th scope="col">L</th>
+                    <th scope="col">F</th>
+                    <th scope="col">R</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">GP-NMPC</th><td>0.139</td><td>0.147</td><td>0.105</td><td>0.116</td><td>0.091</td><td>0.096</td><td>0.076</td><td>0.071</td></tr>
+                  <tr><th scope="row">DNN-NMPC</th><td>0.128</td><td>0.140</td><td>0.096</td><td>0.108</td><td>0.081</td><td>0.089</td><td>0.069</td><td>0.064</td></tr>
+                  <tr><th scope="row">GPT-NMPC</th><td>0.121</td><td>0.129</td><td>0.091</td><td>0.099</td><td>0.075</td><td>0.083</td><td>0.063</td><td>0.059</td></tr>
+                  <tr class="is-ours"><th scope="row">DM-NMPC (ours)</th><td class="best">0.104</td><td class="best">0.112</td><td class="best">0.079</td><td class="best">0.089</td><td class="best">0.066</td><td class="best">0.071</td><td class="best">0.055</td><td class="best">0.052</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="result-block">
+            <h3>Formation keeping</h3>
+            <p>The error of every method grows when the speed rises from 8 to 10&nbsp;m/s. DM-NMPC has the lowest formation-constraint RMSE in all four settings and stays the most stable in the hardest one.</p>
+            <p class="table-caption">Table IV of the paper: formation-constraint RMSE (m) of NMPC variants under two reference inter-UAV distances <i>d</i><sup>ref</sup> and two flight velocities <i>v</i>. Lower is better.</p>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th scope="col" rowspan="2">Method</th>
+                    <th scope="colgroup" colspan="2"><i>d</i><sup>ref</sup> = 1.2 m</th>
+                    <th scope="colgroup" colspan="2"><i>d</i><sup>ref</sup> = 0.8 m</th>
+                  </tr>
+                  <tr>
+                    <th scope="col"><i>v</i> = 8 m/s</th>
+                    <th scope="col"><i>v</i> = 10 m/s</th>
+                    <th scope="col"><i>v</i> = 8 m/s</th>
+                    <th scope="col"><i>v</i> = 10 m/s</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">DNMPC</th><td>0.118</td><td>0.146</td><td>0.156</td><td>0.181</td></tr>
+                  <tr><th scope="row">GP-NMPC</th><td>0.123</td><td>0.152</td><td>0.162</td><td>0.189</td></tr>
+                  <tr><th scope="row">DNN-NMPC</th><td>0.109</td><td>0.135</td><td>0.144</td><td>0.168</td></tr>
+                  <tr><th scope="row">GPT-NMPC</th><td>0.101</td><td>0.124</td><td>0.133</td><td>0.156</td></tr>
+                  <tr class="is-ours"><th scope="row">DM-NMPC (ours)</th><td class="best">0.089</td><td class="best">0.107</td><td class="best">0.118</td><td class="best">0.137</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="result-block">
+            <h3>What the residual model captures, and where it fails</h3>
+            <p>
+              Projected with t-SNE, the residuals estimated by the diffusion model follow the
+              distribution of the residuals extracted from real-world flight data more closely
+              than those of the GP, DNN and GPT predictors, particularly along the outer ring.
+              In the failure case, short-term motion is captured, but prediction errors
+              accumulate in highly curved segments where inter-UAV interactions intensify.
+            </p>
+            <div class="pair">
+              <figure class="media-frame">
+                <img src="assets/media/residual-tsne.webp" width="2400" height="1923" loading="lazy" alt="Four t-SNE scatter plots with density contours, each overlaying grey circles for the true residuals, which form a wide ring, with one model's estimates. GP: the estimates form a smaller ring inside the true one. DNN: a ring shifted to the left that misses the right side. GPT: broad coverage with scattered mass in the interior. Diffusion: contours that follow the outer ring of the true residuals." />
+                <figcaption>t-SNE of the residual dynamics Δ extracted from real-world flight data (True) and estimated by each model. <span class="figure-source">Fig. 6 of the paper.</span></figcaption>
+              </figure>
+              <figure class="media-frame">
+                <img src="assets/media/failure-case.webp" width="2400" height="1776" loading="lazy" alt="Three views of three UAV trajectories over about 70 m of travel: an orthographic projection over North, East and Height, a North against Height view and an East against Height view. Black solid lines are the ground truth, which descends from about 41 m to about 38 m and climbs back. Dashed red, blue and green lines are the predictions: they follow the ground truth at first and drift apart in the curved final segment, where the green one rises to about 49 m. A red triangle joins the three predicted end points." />
+                <figcaption>A representative failure case under strong inter-UAV interaction and highly curved motion. Black solid lines: ground-truth trajectories. Dashed lines: failed predictions. <span class="figure-source">Fig. 7 of the paper.</span></figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="result-block">
+            <h3>Further analysis and scope</h3>
+            <p>
+              Under Gaussian disturbances most learned compensators converge to a stable
+              inter-UAV distance. Under heavy-tailed Cauchy disturbances the GP and DNN
+              compensators show persistent oscillations or steady-state offsets, while
+              diffusion-based compensation keeps the distance bounded (Fig.&nbsp;4 of the paper).
+              In a hovering task, tracking error first improves with a longer NMPC horizon and
+              then degrades, and solver time per step exceeds the 50&nbsp;ms real-time limit at
+              <i>N</i>&nbsp;≥&nbsp;32; a horizon of 8 to 16 is the most balanced (Fig.&nbsp;5).
+              Trained on the paper's dataset and evaluated on the public CityNav dataset without
+              retraining, for open-loop prediction only, the method reaches an ADE of 0.86&nbsp;m
+              and an FDE of 1.44&nbsp;m, against 0.97&nbsp;m and 1.62&nbsp;m for the next-best
+              baseline (Table&nbsp;V).
+            </p>
+            <p>
+              The paper states the limits. The dataset and the experiments cover three-UAV
+              formations; the DNMPC formulation sets no upper bound on swarm size and the
+              residual model shares parameters across UAVs, but scaling to larger swarms remains
+              future work. The residual model is trained under fixed formation assumptions and
+              may not capture abrupt interaction changes or rare coordination patterns; adaptive
+              interaction modeling and uncertainty-aware horizon adjustment are left to future
+              work. The stability result assumes recursive feasibility of the DNMPC subproblems.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@inproceedings{li2026diffusion,
+  title={Diffusion-based 4D Trajectory Prediction and Distributed Control
+         for UAV Swarms},
+  author={Tianshun Li and Hongliang Lu and Haoang Li and Xinhu Zheng},
+  booktitle={IEEE/RSJ International Conference on Intelligent Robots and
+             Systems (IROS)},
+  year={2026},
+  eprint={2606.31197},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2606.31197},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>UAV Swarm Trajectory Prediction and Control is part of OMEGA Lab's research on multi-agent systems at HKUST(GZ).</p>
+        <a class="text-link" href="/research/#multi-agent-systems">More in Multi-Agent Systems <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

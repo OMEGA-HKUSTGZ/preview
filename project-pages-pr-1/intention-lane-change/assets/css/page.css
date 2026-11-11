@@ -1,0 +1,27 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* Three small analysis figures side by side (Figs. 2, 4(a), 4(b)); one column on phones,
+   like the shared .pair. */
+.trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 1000px) {
+  .trio {
+    grid-template-columns: 1fr;
+    max-width: 640px;
+  }
+}
+
+/* The proposed model is not the best in every column, so inside its highlighted row keep
+   the difference visible: best values in the brand colour, the others at normal weight. */
+.data-table tr.is-ours > td {
+  font-weight: 400;
+}
+.data-table tr.is-ours > td.best {
+  font-weight: 700;
+  color: var(--brand);
+}

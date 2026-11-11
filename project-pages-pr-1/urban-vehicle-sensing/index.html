@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Vehicle-Based Urban Sensing — OMEGA Lab</title>
+    <meta name="description" content="An entropy-based strategy for choosing which sensor-equipped vehicles a city uses for urban sensing, with weights built from street-view imagery and traffic congestion data and a validation on air quality data from 320 taxis in Guangzhou. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="Vehicle-Based Urban Sensing — OMEGA Lab" />
+    <meta property="og:description" content="An entropy-based strategy for choosing which sensor-equipped vehicles a city uses for urban sensing, with weights built from street-view imagery and traffic congestion data and a validation on air quality data from 320 taxis in Guangzhou. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/urban-vehicle-sensing/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/urban-vehicle-sensing/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="Street-view images in four directions are segmented into scene features to build spatial weights, and traffic flow encodings give temporal weights, combined into normalised spatiotemporal sensing weights" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/projects/#urban-vehicle-sensing">Projects</a></li>
+          <li aria-current="page">Vehicle-Based Urban Sensing</li>
+        </ol>
+        <a class="crumbs-back" href="/projects/#urban-vehicle-sensing"><span aria-hidden="true">←</span> Back to projects</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>URBAN SENSING · ITSC 2025</p>
+        <h1 class="title-long">Vehicle-Based Urban Sensing</h1>
+        <p class="subtitle">Enhancing Urban Sensing Utility with Sensor-enabled Vehicles and Easily Accessible Data</p>
+
+        <ul class="authors">
+          <li>Hui Zhong<sup>1,2</sup></li>
+          <li>Qing-Long Lu<sup>3</sup></li>
+          <li>Qiming Zhang<sup>1</sup></li>
+          <li>Hongliang Lu<sup>1,2</sup></li>
+          <li>Xinhu Zheng<sup>1,2</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>1</sup>INTR Thrust, System Hub, The Hong Kong University of Science and Technology (Guangzhou)</li>
+          <li><sup>2</sup>Guangdong Provincial Key Lab of Integrated Communication, Sensing and Computation for Ubiquitous Internet of Things</li>
+          <li><sup>3</sup>Department of Civil and Environmental Engineering, National University of Singapore</li>
+          <li>Corresponding author: Xinhu Zheng</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2512.07124">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://doi.org/10.1109/ITSC60802.2025.11423491">IEEE Xplore <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/weights-framework.webp" width="2400" height="1200" alt="Flow diagram in two parts. Spatial weights: street-view images sampled in four directions (0°, 90°, 180°, 270°) go through feature extraction into colour-coded segmentation maps, giving feature ratios such as road 39.45%, vegetation 29.44%, sky 12.40%, building 11.26% and terrain 3.91%. Temporal weights: traffic flow encodings. Both feed a multimodal alignment step, followed by correlation analysis, normalization and a sum-to-one constraint." />
+          <figcaption>
+            How the adaptive spatiotemporal sensing weights are built. Street-view images are
+            parsed into scene features with Mask2Former for the spatial side, traffic flow
+            encodings give the temporal side, and correlation analysis and normalization turn
+            them into weights.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>Which vehicles should a city use as its sensors?</h2>
+          </div>
+          <p>
+            Vehicles that carry sensors can monitor a city at street level, with low deployment
+            cost and broad coverage in space and time. The open question is which vehicles to
+            equip or use when the budget is limited: the selection has to balance spatial and
+            temporal coverage and avoid redundant measurements. This study proposes an adaptive
+            framework that weights each place and time by its relevance to the sensing task,
+            using openly accessible urban data, and an entropy-based vehicle selection
+            strategy, Improved OptiFleet. It is validated on two months of air quality data
+            from 320 sensor-equipped vehicles in Guangzhou, China.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>Utility as weighted coverage</h3>
+            <p>Sensing utility is the expected coverage of a grid of places and times: for each cell and time interval, the probability that at least one selected vehicle visits it, multiplied by a weight for how much that point matters.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>Weights from easily accessible data</h3>
+            <p>Static street-view imagery and dynamic traffic congestion indices describe the urban context. The weights built from them let the same framework adapt to different sensing scenarios and tasks.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>Diversity over frequency</h3>
+            <p>Improved OptiFleet ranks candidate vehicles by the entropy of their coverage after discounting what the selected fleet already covers, so vehicles that reach new places and times are preferred to those that revisit well-covered ones.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>Quantify sensing utility, estimate the weights, select the fleet</h2>
+            </div>
+            <p>
+              The study area is divided into spatial grid cells and the day into time
+              intervals. For every candidate vehicle the method takes the normalized frequency
+              with which it visits each cell in each interval. Fleet selection is then a
+              budgeted maximization: choose the subset of vehicles with the highest sensing
+              utility whose total deployment cost stays within the budget.
+            </p>
+          </div>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Sensing utility</h3>
+              <p>For a fleet <i>S</i>, the probability that cell <i>g</i> is covered in interval <i>t</i> is <i>P</i><sub><i>g</i>,<i>t</i></sub>(<i>S</i>)&nbsp;= 1&nbsp;−&nbsp;∏<sub><i>v</i>∈<i>S</i></sub>&nbsp;(1&nbsp;−&nbsp;<i>p</i><sub><i>g</i>,<i>t</i></sub>(<i>v</i>)). Utility <i>f</i>(<i>S</i>) is the sum of <i>w</i><sub><i>g</i>,<i>t</i></sub>&nbsp;<i>P</i><sub><i>g</i>,<i>t</i></sub>(<i>S</i>) over all cells and intervals, where <i>w</i><sub><i>g</i>,<i>t</i></sub> is the importance of that point.</p>
+            </li>
+            <li>
+              <h3>Spatiotemporal weights</h3>
+              <p>Street-view imagery and traffic congestion indices are retrieved via the Baidu Map API. Low-quality images are filtered out with OpenCV-based checks, Mask2Former extracts street-scene features from the rest, and the correlations between those features and pollutant concentrations are normalized into spatial weighting factors.</p>
+            </li>
+            <li>
+              <h3>OptiFleet</h3>
+              <p>Assuming independent vehicle visits, the utility is monotone and submodular, so a greedy algorithm has a (1&nbsp;−&nbsp;1/<i>e</i>) approximation guarantee. OptiFleet repeatedly adds the vehicle with the largest marginal utility gain per unit cost until the budget is exhausted.</p>
+            </li>
+            <li>
+              <h3>Improved OptiFleet</h3>
+              <p>OptiFleet tends to favor vehicles that revisit already well-covered areas, especially dense urban centers. Improved OptiFleet scores each candidate by a Shannon entropy computed on its visit probabilities after they are scaled by the weights and down-weighted where the fleet already covers, and adds the vehicle with the highest effective entropy per unit cost.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Two months of air quality data from 320 taxis in Guangzhou</h2>
+          </div>
+          <p>
+            The study area is the core of Guangzhou, approximately 279.63&nbsp;km², divided into
+            3,811 grid cells of 500&nbsp;m × 500&nbsp;m. From 1&nbsp;March to 30&nbsp;April 2023,
+            sensor-equipped taxis recorded GPS positions at approximately 15-second intervals
+            together with four pollutants: NO, NO<sub>2</sub>, PM<sub>2.5</sub> and
+            PM<sub>10</sub>. Trajectories were map-matched to the OpenStreetMap road network
+            with a hidden Markov model. Improved OptiFleet is compared with OptiFleet, a
+            utility baseline that counts distinct taxis (TSUB) and random assignment (RA).
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>Sensing utility · 200 vehicles</dt>
+            <dd>60.91</dd>
+            <dd class="stat-note">Improved OptiFleet, against 59.14 for OptiFleet, 58.47 for TSUB and 57.54 for random assignment. Table&nbsp;I.</dd>
+          </div>
+          <div>
+            <dt>Highest utility</dt>
+            <dd>6 of 7</dd>
+            <dd class="stat-note">Fleet sizes at which Improved OptiFleet scores highest: 50 to 300 vehicles. OptiFleet is highest at 10. Table&nbsp;I.</dd>
+          </div>
+          <div>
+            <dt>MAPE below 5%</dt>
+            <dd>≈ 200</dd>
+            <dd class="stat-note">Vehicles, out of 320, at which the average MAPE across space and time against the full fleet drops below 5%. Section&nbsp;IV-B.</dd>
+          </div>
+          <div>
+            <dt>Data</dt>
+            <dd>320</dd>
+            <dd class="stat-note">Sensor-equipped vehicles in Guangzhou, 1&nbsp;March to 30&nbsp;April 2023, measuring four pollutants.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>Sensing utility by fleet size</h3>
+          <p>Each strategy first selects its fleet; the utilities of all fleets are then calculated with the same coverage function proposed in the paper. Improved OptiFleet has the highest utility at every fleet size from 50 to 300 vehicles, and at 10 vehicles OptiFleet is highest. The paper puts the improvement at approximately 5% over random assignment at the same fleet size, and notes that the advantage diminishes as the fleet becomes larger.</p>
+          <p class="table-caption">Table I of the paper: sensing utility of the fleets selected by each strategy, by size of the vehicle fleet (number of vehicles). Bold: best in each column.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Algorithm</th>
+                  <th scope="col">10</th>
+                  <th scope="col">50</th>
+                  <th scope="col">100</th>
+                  <th scope="col">150</th>
+                  <th scope="col">200</th>
+                  <th scope="col">250</th>
+                  <th scope="col">300</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">TSUB</th><td>4.23</td><td>18.17</td><td>33.26</td><td>46.93</td><td>58.47</td><td>68.69</td><td>78.13</td></tr>
+                <tr><th scope="row">RA</th><td>3.88</td><td>17.56</td><td>31.92</td><td>45.44</td><td>57.54</td><td>68.35</td><td>77.94</td></tr>
+                <tr><th scope="row">OptiFleet</th><td class="best">4.41</td><td>18.97</td><td>34.03</td><td>47.41</td><td>59.14</td><td>68.90</td><td>78.46</td></tr>
+                <tr class="is-ours"><th scope="row">Improved OptiFleet</th><td>4.17</td><td class="best">19.00</td><td class="best">35.15</td><td class="best">48.94</td><td class="best">60.91</td><td class="best">70.93</td><td class="best">79.26</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">TSUB: Taxi-based Sensing Utility Baseline, which defines utility from the number of distinct taxis that pass a grid cell in a time period. RA: random assignment. OptiFleet: the marginal-gain selection without the entropy criterion.</p>
+        </div>
+
+        <div class="result-block">
+          <h3>Estimation error against the full fleet</h3>
+          <p>
+            The measurements of the full fleet are taken as ground truth, and RMSE and MAPE
+            measure how far the estimates from a smaller selected fleet are from them. Accuracy
+            improves with fleet size at a diminishing rate, because each added vehicle
+            overlaps more with what is already covered. The average MAPE across space and time
+            drops below 5% at approximately 200 vehicles, and RMSE falls below 5 at 250. For
+            PM<sub>2.5</sub> with 200 vehicles, the paper ranks the strategies Improved
+            OptiFleet, OptiFleet, TSUB, RA, from lowest to highest estimation error.
+          </p>
+          <div class="pair">
+            <figure class="media-frame">
+              <img src="assets/media/estimation-errors.webp" width="2400" height="1417" loading="lazy" alt="Two line charts against the number of vehicles in the fleet, from 0 to 320, each with one line for NO, NO2, PM2.5 and PM10 and a dashed reference line at 5. Left, RMSE: the lines start between about 35 and 60, fall steeply for the first few dozen vehicles and then steadily, and cross the reference line between about 250 and 280 vehicles. Right, MAPE in percent: the lines start above 80 and fall the same way, with NO the highest throughout, crossing the reference line at about 200 vehicles for three pollutants and about 250 for NO." />
+              <figcaption>Estimation errors of the selected vehicle fleets as the fleet grows, for the four pollutants: RMSE (left) and MAPE (right). <span class="figure-source">Fig. 2 of the paper.</span></figcaption>
+            </figure>
+            <figure class="media-frame">
+              <img src="assets/media/error-maps.webp" width="2400" height="1800" loading="lazy" alt="Four maps of the study area in Guangzhou, divided into square grid cells and overlaid with the road network, each cell coloured by MAPE in percent from light yellow near 0 to dark red above 8: (a) Improved OptiFleet (our method), (b) OptiFleet, (c) TSUB and (d) RA. Most cells are light in every map; dark red cells are scattered, mainly toward the edges of the area." />
+              <figcaption>Spatial distribution of MAPE for PM<sub>2.5</sub> estimation with 200 vehicles under the four strategies. <span class="figure-source">Fig. 3 of the paper.</span></figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>What the weights contribute</h3>
+          <p>
+            An ablation compares variants with temporal weights, with spatial weights, and
+            without spatiotemporal weights on the same sensing task. Temporal weighting, which
+            captures traffic dynamics, is the component that matters for estimation accuracy;
+            spatial weighting from static street-view features gives only marginal
+            improvements. The paper concludes that dynamic urban signals should guide the
+            selection in mobile air quality monitoring.
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/weight-ablation.webp" width="2400" height="1070" loading="lazy" alt="Eight line charts in two rows of four, each plotting estimation error against the number of vehicles from 0 to 320 for three variants: with temporal weights, with spatial weights, and without spatiotemporal weights. Top row: MAPE in percent. Bottom row: RMSE. In every panel the three lines fall together as the fleet grows; the line with temporal weights runs slightly below the other two for small and medium fleets, and the lines with spatial weights and without weights almost coincide." />
+            <figcaption>Ablation on the contribution of spatial and temporal weighting: MAPE (top) and RMSE (bottom) against fleet size. <span class="figure-source">Fig. 4 of the paper.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Scope</h3>
+          <p>
+            The paper states its limit: the validation was conducted only in Guangzhou, because
+            of data availability, and how the framework generalizes to cities with different
+            traffic patterns, fleet structures and urban morphologies remains to be explored.
+            Estimation errors are measured against the full 320-vehicle fleet rather than an
+            independent reference, and the approximation guarantee for greedy selection rests
+            on the assumption that vehicle visits are independent.
+          </p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@inproceedings{zhong2025enhancing,
+  title={Enhancing Urban Sensing Utility with Sensor-enabled Vehicles
+         and Easily Accessible Data},
+  author={Hui Zhong and Qing-Long Lu and Qiming Zhang and Hongliang Lu and
+          Xinhu Zheng},
+  booktitle={2025 IEEE 28th International Conference on Intelligent
+             Transportation Systems (ITSC)},
+  pages={3218--3223},
+  year={2025},
+  doi={10.1109/ITSC60802.2025.11423491},
+  eprint={2512.07124},
+  archivePrefix={arXiv},
+  primaryClass={cs.ET},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>Vehicle-Based Urban Sensing is part of OMEGA Lab's research at HKUST(GZ).</p>
+        <a class="text-link" href="/projects/#urban-vehicle-sensing">More projects <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

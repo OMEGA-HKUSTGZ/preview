@@ -1,0 +1,12 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* Table I: the paper's method is not best in every column, so inside the highlighted row
+   only the best cells stay bold and in the brand colour. */
+.data-table tr.is-ours > td:not(.best) {
+  font-weight: 400;
+}
+.data-table tr.is-ours > td.best {
+  font-weight: 700;
+  color: var(--brand);
+}

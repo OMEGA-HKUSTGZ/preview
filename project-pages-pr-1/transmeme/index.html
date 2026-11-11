@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>TransMeme — OMEGA Lab</title>
+    <meta name="description" content="TransMeme: a multi-agent framework for cross-cultural meme transcreation between Chinese and English, with cultural planning, a DPO-trained rewriter and critic-guided revision. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="TransMeme — OMEGA Lab" />
+    <meta property="og:description" content="TransMeme: a multi-agent framework for cross-cultural meme transcreation between Chinese and English, with cultural planning, a DPO-trained rewriter and critic-guided revision. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/transmeme/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/transmeme/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="TransMeme overview: Interpreter, Coordinator, Adapter, Rewriter and Critic agents share a Transcreation Harness and turn input memes into target-culture output memes through an Execution Layer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/research/#multi-agent-systems">Multi-Agent Systems</a></li>
+          <li aria-current="page">TransMeme</li>
+        </ol>
+        <a class="crumbs-back" href="/research/#multi-agent-systems"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>MULTI-AGENT SYSTEMS · ACM MM 2026</p>
+        <h1>TransMeme</h1>
+        <p class="subtitle">A Multi-Agent Framework for Cross-Cultural Meme Transcreation</p>
+
+        <ul class="authors">
+          <li>Jingyi Zheng<sup>1,2</sup></li>
+          <li>Yule Liu<sup>1</sup></li>
+          <li>Zifan Peng<sup>1</sup></li>
+          <li>Tianyi Hu<sup>3</sup></li>
+          <li>Yuemeng Zhao<sup>1</sup></li>
+          <li>Xinhu Zheng<sup>1</sup></li>
+          <li>Xinlei He<sup>2,*</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>1</sup>Hong Kong University of Science and Technology (Guangzhou)</li>
+          <li><sup>2</sup>Wuhan University</li>
+          <li><sup>3</sup>Aarhus University</li>
+          <li><sup>*</sup>Corresponding author</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2608.27127">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://doi.org/10.1145/3767308.3836278">ACM DL <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://github.com/Jingyi62/TransMeme">Code <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/overview.webp" width="2400" height="758" alt="TransMeme pipeline. Input memes on the left pass through five agents: the Interpreter (understands meme semantics and image-text dependency), the Coordinator (controls workflow routing and revision orchestration), the Adapter (plans cultural adaptation for text and visuals, entered only when adaptation is needed), the Rewriter (generates target-culture text with DPO alignment) and the Critic (evaluates the transcreation plan and provides revision feedback, looping back to the Coordinator when revision is needed). All agents read from and write to a shared Transcreation Harness holding source text, core intent, humor mechanism, route decision, adaptation tier, visual mappings, caption candidates and critic feedback. An Execution Layer renders the output memes on the right, for example a Chinese celebration sticker of a pink beaver re-created with Pikachu and an English caption." />
+          <figcaption>
+            Overview of the multi-agent framework for cross-cultural meme transcreation. Five
+            agents share a Transcreation Harness; the Adapter is entered only when adaptation is
+            needed, and the Critic can send a case back for revision before the Execution Layer
+            renders the output meme.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>Re-creating a meme for another culture, not translating it</h2>
+          </div>
+          <p>
+            A meme works through the interplay of a short text, a visual template and shared
+            cultural knowledge, so restating its caption in another language rarely carries the
+            effect across. TransMeme starts from a task analysis: the target meme has to keep the
+            source's communicative intent, be natural for the target audience, and stay coherent
+            between text and image. It then assigns the resulting challenges to specialised
+            agents that plan the cultural adaptation, rewrite the text, critique the result and
+            revise it before the final image is rendered. On Chinese–English transcreation in
+            both directions, it scores best on all four dimensions in human evaluation and is
+            ranked first most often by an LLM judge on 1,000 memes.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>Culture-specific knowledge</h3>
+            <p>Memes lean on local entities, stereotypes, public events and discourse conventions. The system has to decide whether to keep a reference, reframe it, or replace it with a target-side analogue.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>Intent and tone</h3>
+            <p>Sarcasm, irony, exaggeration and stance are rarely preserved by semantic transfer alone. The text has to rebuild the communicative effect, not only the propositional content.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>Multimodal consistency</h3>
+            <p>Text and image produce the effect together. The system has to judge whether the original image still fits, should be edited, or needs a new realization.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>Five agents, a shared harness and a conditional visual step</h2>
+            </div>
+            <p>
+              The framework takes a source meme image and produces a target meme. The
+              Interpreter, Coordinator, Adapter, Rewriter and Critic read from and write to a
+              Transcreation Harness that keeps the pipeline's intermediate state: the source
+              understanding, routing decisions, cultural mappings, generated text and critic
+              feedback. Once revision is complete, the Execution Layer applies the approved text
+              with the selected visual strategy, which may preserve the original image, replace
+              the text, or perform stronger visual editing when deeper adaptation is required.
+            </p>
+          </div>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Interpreter and Coordinator</h3>
+              <p>The Interpreter infers the meme's core intent, humor mechanism, emotional stance and background knowledge, and how far the effect depends on the image. The Coordinator sends simple cases down a lightweight path and difficult ones through the full path, and later decides whether to accept a result or return it for rewriting, cultural remapping or a different visual plan.</p>
+            </li>
+            <li>
+              <h3>Adapter</h3>
+              <p>Builds an explicit plan before any text is generated: which culture-specific elements to preserve, reformulate or replace, at one of three adaptation tiers (literal, minimal rephrase, cultural map). It also produces a visual plan stating which visual elements stay fixed and which may be replaced or reinterpreted.</p>
+            </li>
+            <li>
+              <h3>Rewriter with DPO</h3>
+              <p>Generates target-text candidates under the plan's constraints. It is initialized from Qwen3-8B and trained with Direct Preference Optimization and LoRA on human-ranked rewrites of web-sourced colloquial expressions and slang (500 Chinese and 500 English instances), a corpus built independently of the meme benchmark.</p>
+            </li>
+            <li>
+              <h3>Critic</h3>
+              <p>Scores the three candidates the Rewriter produces at inference time, selects the best, and checks intent preservation, cultural adaptation and image-text coherence. When it finds a problem, its feedback names what to revise: the text, the cultural mapping or the visual plan.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Human evaluation, an LLM judge on 1,000 memes, and component analysis</h2>
+          </div>
+          <p>
+            Following the benchmark of Zhao et al. (2026), the evaluation uses 1,000 randomly
+            sampled memes: 500 Chinese-to-English and 500 English-to-Chinese. TransMeme (M) is
+            compared with three baselines under identical inputs and outputs. Five bilingual
+            annotators rate 200 of the memes on four dimensions with a 5-point scale and rank the
+            systems; an LLM evaluator (Qwen3.5-plus) following the same guidelines covers the
+            full set. In the experiments the Interpreter uses Qwen3-VL-Plus, the Coordinator,
+            Adapter and Critic use Qwen3-Max, and the Execution Layer uses Qwen-Image-2.0.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>Human evaluation · average</dt>
+            <dd>4.122</dd>
+            <dd class="stat-note">Mean of four 5-point dimensions on 200 memes; the strongest baseline (B2) reaches 3.097. Table&nbsp;3.</dd>
+          </div>
+          <div>
+            <dt>Top-1 rate · LLM judge</dt>
+            <dd>60%</dd>
+            <dd class="stat-note">Share of the 1,000 memes on which TransMeme is ranked first; 26% for the second-best baseline.</dd>
+          </div>
+          <div>
+            <dt>Critic revision</dt>
+            <dd>105 / 125</dd>
+            <dd class="stat-note">Cases entering the revision loop in which an LLM evaluator prefers the revised output to the pre-revision one (84.0%).</dd>
+          </div>
+          <div>
+            <dt>Cultural planning</dt>
+            <dd>180 / 181</dd>
+            <dd class="stat-note">Samples triggering the module on which an LLM evaluator prefers the full system to a variant without cultural planning.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>Human evaluation</h3>
+          <p>TransMeme has the best score on every dimension, a 33.1% average improvement over the strongest baseline. Its gains over all baselines are statistically significant on every dimension and on the average (two-sided Wilcoxon signed-rank tests, all p&nbsp;&lt;&nbsp;0.001, also after Bonferroni correction).</p>
+          <p class="table-caption">Table 3 of the paper: aggregated human evaluation on 200 memes (100 per direction), 5-point Likert scale. Avg. is the mean of the four dimension scores.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Intent ↑</th>
+                  <th scope="col">Adaptation ↑</th>
+                  <th scope="col">Coherence ↑</th>
+                  <th scope="col">Quality ↑</th>
+                  <th scope="col">Avg. ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">B1 · Direct one-shot transcreation</th>
+                  <td>1.187</td><td>1.328</td><td>1.180</td><td>1.172</td><td>1.217</td>
+                </tr>
+                <tr>
+                  <th scope="row">B2 · Structured single-agent transcreation</th>
+                  <td>3.385</td><td>3.138</td><td>3.380</td><td>2.484</td><td>3.097</td>
+                </tr>
+                <tr>
+                  <th scope="row">B3 · Reference benchmark baseline</th>
+                  <td>1.716</td><td>1.818</td><td>1.910</td><td>1.800</td><td>1.811</td>
+                </tr>
+                <tr class="is-ours">
+                  <th scope="row">M · TransMeme</th>
+                  <td class="best">3.950</td><td class="best">4.097</td><td class="best">4.111</td><td class="best">4.328</td><td class="best">4.122</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            Intent: Intent Preservation; Adaptation: Cultural Adaptation; Coherence: Multimodal
+            Coherence; Quality: Expression Quality. B1 generates the target meme in a single pass
+            with Qwen-image-2.0. B2 prompts Qwen3-VL-Plus for a structured transcreation plan,
+            executed by Qwen-image-2.0. B3 is adopted from Zhao et al. (2026). Annotator agreement
+            on the scalar ratings, ICC(2,1): 0.842 for intent, 0.772 for adaptation, 0.821 for
+            coherence and 0.809 for quality; Kendall's W over full rankings: 0.604.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>LLM-as-a-Judge on the full set</h3>
+          <p>
+            On all 1,000 memes the same ordering holds: TransMeme leads on every dimension and in
+            both directions, and is ranked first on 60% of the memes. Validated on the 200
+            human-annotated memes, the evaluator's scores correlate with mean human ratings at
+            Spearman 0.693 to 0.802 across the four dimensions, and its Top-1 choice agrees with
+            the aggregated human choice in 89.0% of cases; agreement on full rankings is more
+            moderate (mean Kendall's τ of 0.422). The paper uses it as a scalable proxy and keeps
+            human evaluation as the primary reference.
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/llm-results.webp" width="2400" height="738" loading="lazy" alt="Three bar charts of LLM-judge results on 1,000 memes for M (multi-agent framework), B1 (one-shot), B2 (structured single-agent) and B3 (benchmark baseline). A, average score by dimension: Intent Preservation 4.08, 1.49, 3.32, 1.91; Cultural Adaptation 3.91, 1.75, 3.40, 2.12; Multimodal Coherence 3.84, 1.50, 3.33, 2.45; Expression Quality 4.01, 1.51, 3.37, 2.57. B, overall score by direction, Chinese-to-English then English-to-Chinese: M 3.99 and 3.93, B1 1.60 and 1.53, B2 3.62 and 3.09, B3 2.04 and 2.49. C, overall Top-1 rate: M 0.60, B1 0.03, B2 0.26, B3 0.11." />
+            <figcaption>
+              Main LLM-based results: (A) comparison by dimension, (B) average score by
+              transcreation direction, (C) Top-1 selection rate.
+              <span class="figure-source">Fig. 2 of the paper.</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Qualitative comparison</h3>
+          <p>
+            The paper shows a randomly selected set of examples. In the first column TransMeme
+            replaces the character Loopy with Pikachu as a figure the target audience recognizes
+            more readily, and in the fourth it replaces a red envelope with a transfer record.
+            The baselines often produce literal or awkward target text, insufficient cultural
+            adaptation, or a mismatch between image and text.
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/cases.webp" width="2400" height="1483" loading="lazy" alt="A grid of seven source memes (columns) and five rows: Original, Ours, B1, B2 and B3. Four originals are Chinese and three English. In the Ours row: a pink beaver sticker captioned with a Chinese celebration phrase becomes Pikachu with an English caption; a monkey meme with Chinese internet slang becomes “No cap??”; a wok captioned “加油” becomes “Fire it up!”; a panda holding a red envelope becomes a raccoon holding a payment notification with “No tip, no help. Pay first, help later.”; and three English memes (a man staring into a room, instant noodles, an animated film still about a teacher's monologue) receive rewritten Chinese captions on the original images. The B1 row shows garbled text, the B2 row more literal captions, and the B3 row newly generated cartoon images." />
+            <figcaption>
+              Qualitative comparison of meme transcreation results: source memes (Original),
+              TransMeme (Ours) and the three baselines. All target memes are generated outputs.
+              <span class="figure-source">Fig. 3 of the paper.</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Component analysis and scope</h3>
+          <p>
+            Each component is analysed separately, with LLM evaluators. In text-level scoring on
+            200 instances, the DPO-trained Rewriter averages 4.177 over naturalness, cultural
+            quality and humor,
+            against 2.838 without DPO and 3.835 when Qwen3-Max replaces the rewriter. The Critic
+            loop is entered by 125 of the 1,000 samples (106 Chinese-to-English, 19
+            English-to-Chinese), mostly for cultural mismatch (75) and intent drift (47). Cultural
+            planning is triggered for 181 samples, 155 of them Chinese-to-English (Section 4.3
+            and Fig. 4 of the paper).
+          </p>
+          <p>
+            The paper also states what remains open. TransMeme is not ranked first on 400 of the
+            1,000 samples; a manual analysis attributes 67.8% of these to weak humor
+            reconstruction, 27.0% to image-text mismatch and 5.3% to cultural knowledge gaps. The
+            experiments cover Chinese–English transcreation and use models from a single family;
+            the authors present this as a controlled test of the framework design and leave
+            broader cross-family validation to future work.
+          </p>
+          <p class="availability">The code repository contains the multi-agent pipeline, scripts for the compared systems, the annotation interface and the 1,000 final TransMeme outputs of the evaluation.</p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@inproceedings{zheng2026transmeme,
+  title={TransMeme: A Multi-Agent Framework for Cross-Cultural Meme Transcreation},
+  author={Jingyi Zheng and Yule Liu and Zifan Peng and Tianyi Hu and Yuemeng Zhao and Xinhu Zheng and Xinlei He},
+  booktitle={Proceedings of the 34th ACM International Conference on Multimedia (MM '26)},
+  year={2026},
+  publisher={ACM},
+  doi={10.1145/3767308.3836278},
+  eprint={2608.27127},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/2608.27127},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>TransMeme is part of OMEGA Lab's research on multi-agent systems at HKUST(GZ).</p>
+        <a class="text-link" href="/research/#multi-agent-systems">More in Multi-Agent Systems <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

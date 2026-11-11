@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Scale Propagation Network — OMEGA Lab</title>
+    <meta name="description" content="Scale Propagation Network: depth completion that generalizes to unseen scenes by replacing conventional normalization layers with scale propagation normalization (SP-Norm) in a ConvNeXt V2-based network. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="Scale Propagation Network — OMEGA Lab" />
+    <meta property="og:description" content="Scale Propagation Network: depth completion that generalizes to unseen scenes by replacing conventional normalization layers with scale propagation normalization (SP-Norm) in a ConvNeXt V2-based network. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/scale-propagation-network/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/scale-propagation-network/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="3D views of completed depth on Ibims, ETH3D, Sintel, NYUv2 and KITTI scenes: raw sparse depth, a baseline, and the paper's model" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/research/#scene-understanding">Multimodal Perception</a></li>
+          <li aria-current="page">Scale Propagation Network</li>
+        </ol>
+        <a class="crumbs-back" href="/research/#scene-understanding"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>DEPTH COMPLETION · IEEE TPAMI 2025</p>
+        <h1 class="title-long">Scale Propagation Network</h1>
+        <p class="subtitle">for Generalizable Depth Completion</p>
+
+        <ul class="authors">
+          <li>Haotian Wang<sup>1</sup></li>
+          <li>Meng Yang<sup>1</sup></li>
+          <li>Xinhu Zheng<sup>2</sup></li>
+          <li>Gang Hua<sup>3,1</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>1</sup>Institute of Artificial Intelligence and Robotics, Xi'an Jiaotong University</li>
+          <li><sup>2</sup>Intelligent Transportation Thrust of the Systems Hub, Hong Kong University of Science and Technology (GZ)</li>
+          <li><sup>3</sup>Multimodal Experiences Lab, Dolby Laboratories Inc</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2410.18408">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://doi.org/10.1109/TPAMI.2024.3513440">IEEE TPAMI <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://github.com/Wang-xjtu/SPNet">Code <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/teaser.webp" width="2400" height="688" alt="3D views of five scenes, one each from Ibims, ETH3D, Sintel, NYUv2 and KITTI, in three rows. Top row, Raw: the sparse input depth, shown as scattered points for the first three scenes, a depth map with holes for NYUv2 and LiDAR scan lines for KITTI. Middle row, Baseline: completed depth with bent walls, warped floors and smeared objects. Bottom row, Ours: completed depth in which the office, the garage, the close-up object, the kitchen and the street with cars keep straight surfaces and their structure." />
+          <figcaption>
+            Generalizable depth completion across different scenes by the paper's model and a
+            recent baseline (CompletionFormer), shown in 3D view. The model infers accurate depth
+            values and so keeps the structure of objects; it is also faster, 126.6 against
+            11.1&nbsp;image/s on a 3090 GPU.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>A normalization layer that carries depth scale from input to output</h2>
+          </div>
+          <p>
+            Depth completion infers a dense depth map from sparse depth measurements and an RGB
+            image. Deep models do this well on the scenes they were trained on, but generalize
+            poorly to scenes not observed in training. The paper traces a key bottleneck to the
+            conventional normalization layers these networks borrow from image-analysis
+            backbones: they build invariance to scene scale, while in depth completion the scale
+            is exactly what has to be estimated. It proposes scale propagation normalization
+            (SP-Norm), which propagates scale from input to output and keeps the normalization
+            operator for easy convergence, and builds a network on SP-Norm and the ConvNeXt&nbsp;V2
+            backbone.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>Scale is propagated, not normalized away</h3>
+            <p>SP-Norm rescales its input with features that a single-layer perceptron learns from the normalized input, instead of outputting the normalized input as conventional layers do.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>One model, six unseen datasets</h3>
+            <p>Trained on a mix of four indoor/outdoor, real/synthetic datasets and tested on six others, with randomly sampled pixels, 4- to 64-line LiDAR points and structured-light depth with holes.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>Fast, low-memory inference</h3>
+            <p>A heavyweight encoder with a lightweight decoder. The Tiny configuration runs at 126.6&nbsp;image/s in 330&nbsp;MB on a 3090 GPU at 320&nbsp;×&nbsp;320.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>SP-Norm and a ConvNeXt V2-based encoder–decoder</h2>
+            </div>
+            <p>
+              The paper states a scale propagation property: the output dense depth should stay
+              proportional to the input sparse depth, which it examines through the mean and
+              variance of each layer's output. Conventional normalization layers (BN, IN, LN)
+              cannot always satisfy it, because after normalization the output mean and variance
+              depend only on learned affine factors that are constant at test time.
+              Non-normalization techniques such as ReZero rescale the input with a learnable
+              scalar and keep the scale, but removing normalization harms training stability,
+              especially in large models. SP-Norm is designed to keep both.
+            </p>
+          </div>
+
+          <figure class="media-frame">
+            <img src="assets/media/sp-norm.webp" width="2400" height="1002" loading="lazy" alt="Two diagrams of feature distributions. Top, conventional normalization: two inputs with different means and variances are normalized to the same distribution, and learned affine factors then give a single output distribution whose mean and variance depend only on those factors. Bottom, scale propagation normalization: the two inputs are normalized, a single-layer perceptron (SLP) turns the normalized input into learned features, and each original input is multiplied by those features, giving two output distributions whose means and variances still follow their own inputs." />
+            <figcaption>
+              Conventional normalization maps inputs with different scales to one output scale,
+              which depends only on the learnable affine factors. SP-Norm preserves the varying
+              scales of the inputs in the outputs: the output scales depend on both the input
+              scales and the learnable parameters of the single-layer perceptron (SLP).
+              <span class="figure-source">Fig. 4 of the paper.</span>
+            </figcaption>
+          </figure>
+
+          <ul class="method-parts">
+            <li>
+              <h3>SP-Norm</h3>
+              <p>Three components: a normalization operator, an SLP and a multiplier. The input is normalized, the SLP produces learned features from it, and the original input is multiplied by those features. It operates along the channel dimension.</p>
+            </li>
+            <li>
+              <h3>Property holds from the start</h3>
+              <p>The paper derives the output mean and variance and shows that SP-Norm can always learn to satisfy the scale propagation property, and that it already does so at the beginning of training under Xavier Normal initialization.</p>
+            </li>
+            <li>
+              <h3>Basic block</h3>
+              <p>The ConvNeXt&nbsp;V2 block with every LN replaced by SP-Norm, GRN removed because it may suppress features from sparse depth maps with many zero-valued pixels, and GELU replaced by ReLU for speed.</p>
+            </li>
+            <li>
+              <h3>Architecture and training</h3>
+              <p>Four stages at 1/4 to 1/32 resolution, a heavyweight encoder, a decoder of three blocks, and long-range skip connections, in Tiny, Small, Base and Large configurations. Resized-Crop and Depth-Scaling augmentation simulate diverse scene scales.</p>
+            </li>
+          </ul>
+
+          <figure class="media-frame">
+            <img src="assets/media/network.webp" width="2119" height="602" loading="lazy" alt="Network diagram. A stem feeds four encoder stages at H/4, H/8, H/16 and H/32 resolution with 3, 3, 9 and 3 basic blocks, each preceded by a downsampling layer. The decoder path returns through upsampling layers with one basic block at each of the H/16, H/8 and H/4 stages and ends in a head. Legend: the stem is a 3×3 convolution followed by downsampling; the head is upsampling followed by a 3×3 convolution; downsampling is SP-Normalization and a 2×2 stride-2 convolution; upsampling is a 2×2 transposed convolution; a block is a 7×7 depth-wise convolution, SP-Normalization, a 1×1 convolution, ReLU and a 1×1 convolution." />
+            <figcaption>
+              The framework of the network, shown with the Tiny block counts. “conv”, “convt” and
+              “dconv” are convolution, transposed convolution and depth-wise convolution; “s1” and
+              “p1” are stride 1 and padding 1.
+              <span class="figure-source">Fig. 6 of the paper.</span>
+            </figcaption>
+          </figure>
+
+          <p class="availability">
+            Released by the authors in the code repository: training and test code, pretrained
+            Tiny, Small, Base and Large models, a test dataset, and two example training sets
+            (UnrealCV, and hole masks collected from HRWSI).
+          </p>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Six unseen datasets, three kinds of sparse depth</h2>
+          </div>
+          <p>
+            The network is trained on a mix of Matterport3D, HRWSI, vKITTI and UnrealCV and tested
+            on Ibims, KITTI, NYUv2, DIODE, ETH3D and Sintel, none of them seen in training. It is
+            compared with ten depth completion methods, both as twelve officially released models
+            and as six models retrained on the paper's training data. Metrics are absolute
+            relative error (Rel), root mean squared error (RMSE), and the average rank across
+            datasets and metrics (Rank); lower is better for all three.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>Rank · six unseen datasets</dt>
+            <dd>1.1</dd>
+            <dd class="stat-note">Average rank among thirteen models with 0.1%/1%/10% random pixels; the next best released model is at 2.1. Table&nbsp;II.</dd>
+          </div>
+          <div>
+            <dt>KITTI · <span class="keep-case">Rel</span></dt>
+            <dd>0.065</dd>
+            <dd class="stat-note">Random-pixel inputs, KITTI unseen in training; 0.156 for the next best released model. Table&nbsp;II.</dd>
+          </div>
+          <div>
+            <dt>KITTI · 4-line LiDAR</dt>
+            <dd>0.055</dd>
+            <dd class="stat-note">Rel, with RMSE 8.21; best of the released models on 4-, 8- and 16-line inputs. Table&nbsp;III.</dd>
+          </div>
+          <div>
+            <dt>Tiny · image/s</dt>
+            <dd>126.6</dd>
+            <dd class="stat-note">Inference speed on a 3090 GPU at 320&nbsp;×&nbsp;320, with 35.0&nbsp;M parameters and 330&nbsp;MB memory. Table&nbsp;VI.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>Randomly sampled pixels</h3>
+          <p>With sparse depth randomly sampled from the ground truth, the model has the lowest Rank and the best Rel on all six datasets; a released baseline is ahead only in RMSE on NYUv2.</p>
+          <p class="table-caption">Table II of the paper: comparison with released baseline models on sparse depth maps with randomly sampled 0.1%/1%/10% valid pixels, averaged over the three levels.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">Method</th>
+                  <th scope="colgroup" colspan="2">Ibims</th>
+                  <th scope="colgroup" colspan="2">NYUv2</th>
+                  <th scope="colgroup" colspan="2">KITTI</th>
+                  <th scope="colgroup" colspan="2">DIODE</th>
+                  <th scope="colgroup" colspan="2">ETH3D</th>
+                  <th scope="colgroup" colspan="2">Sintel</th>
+                  <th scope="col" rowspan="2">Rank ↓</th>
+                </tr>
+                <tr>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">NLSPN<sup>nyu</sup></th><td>0.106</td><td>3.99</td><td>0.056</td><td>7.06</td><td>0.208</td><td>14.55</td><td>0.264</td><td>9.65</td><td>1.151</td><td>10.83</td><td>5.572</td><td>13.14</td><td>4.8</td></tr>
+                <tr><th scope="row">NLSPN<sup>kitti</sup></th><td>0.098</td><td>4.64</td><td>0.095</td><td>11.27</td><td>0.240</td><td>15.25</td><td>0.333</td><td>11.19</td><td>1.168</td><td>12.01</td><td>8.038</td><td>18.04</td><td>7.1</td></tr>
+                <tr><th scope="row">GuideNet</th><td>0.238</td><td>7.76</td><td>0.170</td><td>17.67</td><td>0.472</td><td>22.31</td><td>0.544</td><td>15.78</td><td>1.445</td><td>14.83</td><td>11.045</td><td>30.39</td><td>11.7</td></tr>
+                <tr><th scope="row">TWISE</th><td>0.118</td><td>5.67</td><td>0.117</td><td>15.22</td><td>0.304</td><td>27.87</td><td>0.327</td><td>13.27</td><td>1.207</td><td>13.14</td><td>10.177</td><td>22.39</td><td>9.4</td></tr>
+                <tr><th scope="row">MDANet</th><td>0.159</td><td>6.79</td><td>0.225</td><td>22.59</td><td>0.302</td><td>19.25</td><td>0.272</td><td>12.60</td><td>0.554</td><td>8.12</td><td>6.232</td><td>18.87</td><td>8.2</td></tr>
+                <tr><th scope="row">EMDC</th><td>0.194</td><td>8.85</td><td>0.178</td><td>19.85</td><td>0.214</td><td>15.46</td><td>0.365</td><td>14.51</td><td>0.126</td><td>3.39</td><td>4.204</td><td>13.12</td><td>7.6</td></tr>
+                <tr><th scope="row">SemAttNet</th><td>0.184</td><td>8.83</td><td>0.315</td><td>31.48</td><td>0.325</td><td>30.67</td><td>0.313</td><td>17.96</td><td>0.928</td><td>10.10</td><td>6.781</td><td>25.34</td><td>10.6</td></tr>
+                <tr><th scope="row">CFormer<sup>nyu</sup></th><td>0.117</td><td>4.01</td><td>0.075</td><td>9.22</td><td>0.324</td><td>17.81</td><td>0.275</td><td>9.64</td><td>1.656</td><td>14.76</td><td>6.281</td><td>15.73</td><td>7.0</td></tr>
+                <tr><th scope="row">CFormer<sup>kitti</sup></th><td>0.206</td><td>7.44</td><td>0.093</td><td>10.66</td><td>0.533</td><td>22.09</td><td>0.504</td><td>14.14</td><td>2.426</td><td>22.40</td><td>18.661</td><td>27.86</td><td>10.7</td></tr>
+                <tr><th scope="row">LRRU</th><td>0.072</td><td>4.53</td><td>0.093</td><td>12.92</td><td>0.318</td><td>18.76</td><td>0.240</td><td>11.29</td><td>0.306</td><td>5.45</td><td>0.997</td><td>9.71</td><td>5.2</td></tr>
+                <tr><th scope="row">G2MD</th><td>0.018</td><td>1.70</td><td>0.027</td><td class="best">4.99</td><td>0.156</td><td>12.13</td><td>0.148</td><td>7.36</td><td>0.282</td><td>3.54</td><td>0.815</td><td>5.28</td><td>2.1</td></tr>
+                <tr><th scope="row">DFU</th><td>0.092</td><td>4.95</td><td>0.098</td><td>13.98</td><td>0.277</td><td>17.66</td><td>0.266</td><td>11.18</td><td>0.726</td><td>8.18</td><td>2.623</td><td>12.59</td><td>5.8</td></tr>
+                <tr class="is-ours">
+                  <th scope="row">Ours</th>
+                  <td class="best">0.012</td><td class="best">1.51</td><td class="best">0.025</td><td>5.11</td><td class="best">0.065</td><td class="best">8.00</td><td class="best">0.137</td><td class="best">7.29</td><td class="best">0.051</td><td class="best">1.98</td><td class="best">0.080</td><td class="best">4.24</td><td class="best">1.1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            Superscripts mark the dataset a released model was trained on (NYUv2 or KITTI).
+            GuideNet, TWISE, MDANet, SemAttNet, LRRU and DFU are also KITTI-trained; EMDC and G2MD
+            are trained on other datasets. CFormer is CompletionFormer and G2MD is G2-MonoDepth.
+            The “Ours” values are those of the Large configuration in Table&nbsp;XI. Highlighted
+            values are the best in each column.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>LiDAR lines and sensor holes</h3>
+          <p>
+            With LiDAR points sampled from KITTI and raw structured-light depth from NYUv2, the
+            model again has the lowest Rank: best on 4-, 8- and 16-line inputs and second best on
+            the NYUv2 holes. On 32- and 64-line inputs the KITTI-trained baselines are ahead; the
+            paper notes that they are trained on KITTI's training set, while KITTI is unseen for
+            this model.
+          </p>
+          <p class="table-caption">Table III of the paper: comparison with released baseline models on raw depth maps with holes from NYUv2 and on sparse depth maps with 4/8/16/32/64-line LiDAR points from KITTI.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">Method</th>
+                  <th scope="colgroup" colspan="2">NYUv2 holes</th>
+                  <th scope="colgroup" colspan="2">KITTI 4-line</th>
+                  <th scope="colgroup" colspan="2">KITTI 8-line</th>
+                  <th scope="colgroup" colspan="2">KITTI 16-line</th>
+                  <th scope="colgroup" colspan="2">KITTI 32-line</th>
+                  <th scope="colgroup" colspan="2">KITTI 64-line</th>
+                  <th scope="col" rowspan="2">Rank ↓</th>
+                </tr>
+                <tr>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                  <th scope="col">Rel ↓</th><th scope="col">RMSE ↓</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">NLSPN<sup>nyu</sup></th><td>0.025</td><td>5.49</td><td>0.193</td><td>16.64</td><td>0.077</td><td>10.54</td><td>0.046</td><td>7.67</td><td>0.038</td><td>6.33</td><td>0.035</td><td>5.61</td><td>6.9</td></tr>
+                <tr><th scope="row">NLSPN<sup>kitti</sup></th><td>0.044</td><td>10.17</td><td>0.188</td><td>13.35</td><td>0.103</td><td>8.96</td><td>0.041</td><td>5.24</td><td>0.023</td><td>3.45</td><td class="best">0.012</td><td>2.24</td><td>3.8</td></tr>
+                <tr><th scope="row">GuideNet</th><td>1.580</td><td>97.28</td><td>0.567</td><td>28.18</td><td>0.275</td><td>16.87</td><td>0.115</td><td>8.76</td><td>0.054</td><td>5.26</td><td>0.022</td><td>3.17</td><td>10.7</td></tr>
+                <tr><th scope="row">TWISE</th><td>0.084</td><td>10.97</td><td>0.372</td><td>41.35</td><td>0.134</td><td>21.27</td><td>0.066</td><td>16.32</td><td>0.034</td><td>10.39</td><td>0.019</td><td>6.55</td><td>9.6</td></tr>
+                <tr><th scope="row">MDANet</th><td>0.298</td><td>24.58</td><td>0.208</td><td>16.08</td><td>0.130</td><td>10.34</td><td>0.051</td><td>5.47</td><td>0.026</td><td>3.49</td><td>0.013</td><td>2.23</td><td>6.3</td></tr>
+                <tr><th scope="row">EMDC</th><td>0.729</td><td>63.82</td><td>0.485</td><td>24.77</td><td>0.367</td><td>22.94</td><td>0.267</td><td>20.96</td><td>0.215</td><td>19.73</td><td>0.187</td><td>18.90</td><td>12.5</td></tr>
+                <tr><th scope="row">SemAttNet</th><td>0.283</td><td>25.56</td><td>0.258</td><td>24.76</td><td>0.213</td><td>25.37</td><td>0.106</td><td>17.70</td><td>0.047</td><td>10.67</td><td>0.023</td><td>6.74</td><td>10.8</td></tr>
+                <tr><th scope="row">CFormer<sup>nyu</sup></th><td>0.335</td><td>26.57</td><td>0.225</td><td>17.52</td><td>0.105</td><td>12.23</td><td>0.049</td><td>8.06</td><td>0.039</td><td>6.38</td><td>0.036</td><td>5.76</td><td>9.4</td></tr>
+                <tr><th scope="row">CFormer<sup>kitti</sup></th><td>0.029</td><td>6.52</td><td>0.262</td><td>16.13</td><td>0.085</td><td>9.27</td><td>0.040</td><td>5.66</td><td class="best">0.021</td><td>3.56</td><td class="best">0.012</td><td>2.30</td><td>4.3</td></tr>
+                <tr><th scope="row">LRRU</th><td>0.059</td><td>13.68</td><td>0.226</td><td>16.57</td><td>0.107</td><td>10.45</td><td>0.042</td><td>5.84</td><td>0.022</td><td class="best">3.29</td><td>0.013</td><td class="best">2.20</td><td>5.0</td></tr>
+                <tr><th scope="row">G2MD</th><td class="best">0.015</td><td class="best">3.69</td><td>0.070</td><td>9.88</td><td>0.045</td><td>7.25</td><td>0.035</td><td>5.88</td><td>0.028</td><td>4.76</td><td>0.025</td><td>4.23</td><td>4.2</td></tr>
+                <tr><th scope="row">DFU</th><td>0.098</td><td>17.47</td><td>0.176</td><td>14.93</td><td>0.089</td><td>9.72</td><td>0.042</td><td>5.96</td><td>0.022</td><td>3.43</td><td>0.013</td><td>2.21</td><td>4.8</td></tr>
+                <tr class="is-ours">
+                  <th scope="row">Ours</th>
+                  <td>0.019</td><td>4.23</td><td class="best">0.055</td><td class="best">8.21</td><td class="best">0.037</td><td class="best">6.31</td><td class="best">0.029</td><td class="best">5.21</td><td>0.025</td><td>4.40</td><td>0.022</td><td>3.81</td><td class="best">3.0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            Model names as in the table above. Highlighted values are the best in each column;
+            NLSPN<sup>kitti</sup> ties the best 64-line Rel.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>Retrained baselines</h3>
+          <p>
+            To separate the architecture from the training data, six baselines (NLSPN, MDANet,
+            CFormer, LRRU, G2MD and DFU) are retrained on the paper's training data with the same
+            augmentations. The model keeps the lowest Rank in both settings: 1.5 against 1.7 for
+            the best retrained baseline on random pixels, and 1.5 against 2.0 on LiDAR lines and
+            NYUv2 holes (Tables IV and V of the paper).
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>Speed and memory</h3>
+          <p>
+            Inference cost is measured on a 3090 GPU at 320&nbsp;×&nbsp;320 in PyTorch. The Tiny
+            model is the fastest of all compared models at 126.6&nbsp;image/s (7.9&nbsp;ms per
+            forward pass), with the second-lowest FLOPs (15.4&nbsp;G) and the third-lowest memory
+            (330&nbsp;MB), and it is still more accurate than every baseline. The Large model, the
+            most accurate, runs at 60.2&nbsp;image/s with 235.5&nbsp;M parameters and
+            1176&nbsp;MB; CFormer runs at 11.1&nbsp;image/s (Table VI of the paper). With the
+            original ConvNeXt&nbsp;V2 block in place of the modified one, the Tiny model's speed
+            drops from 126.6 to 114.1&nbsp;image/s.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>Visual comparison</h3>
+          <p>The examples come from the experiments in Tables II and III. The paper attributes the clear structures and accurate scene scales to the scale propagation property of SP-Norm.</p>
+          <figure class="media-frame">
+            <img src="assets/media/qualitative.webp" width="2381" height="2108" loading="lazy" alt="A grid of depth maps for five scenes, indoor and outdoor, in nine rows: the RGB image, the raw sparse depth, the outputs of MDANet, EMDC, SemAttNet, CFormer trained on NYUv2 and CFormer trained on KITTI, the output of the paper's model, and the ground truth. The baseline outputs are blurred, miss objects or show wrong depth ranges in several scenes; the paper's model gives sharp object boundaries and a depth range close to the ground truth in all five." />
+            <figcaption>
+              Visual comparison on different scenes with various types of sparse depth maps.
+              Rows: RGB image, raw sparse depth, five released baseline models, the paper's model
+              and the ground truth.
+              <span class="figure-source">Fig. 8 of the paper.</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Robustness</h3>
+          <p>
+            With fewer valid pixels, the model stays effective down to a sparsity level of 0.005%
+            in most scenarios and degrades significantly at 0.001%, about 2.05 valid pixels at
+            640&nbsp;×&nbsp;320. On ETH3D it degrades rapidly below 0.01%, which the paper
+            attributes to that dataset's sparse ground truth. Under five KITTI-C conditions
+            (brightness, dark, contrast, fog and motion blur, on Eigen's test split) it has the
+            lowest error among the compared released models, which the paper attributes to the
+            diverse training data.
+          </p>
+          <div class="pair">
+            <figure class="media-frame">
+              <img src="assets/media/sparsity.webp" width="1911" height="1921" loading="lazy" alt="Two bar charts, Rel on top and RMSE below, for Ibims, NYUv2, KITTI, DIODE, ETH3D and Sintel at seven sparsity levels from 10% to 0.001% valid pixels. Errors stay low from 10% to 0.05%, rise gradually to 0.005% and jump at 0.001%; ETH3D and Sintel rise earliest and highest." />
+              <figcaption>Performance of the model at sparsity levels from 10% to 0.001% valid pixels on the six test datasets. <span class="figure-source">Fig. 10 of the paper.</span></figcaption>
+            </figure>
+            <figure class="media-frame">
+              <img src="assets/media/light-conditions.webp" width="2048" height="2068" loading="lazy" alt="Two line charts, Rel on top and RMSE below, across five KITTI-C conditions: brightness, dark, contrast, fog and motion blur. Lines for the paper's model, CFormer, NLSPN, DFU and LRRU; the paper's model has the lowest error in every condition." />
+              <figcaption>Performance under varying light conditions from KITTI-C, against released baseline models. <span class="figure-source">Fig. 11 of the paper.</span></figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>Ablations and scope</h3>
+          <p>
+            In ablations trained for 90 epochs on random-pixel inputs, SP-Norm ranks first on
+            both metrics against BN, IN, LN and ReZero in the same network, with ReZero second;
+            inserting SP-Norm into NLSPN, CFormer, LRRU and DFU improves the Rank of all four.
+            Without the normalization operator, or with an adder in place of the multiplier, the
+            network does not converge (Tables VII–XI of the paper).
+          </p>
+          <p>
+            The paper states the conditions: every test dataset is unseen in training, and
+            baselines trained on KITTI's training set remain ahead on its 32- and 64-line inputs; training uses
+            automatic mixed precision, which may slightly impair the final performance; and the
+            proportions between input and output scales in SP-Norm are constant at test time,
+            chosen for simplicity and efficiency. The authors name dynamic proportions, pseudo
+            labels, pre-training and unlabeled data as future work.
+          </p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@article{wang2025scale,
+  title={Scale Propagation Network for Generalizable Depth Completion},
+  author={Wang, Haotian and Yang, Meng and Zheng, Xinhu and Hua, Gang},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume={47},
+  number={3},
+  pages={1908--1922},
+  year={2025},
+  doi={10.1109/TPAMI.2024.3513440},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>Scale Propagation Network is part of OMEGA Lab's research on multimodal perception at HKUST(GZ).</p>
+        <a class="text-link" href="/research/#scene-understanding">More in Multimodal Perception <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

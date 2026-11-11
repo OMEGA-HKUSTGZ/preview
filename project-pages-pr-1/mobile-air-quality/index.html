@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Mobile Air-Quality Mapping — OMEGA Lab</title>
+    <meta name="description" content="Mobile Air-Quality Mapping: 314 sensor-equipped taxis measure on-road NO2, PM2.5 and PM10 in central Guangzhou, map exposure on 50-m road segments and label high-exposure hotspots. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="Mobile Air-Quality Mapping — OMEGA Lab" />
+    <meta property="og:description" content="Mobile Air-Quality Mapping: 314 sensor-equipped taxis measure on-road NO2, PM2.5 and PM10 in central Guangzhou, map exposure on 50-m road segments and label high-exposure hotspots. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/mobile-air-quality/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/mobile-air-quality/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="Map of central Guangzhou covered by taxi-based air-quality measurements, with six fixed monitoring stations and their 500-m buffers" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/projects/#mobile-air-quality">Projects</a></li>
+          <li aria-current="page">Mobile Air-Quality Mapping</li>
+        </ol>
+        <a class="crumbs-back" href="/projects/#mobile-air-quality"><span aria-hidden="true">←</span> Back to projects</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>MOBILE SENSING · 2024</p>
+        <h1 class="title-long">Mobile Air-Quality Mapping</h1>
+        <p class="subtitle">High-resolution urban air pollution and thermal comfort mapping: an application of drive mobile sensing platform for smart city services</p>
+
+        <!-- Names, order, superscripts and affiliations as printed on arXiv v3. The paper lists
+             affiliations a, b and c only; superscript d has no entry there. -->
+        <ul class="authors">
+          <li>Hui Zhong<sup>a,c,#</sup></li>
+          <li>Hongliang Lu<sup>a,c,#</sup></li>
+          <li>Ting Gan<sup>d</sup></li>
+          <li>Yonghong Liu<sup>d,*</sup></li>
+          <li>Xinhu Zheng<sup>a,b,c,*</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>a</sup>Intelligent Transportation Thrust, Systems Hub, The Hong Kong University of Science and Technology (Guangzhou), Guangzhou, China</li>
+          <li><sup>b</sup>Guangdong Provincial Key Lab of Integrated Communication, Sensing and Computation for Ubiquitous Internet of Things, Guangzhou, China</li>
+          <li><sup>c</sup>School of Intelligent Systems Engineering, Sun Yat-sen University, Guangzhou, 510006, China</li>
+          <li><sup>#</sup>Equal contribution</li>
+          <li><sup>*</sup>Corresponding author</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2412.17831">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/study-area.webp" width="1473" height="738" alt="Map of the study area in central Guangzhou. Dark-blue taxi measurement points trace the road network across the whole area, and six numbered fixed-site monitoring stations are marked with red stars. Six insets, Station 1 to Station 6, each show the 500-m radius circular buffer around a station and the taxi measurements on the roads inside it." />
+          <figcaption>
+            Taxi-based mobile monitoring data and the six fixed-site monitoring stations in the
+            study area, the central urban area of Guangzhou. The insets show the 500-m radius
+            buffer around each station, inside which mobile and station measurements are compared.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>On-road air pollution measured by 314 taxis and mapped at 50 m</h2>
+          </div>
+          <p>
+            Air pollutant concentrations vary over short distances in a city, and traffic
+            microenvironments such as intersections, bus stops and roadsides can far exceed the
+            ambient level around them. Fixed monitoring stations are sparse, costly to maintain
+            and usually placed away from roads, so they capture on-road pollution poorly. This
+            study equips 314 taxis in Guangzhou with sensors for NO<sub>2</sub>,
+            PM<sub>2.5</sub> and PM<sub>10</sub>, compares what they measure with six fixed
+            stations, describes how on-road exposure changes over the day and the week, and
+            labels local high-exposure hotspots.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>A fleet of 314 taxis</h3>
+            <p>Non-scheduled taxis operate 24 hours a day and often drive busy streets with intensive human activity, where concentrations tend to be elevated.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>Three pollutants together</h3>
+            <p>Each taxi records NO<sub>2</sub>, PM<sub>2.5</sub> and PM<sub>10</sub> with ambient temperature, humidity and GPS position: about 5 million records in two months.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>50-m road segments</h3>
+            <p>Records are reduced to an hourly median per 50-m segment. On average a segment was sampled on 59 days, yielding 448 data points.</p>
+          </li>
+          <li>
+            <span class="cap-index">04</span>
+            <h3>Hotspot labels</h3>
+            <p>Every segment gets an exposure level per pollutant; segments that are mostly at an unhealthy level are marked as hotspots.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>Roof-mounted sensors, hourly medians per segment, exposure levels</h2>
+            </div>
+            <p>
+              A sensor suite inside each taxi's roof-mounted lightbox measures ambient
+              temperature, humidity, PM<sub>2.5</sub>, PM<sub>10</sub> and NO<sub>2</sub>
+              together with GPS coordinates. From 1 February to 31 March 2023 the fleet
+              collected about 5 million records in the central urban area of Guangzhou. Each
+              record is assigned to a 50-m road segment, the records are condensed to hourly
+              medians, and an identification algorithm turns the concentrations into exposure
+              levels and hotspots.
+            </p>
+          </div>
+
+          <figure class="media-frame narrow">
+            <img src="assets/media/instruments.webp" width="725" height="476" loading="lazy" alt="Four photographs. Top left, labelled sensor assembly: an opened white housing holding a PM sensor, an NO2 sensor and a sampling fan, each marked with a red arrow. Top right, labelled sensor testing: a row of assembled sensor units wired up side by side on a test rack. Bottom left: the roof of a blue car in a workshop. Bottom right: a white T-shaped housing seen from above." />
+            <figcaption>
+              Taxi-based mobile monitoring instruments: (a) sensor assembly, with the PM sensor,
+              the NO<sub>2</sub> sensor and the sampling fan, and (b) sensor testing. The lower
+              row shows a vehicle roof and a sensor housing.
+              <span class="figure-source">Fig. S1 of the paper, instrument panels.</span>
+            </figcaption>
+          </figure>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Calibration</h3>
+              <p>A Thermo 146i NO<sub>x</sub> analyzer calibrates the NO<sub>2</sub> readings and validates the calibration curves. PM<sub>2.5</sub> and PM<sub>10</sub> are calibrated and validated against simultaneous roadside measurements from fixed stations.</p>
+            </li>
+            <li>
+              <h3>Quality assurance</h3>
+              <p>Sensors on three taxis were tested in parallel over 24 hours, with at least ten sampling groups per test; the relative deviation across devices stayed below 15%. Assembled systems ran for over 24 hours in an aging test.</p>
+            </li>
+            <li>
+              <h3>Data reduction</h3>
+              <p>Each GPS-tagged record is snapped to the nearest 50-m road segment, and each segment gets the median concentration per hour. Of about 26,052 segments, 62% have data on 50–60 distinct days and 86% have at least 12 hours of observations.</p>
+            </li>
+            <li>
+              <h3>Hotspot identification</h3>
+              <p>A sample counts when consecutive samples on a segment are less than 30 minutes apart, and a segment is used only if its valid monitoring time exceeds 10 days. A segment whose most frequent level is Unhealthy for Sensitive Groups or Unhealthy is a hotspot.</p>
+            </li>
+          </ul>
+
+          <div class="result-block">
+            <h3>Instruments</h3>
+            <p>The instruments comply with the Chinese standards for continuous automated ambient air quality monitoring systems.</p>
+            <p class="table-caption">Table 1 of the paper: parameters of the instruments carried by each taxi.</p>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Instrument</th>
+                    <th scope="col">Measurement</th>
+                    <th scope="col">Accuracy</th>
+                    <th scope="col">Response time (s)</th>
+                    <th scope="col">Resolution</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" rowspan="2">ASAir AHT25</th>
+                    <td>Temperature</td>
+                    <td>±0.3 °C</td>
+                    <td>&lt; 5.0</td>
+                    <td>0.01 °C</td>
+                  </tr>
+                  <tr>
+                    <td>Humidity</td>
+                    <td>±2%</td>
+                    <td>&lt; 8.0</td>
+                    <td>0.024% RH</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alphasense NO2-B43F</th>
+                    <td>NO<sub>2</sub></td>
+                    <td>±15%</td>
+                    <td>&lt; 80.0</td>
+                    <td>0.1 ppb</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Plantower PMS5003T</th>
+                    <td>PM<sub>2.5</sub>, PM<sub>10</sub></td>
+                    <td>Maximum of ±10% and ±10 μg/m<sup>3</sup></td>
+                    <td>&lt; 1.0</td>
+                    <td>0.1 μg/m<sup>3</sup></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">GPS</th>
+                    <td>Coordinates</td>
+                    <td>±10 m</td>
+                    <td>–</td>
+                    <td>0.00001</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Fixed stations against the road, daily rhythms and hotspots</h2>
+          </div>
+          <p>
+            Hourly measurements from six national fixed-site stations are compared with the
+            mobile records inside a 500-m radius buffer around each station; the buffers hold
+            from about 40,000 to 420,000 mobile records. Weather stayed stable over the
+            observation period, with temperatures of 15 to 30&nbsp;°C and relative humidity
+            between 40% and 75%.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>Fleet</dt>
+            <dd>314 taxis</dd>
+            <dd class="stat-note">About 5 million records from 1 February to 31 March 2023 in central Guangzhou.</dd>
+          </div>
+          <div>
+            <dt>Spatial resolution</dt>
+            <dd>50 m</dd>
+            <dd class="stat-note">One hourly median concentration per road segment, on about 26,052 segments.</dd>
+          </div>
+          <div>
+            <dt>PM<sub>10</sub> · station only</dt>
+            <dd>≥ 35%</dd>
+            <dd class="stat-note">Least underestimate of on-road exposure when only the fixed station is used; for NO<sub>2</sub> the error could exceed 100%. Section&nbsp;3.1.</dd>
+          </div>
+          <div>
+            <dt>PM<sub>2.5</sub> · road network</dt>
+            <dd>&gt; 68%</dd>
+            <dd class="stat-note">Share classified Unhealthy for Sensitive Groups or Unhealthy. Section&nbsp;3.3.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>By pollutant</h3>
+          <p>On-road concentrations are consistently higher than those at the fixed stations. Particulate matter follows the stations' variation closely but differs in absolute value; NO<sub>2</sub> correlates only moderately, which the paper attributes to localized traffic emissions.</p>
+          <p class="table-caption">Values the paper reports in the text of Sections 3.1 and 3.3 (plotted in its Figs. 2, 3 and 7), collected here by pollutant. R: correlation coefficient between hourly mobile and fixed-site measurements. ER: relative error of the fixed-site value against the mobile value.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Pollutant</th>
+                  <th scope="col">R</th>
+                  <th scope="col">ER</th>
+                  <th scope="col">Average on-road exposure</th>
+                  <th scope="col">Exposure level of the road network</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">NO<sub>2</sub></th>
+                  <td>0.48</td>
+                  <td>0.6–1.1</td>
+                  <td>56.6 ppb</td>
+                  <td>Most roads Good or Moderate</td>
+                </tr>
+                <tr>
+                  <th scope="row">PM<sub>2.5</sub></th>
+                  <td>0.78</td>
+                  <td>0.6–1.0</td>
+                  <td>43.67 μg/m<sup>3</sup></td>
+                  <td>Over 68% Unhealthy for Sensitive Groups or Unhealthy</td>
+                </tr>
+                <tr>
+                  <th scope="row">PM<sub>10</sub></th>
+                  <td>0.88</td>
+                  <td>0.35–0.45</td>
+                  <td>56.76 μg/m<sup>3</sup></td>
+                  <td>Most roads Good or Moderate</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            ER = |C<sub>m</sub> − C<sub>f</sub>| / C<sub>f</sub>, with C<sub>m</sub> the mobile and
+            C<sub>f</sub> the fixed-site concentration; the paper gives it as the amount by which
+            on-road levels exceed fixed-site levels. The PM<sub>2.5</sub>/PM<sub>10</sub> ratio
+            reaches 77%.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>Fixed stations against the road</h3>
+          <p>
+            The paper checks the agreement with five metrics: fractional bias (FB), normalized
+            mean square error (NMSE), geometric variance (VG), the correlation coefficient and
+            the fraction of values within a factor of two (FAC2). PM<sub>2.5</sub> and
+            PM<sub>10</sub> meet the thresholds −0.5&nbsp;&lt;&nbsp;FB&nbsp;&lt;&nbsp;0.5 and
+            NMSE&nbsp;&lt;&nbsp;0.5, while NO<sub>2</sub> shows higher values. In absolute terms,
+            PM<sub>2.5</sub> and NO<sub>2</sub> have VG above 1.3 and FAC2 below 0.8;
+            PM<sub>10</sub> stays within the acceptable ranges. Within a 500-m buffer, relying
+            on the fixed station alone would underestimate on-road exposure substantially.
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/station-comparison.webp" width="1508" height="960" loading="lazy" alt="Eighteen scatter plots in three rows and six columns, one column per station. Each plots the hourly station measurement on the horizontal axis against the mobile on-road concentration on the vertical axis, with a fitted line. Top row, NO2 in ppb: a wide cloud, station values up to 40 ppb against on-road values of roughly 20 to 100 ppb. Middle row, PM2.5: a tight rising band. Bottom row, PM10: a rising band with more spread at high station values." />
+            <figcaption>Exposure concentrations of NO<sub>2</sub>, PM<sub>2.5</sub> and PM<sub>10</sub> from mobile monitoring against the six fixed-site stations, hour by hour. <span class="figure-source">Fig. 2 of the paper.</span></figcaption>
+          </figure>
+          <figure class="media-frame">
+            <img src="assets/media/exposure-disparity.webp" width="1507" height="335" loading="lazy" alt="Three line charts of the error rate ER at stations 1 to 6, each with a shaded band. NO2 ranges from about 0.65 to 1.14, highest at stations 2 and 4. PM2.5 rises from about 0.65 at station 1 to 1.0 at station 6. PM10 stays between about 0.34 and 0.45." />
+            <figcaption>Exposure disparities of NO<sub>2</sub>, PM<sub>2.5</sub> and PM<sub>10</sub> between taxi-based mobile monitoring and the stationary sites. <span class="figure-source">Fig. 3 of the paper.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Through the day and the week</h3>
+          <p>
+            Over a typical week NO<sub>2</sub> repeats one daily course: it decreases through
+            the morning, reaches a minimum around noon and rises through the afternoon, peaking
+            around 18:00. The paper explains this with daytime photolysis of NO<sub>2</sub> and
+            its accumulation as solar radiation fades. PM<sub>2.5</sub> and PM<sub>10</sub> move
+            together. Across road types they show two peaks, at 8:00–10:00 and 18:00–20:00, and
+            within the week they peak between Thursday night and early Friday morning.
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/weekly-pattern.webp" width="1507" height="708" loading="lazy" alt="Fourteen panels for the week from Monday 6 March to Sunday 12 March 2023. Top row: hourly NO2 exposure concentration in ppb for each day with a shaded band, mostly between 40 and 95 ppb and dipping around midday. Bottom row: hourly PM2.5 and PM10 in micrograms per cubic metre with shaded bands, moving together between about 30 and 95 and highest from Thursday evening to Friday morning." />
+            <figcaption>Hourly exposure concentrations of NO<sub>2</sub>, PM<sub>2.5</sub> and PM<sub>10</sub> in a typical week; the bands are one standard deviation. <span class="figure-source">Fig. 4 of the paper.</span></figcaption>
+          </figure>
+          <figure class="media-frame">
+            <img src="assets/media/road-type-pattern.webp" width="1507" height="783" loading="lazy" alt="Twelve panels of hourly concentrations over 24 hours in Tianhe, Haizhu, Liwan and Yuexiu districts: PM2.5 in the top row, PM10 in the middle row and NO2 in the bottom row, with one line each for motorway, trunk, primary and secondary roads. The PM curves rise in the morning and again around 18:00 to 20:00; the NO2 curves fall to a minimum near noon and peak around 18:00." />
+            <figcaption>Hourly exposure concentrations of NO<sub>2</sub>, PM<sub>2.5</sub> and PM<sub>10</sub> on different road types, in four districts. <span class="figure-source">Fig. 5 of the paper.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Where exposure is high</h3>
+          <p>
+            Concentration maps at fixed hours show high NO<sub>2</sub> mainly along motorways
+            and trunk roads in the afternoon. For particulate matter, peak periods fill the map
+            with “red alert” zones that differ little from one another, which makes hotspots
+            hard to pick out from concentrations alone.
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/hourly-maps.webp" width="1507" height="897" loading="lazy" alt="Twelve maps of the road network coloured from green (low) through yellow and orange to red (high), at 5:00, 9:00, 15:00 and 19:00. Top row, PM2.5 on a scale of 0 to 98 micrograms per cubic metre; middle row, PM10 on a scale of 0 to 112; bottom row, NO2 on a scale of 0 to 129 ppb. The PM maps are greenest at 5:00 and most orange at 9:00 and 19:00; the NO2 maps are greenest at 9:00 and most orange at 15:00 and 19:00." />
+            <figcaption>Spatial-temporal exposure pattern of PM<sub>2.5</sub>, PM<sub>10</sub> and NO<sub>2</sub> at 5:00, 9:00, 15:00 and 19:00. <span class="figure-source">Fig. 6 of the paper.</span></figcaption>
+          </figure>
+          <p>
+            The paper therefore sorts each segment into four exposure levels with the U.S. EPA
+            air quality index thresholds below, and marks as hotspots the segments that are
+            mostly Unhealthy for Sensitive Groups or Unhealthy. For NO<sub>2</sub> and
+            PM<sub>10</sub>, most roads in Guangzhou's central urban area are Good or Moderate.
+            PM<sub>2.5</sub> is the main concern: over 68% of the road network is Unhealthy for
+            Sensitive Groups or Unhealthy. The hotspots include areas near schools, shopping
+            malls, factories and overpasses.
+          </p>
+          <p class="table-caption">Table S1 of the paper: pollutant exposure concentrations corresponding to each exposure risk level.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Level</th>
+                  <th scope="col">NO<sub>2</sub> (ppb)</th>
+                  <th scope="col">PM<sub>2.5</sub> (μg/m<sup>3</sup>)</th>
+                  <th scope="col">PM<sub>10</sub> (μg/m<sup>3</sup>)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Good</th>
+                  <td>0–50</td><td>0–9.0</td><td>0–54</td>
+                </tr>
+                <tr>
+                  <th scope="row">Moderate</th>
+                  <td>51–100</td><td>9.1–35.4</td><td>55–154</td>
+                </tr>
+                <tr>
+                  <th scope="row">Unhealthy for Sensitive Groups</th>
+                  <td>101–150</td><td>35.5–55.4</td><td>155–254</td>
+                </tr>
+                <tr>
+                  <th scope="row">Unhealthy</th>
+                  <td>151–200</td><td>55.5–125.4</td><td>255–354</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="media-frame">
+            <img src="assets/media/exposure-levels.webp" width="1507" height="689" loading="lazy" alt="Three maps of the road network coloured by exposure level. (a) PM2.5: almost entirely orange, Unhealthy for Sensitive Groups, with scattered red Unhealthy segments and four circled areas A to D. (b) PM10 and (c) NO2: mostly yellow, Moderate, with green Good segments. Below, four satellite views A to D of the circled areas with the coloured road segments drawn over the roads." />
+            <figcaption>Spatial distribution of exposure levels for PM<sub>2.5</sub>, PM<sub>10</sub> and NO<sub>2</sub>, with satellite views of four high-exposure hotspots, A to D. <span class="figure-source">Fig. 7 of the paper.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Scope</h3>
+          <p>
+            The results describe on-road conditions in the central urban area of Guangzhou over
+            two months, 1 February to 31 March 2023. The comparison with fixed stations covers
+            the roads within 500&nbsp;m of six stations. Exposure levels follow the U.S. EPA
+            thresholds in Table&nbsp;S1, and hotspots are identified only on segments with more
+            than 10 days of valid monitoring time. Temperature and humidity are recorded
+            alongside the pollutants and their daily course is in Fig.&nbsp;S4 of the paper;
+            the results above are for the three air pollutants.
+          </p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@misc{zhong2024highresolution,
+  title={High-resolution urban air pollution and thermal comfort mapping: an application of drive mobile sensing platform for smart city services},
+  author={Hui Zhong and Hongliang Lu and Ting Gan and Yonghong Liu and Xinhu Zheng},
+  year={2024},
+  eprint={2412.17831},
+  archivePrefix={arXiv},
+  primaryClass={eess.SP},
+  url={https://arxiv.org/abs/2412.17831},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>Mobile Air-Quality Mapping is part of OMEGA Lab's research at HKUST(GZ).</p>
+        <a class="text-link" href="/projects/#mobile-air-quality">More projects <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

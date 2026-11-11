@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>DefectBench — OMEGA Lab</title>
+    <meta name="description" content="DefectBench is a benchmark that tests large multimodal models on building facade inspection at three levels: what the defects are, where they are, and what shape they have. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="DefectBench — OMEGA Lab" />
+    <meta property="og:description" content="DefectBench is a benchmark that tests large multimodal models on building facade inspection at three levels: what the defects are, where they are, and what shape they have. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/defectbench/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/defectbench/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="Overview of DefectBench: data collection and preprocessing from 12 public datasets, standardized annotation with a plug-and-play platform, and facade defect benchmarking at three levels." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/research/#scene-understanding">Multimodal Perception</a></li>
+          <li aria-current="page">DefectBench</li>
+        </ol>
+        <a class="crumbs-back" href="/research/#scene-understanding"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>MULTIMODAL PERCEPTION · 2026</p>
+        <h1>DefectBench</h1>
+        <p class="subtitle">Can Large Multimodal Models Inspect Buildings? A Hierarchical Benchmark for Structural Pathology Reasoning</p>
+
+        <!-- Names, order and affiliations exactly as on the paper. -->
+        <ul class="authors">
+          <li>Hui Zhong<sup>1</sup></li>
+          <li>Yichun Gao<sup>1</sup></li>
+          <li>Luyan Liu<sup>2</sup></li>
+          <li>Hai Yang<sup>2</sup></li>
+          <li>Wang Wang<sup>3</sup></li>
+          <li>Haowei Zhang<sup>3*</sup></li>
+          <li>Xinhu Zheng<sup>1*</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>1</sup>Hong Kong University of Science and Technology (Guangzhou)</li>
+          <li><sup>2</sup>Hong Kong University of Science and Technology</li>
+          <li><sup>3</sup>Hong Kong University</li>
+          <li><sup>*</sup>Corresponding author</li>
+        </ol>
+
+        <!-- Only links that exist and are public. No link, no button. -->
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2603.20148">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="https://github.com/Whitneyyyyy/DefectBench">Code <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame">
+          <img src="assets/media/overview.webp" width="2400" height="1270" alt="Three-column overview of DefectBench. Left, data collection and preprocessing: classification-focused datasets (CCIC, BDD, BD3, HS-23k), detection-focused datasets (MBDD2025, CUBIT-Det, BDW) and segmentation-focused datasets (Bai-2020, CSD, DeepCrack, S2DS, CUBIT-Seg), followed by quality control with low-quality filtering, near-duplicate removal and background relevance filtering. Middle, standardized annotation of the 12 public datasets on a plug-and-play platform: expert detection models propose boxes that humans verify, and expert segmentation models propose masks that humans correct. Right, facade defect benchmarking: semantic understanding (classification and defect counting), spatial localization (object detection and visual spatial reasoning) and geometry segmentation, where a model turns an image and a prompt into a binary mask." />
+          <figcaption>How DefectBench is built and used: twelve public datasets are filtered, re-annotated with model proposals that human experts verify, and turned into three levels of questions for large multimodal models. <span class="figure-source">Fig. 1 of the paper.</span></figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Benchmark</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>What, where and how: three levels of questions about a damaged facade</h2>
+          </div>
+          <p>
+            Automated facade inspection has relied on specialized detectors and segmentation
+            networks, which localize defects but do not reason about them. Large multimodal models
+            (LMMs) could, yet there was no common standard for testing them: public defect datasets
+            use conflicting class names and different annotation levels, and existing benchmarks
+            each cover one task. DefectBench unifies 12 public datasets into one hierarchical
+            ontology, with 1,488 images and 4,527 annotated defect instances, and asks LMMs what
+            defects an image shows, where they are, and what shape they have. In zero-shot
+            experiments on 18 LMMs, the models are strong at semantic understanding and at
+            reasoning about how defects relate in space, weak at precise localization, and able to
+            draw segmentation masks that the paper finds competitive with specialized supervised
+            networks.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>One dataset from twelve</h3>
+            <p>Images labelled at patch, box and pixel level in 12 public datasets are filtered and re-annotated under one ontology: four primary defect classes with fine-grained sub-types, boxes, masks, counts and spatial relations.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>A hierarchical benchmark</h3>
+            <p>Semantic perception, spatial localization and generative geometry segmentation are tested in one multi-turn dialogue, from naming the defects to painting their masks.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>A zero-shot baseline</h3>
+            <p>Open-source and closed-source LMMs are evaluated without any domain-specific training, which shows where they can already help in inspection and where they cannot.</p>
+          </li>
+          <li>
+            <span class="cap-index">04</span>
+            <h3>An annotation platform</h3>
+            <p>A plug-and-play, human-in-the-loop toolkit lets pre-trained detectors and segmenters propose boxes and masks that experts verify and correct.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>BENCHMARK</p>
+              <h2>Twelve public datasets, one ontology, five questions per image</h2>
+            </div>
+            <p>
+              The source data are four classification datasets (CCIC, BDD, BD3, HS-23k), three
+              detection datasets (MBDD2025, BDW, CUBIT-Det) and five segmentation datasets
+              (Bai-2020, CSD, DeepCrack, S2DS, CUBIT-Seg). Three filters clean them: blurred or
+              low-resolution images are removed by Laplacian variance, near-duplicates by cosine
+              similarity of DINOv2 features, and images without a relevant building background by
+              CLIP zero-shot filtering. The remaining images are annotated on the platform below.
+              In its detection module, existing boxes are checked by hand, and for unlabelled
+              images an ensemble of detectors (such as YOLO12-M, YOLO11-M, Faster R-CNN and
+              RT-DETR) proposes boxes that experts calibrate. In its segmentation module, the
+              refined boxes prompt SAM-3 and a set of specialized models to produce masks, which
+              experts correct with point prompts and a brush.
+            </p>
+          </div>
+
+          <div class="pair">
+            <figure class="media-frame">
+              <img src="assets/media/annotation-platform.webp" width="667" height="802" loading="lazy" alt="Screenshot of the annotation platform with two panels on the same facade photo. The Detection Agent panel, set to an ensemble model, shows two proposed boxes with confidence scores around a plant growing on a wall and its hanging roots. The Segmentation Agent panel uses those two boxes as prompts and shows the resulting masks, with tools for positive and negative points, a brush and an eraser. Several interface labels are in Chinese." />
+              <figcaption>The annotation platform: detector proposals for expert correction on the left, box-prompted masks with point and brush tools on the right. <span class="figure-source">Fig. 4 of the paper (appendix).</span></figcaption>
+            </figure>
+            <div>
+              <p class="table-caption">Table 1 of the paper: the annotated defect instances by primary class and sub-type, 4,527 in total over 1,488 images.</p>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Sub-type</th>
+                      <th scope="col">Instances</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="group-row"><th scope="colgroup" colspan="2">Crack</th></tr>
+                    <tr><th scope="row">Linear crack</th><td>2042</td></tr>
+                    <tr><th scope="row">Map cracking</th><td>80</td></tr>
+                    <tr class="group-row"><th scope="colgroup" colspan="2">Material loss</th></tr>
+                    <tr><th scope="row">Spalling</th><td>906</td></tr>
+                    <tr><th scope="row">Peeling</th><td>51</td></tr>
+                    <tr class="group-row"><th scope="colgroup" colspan="2">Surface stain</th></tr>
+                    <tr><th scope="row">Corrosion</th><td>254</td></tr>
+                    <tr><th scope="row">Rust stain</th><td>21</td></tr>
+                    <tr><th scope="row">Leakage stain</th><td>803</td></tr>
+                    <tr class="group-row"><th scope="colgroup" colspan="2">External fixings</th></tr>
+                    <tr><th scope="row">Vegetation growth</th><td>221</td></tr>
+                    <tr><th scope="row">Graffiti</th><td>30</td></tr>
+                    <tr><th scope="row">Surface contaminants</th><td>119</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Level 1 · Semantic perception (what)</h3>
+              <p>Q1 asks which of the four primary defect classes are visible in the image. Q2 asks how many instances of each class there are.</p>
+            </li>
+            <li>
+              <h3>Level 2 · Spatial localization (where)</h3>
+              <p>Q3 asks for a bounding box and class for every defect instance. Q4 asks for the spatial relation between each pair of detected defects: inclusion, overlapping, adjacency or disjoint.</p>
+            </li>
+            <li>
+              <h3>Level 3 · Geometry segmentation (how)</h3>
+              <p>Q5 asks an image-editing model to edit the input image into a binary mask of the target defect class, white on black, at the original resolution and viewpoint.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Good at naming and relating defects, poor at placing boxes, promising at masks</h2>
+          </div>
+          <p>
+            All models are evaluated zero-shot on an evaluation set of 487 samples, drawn at
+            random with about 100 images per primary class so that no class dominates. The
+            questions are asked as one multi-turn dialogue, each conditioned on the model's
+            earlier answers. Closed-source models and some large open-source models are called
+            through cloud APIs; the other open-source models run on a local server with four
+            NVIDIA RTX 4090 GPUs. Level 1 is scored with precision, recall and F1 for
+            identification and with mean absolute error (MAE) and relative error (RE) for
+            counting; Level 2 with precision, recall and F1; Level 3 with mean intersection over
+            union (mIoU), precision, recall, F1 and pixel accuracy.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>Level 1 · identification F1</dt>
+            <dd>0.8442</dd>
+            <dd class="stat-note">Best of the 18 models, Qwen3-VL-32B-thinking; the best closed-source model reaches 0.8048. Table&nbsp;2.</dd>
+          </div>
+          <div>
+            <dt>Level 2 · detection F1</dt>
+            <dd>0.4226</dd>
+            <dd class="stat-note">Best box-detection result, Gemini-3-pro-preview; well below supervised detectors, the paper notes. Table&nbsp;3.</dd>
+          </div>
+          <div>
+            <dt>Level 2 · spatial reasoning F1</dt>
+            <dd>0.8390</dd>
+            <dd class="stat-note">The same model on the relations between defects (Q4), the best result on that task. Table&nbsp;3.</dd>
+          </div>
+          <div>
+            <dt>Level 3 · segmentation mIoU</dt>
+            <dd>0.7418</dd>
+            <dd class="stat-note">Gemini-3-pro-edit, zero-shot; the other four image-editing models reach 0.6848 to 0.6926. Table&nbsp;4.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>Level 1: what defects, and how many</h3>
+          <p>
+            Open-source models hold up against closed-source ones here. Qwen3-VL-32B-thinking has
+            the highest identification F1 of all models, above the larger Qwen2.5-VL-72B-instruct,
+            and the lightweight Qwen3-VL-8B-instruct performs on par with the 72B model, which the
+            paper reads as reasoning mechanisms mattering more than parameter count for this task.
+            Counting is harder: the average MAE of the open-source models is 0.5970 to 0.8568 and
+            that of the closed-source models 0.8449 to 1.0567, as models count defects twice or
+            miss them when several small defects occur together. Surface stains, with blurred
+            boundaries and irregular shapes, are the hardest class to count: the per-class MAE is
+            between 0.9425 and 1.4542 for every model.
+          </p>
+          <p class="table-caption">Table 2 of the paper: Level 1 on the DefectBench evaluation set, zero-shot. Q1 is defect identification; Q2 is defect counting, shown here as the average over the four primary classes. The per-class counting errors are in the paper.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">Model</th>
+                  <th scope="colgroup" colspan="3">Q1 · identification</th>
+                  <th scope="colgroup" colspan="2">Q2 · counting (average)</th>
+                </tr>
+                <tr>
+                  <th scope="col">P ↑</th>
+                  <th scope="col">R ↑</th>
+                  <th scope="col">F1 ↑</th>
+                  <th scope="col">MAE ↓</th>
+                  <th scope="col">RE ↓</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="group-row"><th scope="colgroup" colspan="6">Open-source large multimodal models</th></tr>
+                <tr><th scope="row">GLM-4.5V</th><td>0.6698</td><td>0.8264</td><td>0.7399</td><td>0.6278</td><td>0.3989</td></tr>
+                <tr><th scope="row">GLM-4.6V</th><td>0.7249</td><td>0.7778</td><td>0.7504</td><td class="best">0.5970</td><td>0.4195</td></tr>
+                <tr><th scope="row">Deepseek-vl2</th><td>0.6191</td><td>0.5174</td><td>0.5637</td><td>0.7423</td><td>0.6271</td></tr>
+                <tr><th scope="row">InternVL3.5</th><td>0.5646</td><td>0.6528</td><td>0.6055</td><td>0.8003</td><td>0.5570</td></tr>
+                <tr><th scope="row">LLaVa-34B</th><td>0.6068</td><td>0.5984</td><td>0.6026</td><td>0.7172</td><td>0.5512</td></tr>
+                <tr><th scope="row">Qwen2.5-VL-72B-instruct</th><td>0.6912</td><td>0.7720</td><td>0.7294</td><td>0.6653</td><td>0.4820</td></tr>
+                <tr><th scope="row">Qwen2.5-VL-7B-instruct</th><td>0.5240</td><td>0.4421</td><td>0.4796</td><td>0.8568</td><td>0.7115</td></tr>
+                <tr><th scope="row">Qwen2.5-VL-32B-instruct</th><td>0.5948</td><td>0.7627</td><td>0.6684</td><td>0.6992</td><td>0.4395</td></tr>
+                <tr><th scope="row">Qwen3-VL-8B-instruct</th><td>0.6784</td><td>0.7812</td><td>0.7262</td><td>0.6088</td><td>0.4266</td></tr>
+                <tr><th scope="row">Qwen3-VL-32B-thinking</th><td class="best">0.7431</td><td class="best">0.9772</td><td class="best">0.8442</td><td>0.7596</td><td>0.4710</td></tr>
+                <tr><th scope="row">Qwen3-VL-32B-instruct</th><td>0.5748</td><td>0.9514</td><td>0.7166</td><td>0.8188</td><td class="best">0.3962</td></tr>
+                <tr class="group-row"><th scope="colgroup" colspan="6">Closed-source large multimodal models</th></tr>
+                <tr><th scope="row">gpt-4o</th><td>0.6983</td><td>0.8252</td><td>0.7565</td><td>0.9686</td><td>0.5080</td></tr>
+                <tr><th scope="row">gpt-5.1-chat-latest</th><td class="best">0.7267</td><td>0.9016</td><td class="best">0.8048</td><td>0.8620</td><td class="best">0.4129</td></tr>
+                <tr><th scope="row">gpt-5.2-pro</th><td>0.6349</td><td>0.9097</td><td>0.7479</td><td>0.8495</td><td>0.4506</td></tr>
+                <tr><th scope="row">gemini-3-flash-preview</th><td>0.5665</td><td class="best">0.9711</td><td>0.7156</td><td>1.0540</td><td>0.6780</td></tr>
+                <tr><th scope="row">gemini-3-pro-preview</th><td>0.6158</td><td>0.9294</td><td>0.7408</td><td class="best">0.8449</td><td>0.4811</td></tr>
+                <tr><th scope="row">Doubao-Seed-1.8</th><td>0.6276</td><td>0.8935</td><td>0.7373</td><td>1.0567</td><td>0.4827</td></tr>
+                <tr><th scope="row">Claude-opus-4.1</th><td>0.6809</td><td>0.8843</td><td>0.7694</td><td>0.9387</td><td>0.5320</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">P: precision, R: recall, MAE: mean absolute error, RE: relative error. Bold marks the best value within each group.</p>
+        </div>
+
+        <div class="result-block">
+          <h3>Level 2: where the defects are, and how they relate</h3>
+          <p>
+            Zero-shot box detection (Q3) remains difficult. Gemini-3-pro-preview is best with an F1
+            of 0.4226, which the paper notes is still far from task-specific supervised detectors,
+            and several models built for stronger reasoning, such as Qwen3-VL-32B-Thinking, the
+            GPT models and Claude-opus-4.1, drop sharply when they have to output coordinates.
+            The same models do much better at visual spatial reasoning (Q4): Gemini-3-pro-preview
+            reaches an F1 of 0.8390 and GLM-4.6V is the most balanced open-source model. For most
+            models precision is higher than recall on Q4, so the relations they report are mostly
+            right but many are missed. The paper concludes that current LMMs are better suited to
+            qualitative diagnosis than to quantitative spatial mapping.
+          </p>
+          <p class="table-caption">Table 3 of the paper: Level 2 on the DefectBench evaluation set, zero-shot. Q3 is object detection with bounding boxes; Q4 is visual spatial reasoning over pairs of detected defects.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">Model</th>
+                  <th scope="colgroup" colspan="3">Q3 · object detection</th>
+                  <th scope="colgroup" colspan="3">Q4 · visual spatial reasoning</th>
+                </tr>
+                <tr>
+                  <th scope="col">P ↑</th>
+                  <th scope="col">R ↑</th>
+                  <th scope="col">F1 ↑</th>
+                  <th scope="col">P ↑</th>
+                  <th scope="col">R ↑</th>
+                  <th scope="col">F1 ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="group-row"><th scope="colgroup" colspan="7">Open-source large multimodal models</th></tr>
+                <tr><th scope="row">GLM-4.5V</th><td>0.3157</td><td>0.3866</td><td>0.3476</td><td>0.7131</td><td>0.6198</td><td>0.6632</td></tr>
+                <tr><th scope="row">GLM-4.6V</th><td>0.3587</td><td class="best">0.3981</td><td class="best">0.3774</td><td>0.7093</td><td class="best">0.6653</td><td class="best">0.6866</td></tr>
+                <tr><th scope="row">LLaVa-34B</th><td>0.2871</td><td>0.1366</td><td>0.1851</td><td>0.2246</td><td>0.1353</td><td>0.1688</td></tr>
+                <tr><th scope="row">InternVL3.5</th><td>0.2517</td><td>0.1725</td><td>0.2047</td><td class="best">0.8462</td><td>0.2112</td><td>0.3380</td></tr>
+                <tr><th scope="row">Qwen2.5-VL-7B-Instruct</th><td>0.2949</td><td>0.0447</td><td>0.0777</td><td>0.2630</td><td>0.1194</td><td>0.1642</td></tr>
+                <tr><th scope="row">Qwen2.5-VL-32B-Instruct</th><td>0.3385</td><td>0.2706</td><td>0.3008</td><td>0.4462</td><td>0.3172</td><td>0.3708</td></tr>
+                <tr><th scope="row">Qwen2.5-VL-72B-Instruct</th><td class="best">0.3834</td><td>0.2429</td><td>0.2974</td><td>0.6815</td><td>0.5666</td><td>0.6188</td></tr>
+                <tr><th scope="row">Qwen3-VL-8B-Instruct</th><td>0.3062</td><td>0.3029</td><td>0.3045</td><td>0.4460</td><td>0.2094</td><td>0.2850</td></tr>
+                <tr><th scope="row">Qwen3-VL-32B-Instruct</th><td>0.2227</td><td>0.2464</td><td>0.2340</td><td>0.5879</td><td>0.5325</td><td>0.5588</td></tr>
+                <tr><th scope="row">Qwen3-VL-32B-Thinking</th><td>0.1457</td><td>0.0417</td><td>0.0648</td><td>0.4345</td><td>0.5652</td><td>0.4763</td></tr>
+                <tr class="group-row"><th scope="colgroup" colspan="7">Closed-source large multimodal models</th></tr>
+                <tr><th scope="row">gpt-4o</th><td>0.0098</td><td>0.0114</td><td>0.0104</td><td>0.6097</td><td>0.5698</td><td>0.5891</td></tr>
+                <tr><th scope="row">gpt-5.1-chat-latest</th><td>0.1027</td><td>0.1056</td><td>0.1039</td><td>0.7314</td><td>0.5846</td><td>0.6499</td></tr>
+                <tr><th scope="row">gpt-5.2-pro</th><td>0.2089</td><td>0.2870</td><td>0.2357</td><td>0.7989</td><td>0.7941</td><td>0.7965</td></tr>
+                <tr><th scope="row">Gemini-3-flash-preview</th><td>0.2380</td><td>0.4974</td><td>0.3188</td><td>0.8366</td><td>0.5899</td><td>0.6919</td></tr>
+                <tr><th scope="row">Gemini-3-pro-preview</th><td class="best">0.3607</td><td class="best">0.5333</td><td class="best">0.4226</td><td class="best">0.8655</td><td class="best">0.8141</td><td class="best">0.8390</td></tr>
+                <tr><th scope="row">Doubao-Seed-1.8</th><td>0.3487</td><td>0.4702</td><td>0.3969</td><td>0.6305</td><td>0.6684</td><td>0.6489</td></tr>
+                <tr><th scope="row">Claude-opus-4.1</th><td>0.1608</td><td>0.2243</td><td>0.1867</td><td>0.7615</td><td>0.7801</td><td>0.7707</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">P: precision, R: recall. Bold marks the best value within each group, as in the paper.</p>
+        </div>
+
+        <div class="result-block">
+          <h3>Level 3: the shape of each defect</h3>
+          <p>
+            Segmentation is posed as image generation: five image-editing models are asked to
+            turn the photograph into a binary mask of the target defect, without any
+            defect-specific training. Gemini-3-pro-edit is best on four of the five metrics, with
+            an mIoU of 0.7418 and an F1 of 0.7875; the other four models are close to each other,
+            with mIoU between 0.6848 and 0.6926. The paper judges these zero-shot results
+            competitive with specialized supervised segmentation models.
+          </p>
+          <p class="table-caption">Table 4 of the paper: Level 3, pixel-level generative segmentation on the DefectBench evaluation set, zero-shot.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Model</th>
+                  <th scope="col">mIoU ↑</th>
+                  <th scope="col">P ↑</th>
+                  <th scope="col">R ↑</th>
+                  <th scope="col">F1 ↑</th>
+                  <th scope="col">PA ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Qwen-image-edit-plus</th><td>0.6852</td><td>0.8110</td><td>0.7495</td><td>0.7265</td><td>0.9709</td></tr>
+                <tr><th scope="row">Wan2.6-image</th><td>0.6848</td><td>0.8121</td><td>0.7349</td><td>0.7192</td><td class="best">0.9717</td></tr>
+                <tr><th scope="row">Doubao-seedream-4.5</th><td>0.6920</td><td>0.7867</td><td>0.7442</td><td>0.7344</td><td>0.9676</td></tr>
+                <tr><th scope="row">Gemini-3-pro-edit</th><td class="best">0.7418</td><td class="best">0.8467</td><td class="best">0.8072</td><td class="best">0.7875</td><td>0.9713</td></tr>
+                <tr><th scope="row">FLUX-2-pro-edit</th><td>0.6926</td><td>0.8032</td><td>0.7455</td><td>0.7397</td><td>0.9693</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">mIoU: mean intersection over union, P: precision, R: recall, PA: pixel accuracy. Bold marks the best value in each column, as in the paper.</p>
+        </div>
+
+        <div class="result-block">
+          <h3>What the outputs look like</h3>
+          <p>
+            Two qualitative comparisons from the paper, on photographs from the dataset. On the
+            left, the boxes that ten open-source models return for three images; on the right,
+            the masks that the five image-editing models produce for one example of each primary
+            class, with the ground truth in the last row.
+          </p>
+          <div class="pair">
+            <figure class="media-frame">
+              <img src="assets/media/detection-examples.webp" width="2400" height="3022" loading="lazy" alt="Grid of detection results on three facade photographs: a patch of spalled plaster, a crack running through a brown stain, and a cloth hanging on a railing. Each of ten open-source models (GLM-4.5V, GLM-4.6V, InternVL3.5, LLaVa-34B, Qwen2.5-7B-instruct, Qwen2.5-32B-instruct, Qwen2.5-72B-instruct, Qwen3-8B-instruct, Qwen3-32B-instruct and Qwen3-32B-thinking) has its predicted, class-coloured boxes drawn on the three images; the bottom row shows the raw images and the ground-truth boxes. Many predicted boxes sit on the defect but are too large, shifted or labelled with a different class than the ground truth." />
+              <figcaption>Level 2, object detection: predicted boxes of ten open-source models on three images, with the raw images and the ground truth at the bottom. <span class="figure-source">Fig. 5 of the paper (appendix).</span></figcaption>
+            </figure>
+            <figure class="media-frame">
+              <img src="assets/media/segmentation-examples.webp" width="2400" height="2545" loading="lazy" alt="Grid of segmentation results. Rows: Wan2.6-image, Qwen-image-edit-plus, Gemini-3-pro-edit, Doubao-seedream-4.5, FLUX-2-pro-edit and the ground truth. Columns: one example image each for crack, material loss, surface stain and external fixings. Each cell shows the photograph with the labelled boxes and the model's mask overlaid in the class colour; most masks follow the outline of the defect, with visible differences between models in how much of the stain, the missing plaster or the plant they cover." />
+              <figcaption>Level 3, generative geometry segmentation: masks from five image-editing models for one image of each primary class, against the ground truth. <span class="figure-source">Fig. 3 of the paper.</span></figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>Scope and limits</h3>
+          <p>
+            The numbers above are zero-shot results on the 487-sample evaluation set; no model is
+            fine-tuned on DefectBench. Because the questions form one dialogue, errors cascade: a
+            class that is misidentified in Level 1 is carried into the detection prompt, which
+            produces boxes in the right place with the wrong class, as the paper observes for
+            Qwen3-32B-Instruct. In Level 3 the image-editing models do not always follow the
+            instruction to output a clean binary mask: the paper mentions RGB textures and
+            reconstructed background, and the figure below shows raw outputs with leftover labels
+            and other artifacts. The evaluation therefore binarizes each output
+            and scores it only inside the regions given by the detection boxes, so the Level 3
+            metrics measure how well boundaries are drawn there, not the raw generated image.
+            Even so, the paper reports that subtle defects are sometimes omitted and that false
+            positives appear in heavily textured regions.
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/generative-instability.webp" width="2400" height="1337" loading="lazy" alt="Raw outputs of five image-editing models (Gemini-3-pro-edit, Wan2.6-image, Doubao-seedream-4.5, FLUX-2-pro-edit and Qwen-image-edit-plus) for one photograph of a wall with two cracks and a patch of missing material, next to the ground truth. For each model the figure shows the photograph with its mask overlaid, the generated crack mask and the generated material-loss mask. The masks are mostly white on black, but several still contain box outlines and text labels, one contains a checkerboard patch, one keeps faint wall texture, and the shapes differ clearly between models." />
+            <figcaption>Generated masks for one image with cracks and material loss: some outputs keep box outlines and text labels, a checkerboard patch or residual wall texture instead of a clean binary mask. <span class="figure-source">Fig. 2 of the paper.</span></figcaption>
+          </figure>
+          <p class="availability">The <a href="https://github.com/Whitneyyyyy/DefectBench">code repository</a> holds the evaluation scripts for the three levels, the annotation toolkit, the preprocessing scripts and a 50-image sample of the dataset with labels and masks. It is released for academic research use.</p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@misc{zhong2026defectbench,
+  title={Can Large Multimodal Models Inspect Buildings? A Hierarchical Benchmark for Structural Pathology Reasoning},
+  author={Zhong, Hui and Gao, Yichun and Liu, Luyan and Yang, Hai and Wang, Wang and Zhang, Haowei and Zheng, Xinhu},
+  year={2026},
+  eprint={2603.20148},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2603.20148},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>DefectBench is part of OMEGA Lab's research on multimodal perception at HKUST(GZ).</p>
+        <a class="text-link" href="/research/#scene-understanding">More in Multimodal Perception <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

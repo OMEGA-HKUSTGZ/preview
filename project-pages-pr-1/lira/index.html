@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Leave this as it is: pull-request previews are switched to noindex by the workflow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>LIRA — OMEGA Lab</title>
+    <meta name="description" content="LIRA: local cross-layer information routing that conditions each block of a vision-language-action decoder on a window of adjacent VLM layers, with no added trainable parameters. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OMEGA Lab" />
+    <meta property="og:title" content="LIRA — OMEGA Lab" />
+    <meta property="og:description" content="LIRA: local cross-layer information routing that conditions each block of a vision-language-action decoder on a window of adjacent VLM layers, with no added trainable parameters. A project of OMEGA Lab, HKUST(GZ)." />
+    <meta property="og:url" content="https://omega-hkustgz.github.io/projects/lira/" />
+    <meta property="og:image" content="https://omega-hkustgz.github.io/projects/lira/assets/media/social.jpg" />
+    <meta property="og:image:alt" content="LIRA zero-shot transfer to LIBERO-Plus: three simulated rollouts of one instruction under different perturbations, and a bar chart of overall success for OpenVLA-OFT, VLA-Adapter and LIRA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/brand/omega-mark.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/omega-page.css?v=1" />
+    <link rel="stylesheet" href="assets/css/page.css?v=1" />
+  </head>
+  <body>
+    <p role="note" style="margin:0;padding:10px 16px;background:#484a47;color:#fff;font:600 14px/1.5 system-ui,sans-serif;text-align:center">Draft preview for review. Not the official page, and not yet confirmed by the authors.</p>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header, breadcrumb and footer link back to the lab site with ../../ because the
+         page is served two levels down, at /projects/<slug>/. Keep that depth. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="OMEGA Lab home">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="48" height="48" />
+          <span class="brand-copy">
+            <span class="brand-name">OMEGA<span class="brand-lab">LAB</span></span>
+            <span class="brand-expansion">
+              <span>Omnimodal Multi-Embodiment</span>
+              <span>Generalist Agents</span>
+            </span>
+          </span>
+        </a>
+        <div class="header-divider" aria-hidden="true"></div>
+        <span class="header-context">HKUST(GZ)</span>
+        <nav class="main-nav" aria-label="OMEGA Lab">
+          <a href="/research/">Research</a>
+          <a href="/publications/">Publications</a>
+          <a href="/people/">People</a>
+          <a href="/join/">Join</a>
+        </nav>
+      </div>
+    </header>
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div class="container crumbs-inner">
+        <ol>
+          <li><a href="/">OMEGA Lab</a></li>
+          <li><a href="/research/#robot-learning">Robot Learning &amp; Manipulation</a></li>
+          <li aria-current="page">LIRA</li>
+        </ol>
+        <a class="crumbs-back" href="/research/#robot-learning"><span aria-hidden="true">←</span> Back to research</a>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section class="hero container">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>ROBOT LEARNING &amp; MANIPULATION · 2026</p>
+        <h1>LIRA</h1>
+        <p class="subtitle">Local Cross-Layer Information Routing for Vision-Language-Action Decoding</p>
+
+        <ul class="authors">
+          <li>Zhewei Zhang<sup>*</sup></li>
+          <li>Puyue Wang<sup>*</sup></li>
+          <li>Guanren Qiao<sup>*</sup></li>
+          <li>Yijie Weng</li>
+          <li>Jiawei Hu</li>
+          <li>Guo Li</li>
+          <li>Lujia Wang</li>
+          <li>Junyan Wang</li>
+          <li>Tao Gu</li>
+          <li>Hongliang Lu<sup>†</sup></li>
+          <li>Guiliang Liu</li>
+          <li>Hong Jia</li>
+          <li>Xinhu Zheng<sup>‡</sup></li>
+        </ul>
+        <ol class="affiliations">
+          <li><sup>*</sup>Equal contribution</li>
+          <li><sup>†</sup>Project lead</li>
+          <li><sup>‡</sup>Corresponding author</li>
+        </ol>
+
+        <div class="actions">
+          <a class="button" href="https://arxiv.org/abs/2608.07596">Paper <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="#citation">BibTeX</a>
+        </div>
+      </section>
+
+      <section class="container" aria-label="Overview figure">
+        <figure class="media-frame" data-evidence="simulation">
+          <img src="assets/media/teaser.webp" width="2402" height="1112" alt="Left panel, representative rollouts: the instruction “Pick up the black bowl between the plate and the ramekin, and place it on the plate” above three simulated tabletop scenes with a robot arm, each marked with a tick, one per LIBERO-Plus perturbation: background textures, objects layout and light conditions. Right panel: bar chart of zero-shot average success rate on LIBERO-Plus: OpenVLA-OFT 69.6%, VLA-Adapter 59.1%, LIRA 78.0%." />
+          <figcaption>
+            <span class="evidence-tag">Simulation</span>Zero-shot transfer to LIBERO-Plus. Left:
+            representative LIRA rollouts for the same language instruction under Background,
+            Layout and Light perturbations; all three are completed successfully without
+            LIBERO-Plus fine-tuning. Right: overall task-level success over all 10,030
+            LIBERO-Plus tasks, where LIRA reaches 78.0%, 8.4 and 18.9 percentage points above
+            OpenVLA-OFT and VLA-Adapter.
+            <span class="figure-source">Fig. 1 of the paper.</span>
+          </figcaption>
+        </figure>
+        <nav class="chapters" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </nav>
+      </section>
+
+      <section class="section container" id="overview">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>OVERVIEW</p>
+            <h2>How should intermediate VLM features be routed into the action decoder?</h2>
+          </div>
+          <p>
+            Vision-language-action (VLA) models turn the representations of a pretrained
+            vision-language model (VLM) into robot actions. The interface that passes
+            intermediate VLM features to the action decoder is underexplored: existing designs
+            expose only final-layer features, tie each decoder block to one matched VLM layer,
+            or aggregate layers globally without keeping their local structure. LIRA treats
+            this conditioning as depth-aware information routing. Each block of the action
+            decoder receives query features from a small window of adjacent VLM layers centred
+            on its own depth. The backbone architecture, the action decoder and the supervised
+            training recipe stay unchanged.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li>
+            <span class="cap-index">01</span>
+            <h3>A locality prior over VLM depth</h3>
+            <p>The hypothesis is that adjacent VLM layers hold complementary task evidence for a decoder block at a given depth. Each block reads a centred local window rather than one matched layer or the full hierarchy.</p>
+          </li>
+          <li>
+            <span class="cap-index">02</span>
+            <h3>No added trainable parameters</h3>
+            <p>The routed features are concatenated along the token dimension and consumed by the existing cross-attention. Relative to VLA-Adapter, the baseline it builds on, LIRA adds no projection layers or trainable parameters.</p>
+          </li>
+          <li>
+            <span class="cap-index">03</span>
+            <h3>Robustness under controlled shifts</h3>
+            <p>In zero-shot transfer to LIBERO-Plus, overall success rises from 59.1% for VLA-Adapter to 78.0% under the same 0.5B configuration, an 18.9-point gain.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section section-tint" id="method">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-rule"></span>METHOD</p>
+              <h2>A depth-aligned local window for every fusion block</h2>
+            </div>
+            <p>
+              At each control step the policy receives a third-person image, a gripper-view
+              image, a language instruction and the robot's proprioceptive state. A
+              Prismatic-style VLM with <i>L</i> layers processes the visual-language tokens
+              together with <i>M</i> learnable LIRA Query tokens, and task-token features and
+              LIRA Query features are taken from every layer. The action decoder is a stack of
+              <i>L</i> Parallel Fusion Blocks (PFBs) initialised by Action Query tokens; an
+              output head maps the final Action Query features to a continuous action chunk.
+            </p>
+          </div>
+
+          <figure class="media-frame">
+            <img src="assets/media/framework.webp" width="2403" height="938" loading="lazy" alt="Left: a Prismatic-style VLM drawn as L layers, each holding visual-language token features and LIRA Query features, with visual-language tokens and LIRA Query tokens as input. Middle: an action decoder of L stacked Parallel Fusion Blocks, fed by Action Query tokens and ending in the action. Arrows carry the LIRA Query features of layers i−1, i and i+1 into the block matched to layer i, and those of layers 1 and 2 into the first block. Right: inside one Parallel Fusion Block, Action Query features pass through self-attention and two cross-attention branches conditioned on visual-language features and LIRA Query features, one of them scaled, followed by a feed-forward network and add-and-norm." />
+            <figcaption>
+              The Prismatic-style VLM processes visual-language task tokens together with
+              learnable LIRA Query tokens, while Action Query tokens initialise an action
+              decoder of <i>L</i> Parallel Fusion Blocks. Task-token features stay aligned with
+              the corresponding VLM depth; each block receives LIRA Query features aggregated
+              from a centred local window of adjacent VLM layers and uses Action Query features
+              to fuse the two sources before action prediction. The proprioceptive branch is
+              omitted for clarity.
+              <span class="figure-source">Fig. 2 of the paper.</span>
+            </figcaption>
+          </figure>
+
+          <ul class="method-parts">
+            <li>
+              <h3>Depth-aligned interface</h3>
+              <p>As in VLA-Adapter, PFB <i>i</i> is matched to VLM layer <i>i</i>. In that one-to-one interface a block sees task-token and query features from its matched layer only, so nearby layers are out of its reach.</p>
+            </li>
+            <li>
+              <h3>Local routing window</h3>
+              <p>For PFB <i>i</i>, LIRA concatenates the LIRA Query features of the layers within <i>r</i> of layer <i>i</i>, in ascending layer order. The default <i>r</i>&nbsp;=&nbsp;1 gives three layers for an interior block and two at the first and last layers.</p>
+            </li>
+            <li>
+              <h3>Fusion in each block</h3>
+              <p>Bridge Attention updates the Action Query features by self-attention and cross-attention. The matched task-token features act as a depth-aligned semantic anchor; the routed LIRA Query features, with the proprioceptive embedding, supply the local multi-depth context.</p>
+            </li>
+            <li>
+              <h3>Same training objective</h3>
+              <p>The model is trained by L1 regression on continuous action chunks. The controlled VLA-Adapter baseline uses the same objective and recipe, so the comparison isolates the routing.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section container" id="results">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-rule"></span>RESULTS</p>
+            <h2>Three simulation benchmarks and a physical robot</h2>
+          </div>
+          <p>
+            LIRA is compared with VLA-Adapter, its controlled architectural baseline, in the
+            same compact configuration: a Prismatic-style VLM with a Qwen2.5-0.5B language
+            backbone, two image observations, proprioceptive input, LoRA fine-tuning and
+            supervised continuous-action regression, with 64 LIRA Query tokens and a
+            three-layer window. Evaluation uses 500 trials per LIBERO suite, 1,000 task
+            sequences on CALVIN ABC→D, and one rollout for each of the 10,030 LIBERO-Plus
+            tasks under the official protocol. Other reported systems give benchmark context
+            across model scales and training pipelines.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>LIBERO-Plus · zero-shot</dt>
+            <dd>78.0%</dd>
+            <dd class="stat-note">Overall success over 10,030 perturbed tasks without LIBERO-Plus fine-tuning; 59.1% for VLA-Adapter. Table&nbsp;4.</dd>
+          </div>
+          <div>
+            <dt>LIBERO · average</dt>
+            <dd>98.9%</dd>
+            <dd class="stat-note">Success rate over the four suites; 97.3% for VLA-Adapter. Table&nbsp;2.</dd>
+          </div>
+          <div>
+            <dt>CALVIN ABC→D</dt>
+            <dd>4.52</dd>
+            <dd class="stat-note">Average completed sequence length out of five tasks; 4.42 for VLA-Adapter. Table&nbsp;3.</dd>
+          </div>
+          <div>
+            <dt>Added parameters</dt>
+            <dd>None</dd>
+            <dd class="stat-note">The routing adds no trainable parameters relative to VLA-Adapter.</dd>
+          </div>
+        </dl>
+
+        <div class="result-block">
+          <h3>LIBERO-Plus</h3>
+          <p>LIBERO-Plus perturbs camera viewpoints, robot initialisation, language instructions, lighting, backgrounds, sensor noise and object layouts. Without LIBERO-Plus fine-tuning, LIRA raises the Overall score of VLA-Adapter by 18.9 percentage points and exceeds OpenVLA-OFT, the strongest compared zero-shot method, by 8.4 points; it has the highest success rate in six of the seven categories, Background being the exception. After fine-tuning on LIBERO-Plus it has the highest Overall score, 82.9%.</p>
+          <p class="table-caption">Table 4 of the paper: LIBERO-Plus success rates (%) under zero-shot transfer and target-domain fine-tuning. Params is the model scale in billions.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Params</th>
+                  <th scope="col">Camera</th>
+                  <th scope="col">Robot</th>
+                  <th scope="col">Language</th>
+                  <th scope="col">Light</th>
+                  <th scope="col">Background</th>
+                  <th scope="col">Noise</th>
+                  <th scope="col">Layout</th>
+                  <th scope="col">Overall</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="10">Zero-shot transfer</th>
+                </tr>
+                <tr><th scope="row">OpenVLA</th><td>7B</td><td>0.8</td><td>3.5</td><td>23.0</td><td>8.1</td><td>34.8</td><td>15.2</td><td>28.5</td><td>15.6</td></tr>
+                <tr><th scope="row">OpenVLA-OFT</th><td>7B</td><td>56.4</td><td>31.9</td><td>79.5</td><td>88.7</td><td>93.3</td><td>75.8</td><td>74.2</td><td>69.6</td></tr>
+                <tr><th scope="row">UniVLA</th><td>7B</td><td>1.8</td><td>46.2</td><td>69.6</td><td>69.0</td><td>81.0</td><td>21.2</td><td>31.9</td><td>42.9</td></tr>
+                <tr><th scope="row">π<sub>0</sub></th><td>3B</td><td>13.8</td><td>6.0</td><td>58.8</td><td>85.0</td><td>81.4</td><td>79.0</td><td>68.8</td><td>53.6</td></tr>
+                <tr><th scope="row">π<sub>0</sub>-FAST</th><td>3B</td><td>65.1</td><td>21.6</td><td>61.0</td><td>73.2</td><td>73.2</td><td>74.4</td><td>68.8</td><td>61.6</td></tr>
+                <tr><th scope="row">VLA-Adapter</th><td>0.5B</td><td>36.2</td><td>37.9</td><td>74.6</td><td>70.6</td><td>76.1</td><td>58.0</td><td>69.7</td><td>59.1</td></tr>
+                <tr class="is-ours"><th scope="row">LIRA</th><td>0.5B</td><td>74.9</td><td>51.8</td><td>82.0</td><td>96.9</td><td>90.2</td><td>80.5</td><td>78.1</td><td class="best">78.0</td></tr>
+                <tr class="group-row">
+                  <th scope="colgroup" colspan="10">Fine-tuned on LIBERO-Plus</th>
+                </tr>
+                <tr><th scope="row">OpenVLA-OFT</th><td>7B</td><td>92.8</td><td>30.3</td><td>85.8</td><td>94.9</td><td>93.9</td><td>89.3</td><td>77.6</td><td>79.5</td></tr>
+                <tr><th scope="row">VLA-Adapter</th><td>0.5B</td><td>96.7</td><td>42.1</td><td>71.1</td><td>96.5</td><td>97.5</td><td>96.9</td><td>74.4</td><td>81.0</td></tr>
+                <tr class="is-ours"><th scope="row">LIRA</th><td>0.5B</td><td>93.5</td><td>51.5</td><td>83.0</td><td>95.8</td><td>91.4</td><td>92.6</td><td>77.7</td><td class="best">82.9</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            Overall is computed over all 10,030 LIBERO-Plus tasks, not as the unweighted mean of
+            the seven category rates. The paper marks in bold only the best Overall result within
+            each setting.
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>LIBERO</h3>
+          <p>LIRA improves on VLA-Adapter in all four suites. The average rises from 97.3% to 98.9%, with the largest gain on the multi-stage LIBERO-Long suite, from 95.0% to 97.6%.</p>
+          <p class="table-caption">Table 2 of the paper: success rates (%) on the four LIBERO suites. Systems with different training pipelines give benchmark context; VLA-Adapter is the controlled architectural baseline.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Params</th>
+                  <th scope="col">Spatial</th>
+                  <th scope="col">Object</th>
+                  <th scope="col">Goal</th>
+                  <th scope="col">Long</th>
+                  <th scope="col">Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">UnifiedVLA</th><td>8.5B</td><td>95.4</td><td>98.8</td><td>93.6</td><td>94.0</td><td>95.5</td></tr>
+                <tr><th scope="row">OpenVLA</th><td>7B</td><td>84.7</td><td>88.4</td><td>79.2</td><td>53.7</td><td>76.5</td></tr>
+                <tr><th scope="row">UniVLA</th><td>7B</td><td>96.5</td><td>96.8</td><td>95.6</td><td>92.0</td><td>95.2</td></tr>
+                <tr><th scope="row">OpenVLA-OFT</th><td>7B</td><td>97.6</td><td>98.4</td><td>97.9</td><td>94.5</td><td>97.1</td></tr>
+                <tr><th scope="row">π<sub>0</sub></th><td>3B</td><td>96.8</td><td>98.8</td><td>95.8</td><td>85.2</td><td>94.2</td></tr>
+                <tr><th scope="row">π<sub>0</sub>-FAST</th><td>3B</td><td>96.4</td><td>96.8</td><td>88.6</td><td>60.2</td><td>85.5</td></tr>
+                <tr><th scope="row">AffordanceVLA (full)</th><td>4B</td><td>98.6</td><td>98.4</td><td>96.2</td><td>89.8</td><td>95.8</td></tr>
+                <tr><th scope="row">VLA-Adapter</th><td>0.5B</td><td>97.8</td><td>99.2</td><td>97.2</td><td>95.0</td><td>97.3</td></tr>
+                <tr><th scope="row">VLA-Adapter-Pro</th><td>0.5B</td><td class="best">99.6</td><td>99.6</td><td>98.2</td><td>96.4</td><td>98.5</td></tr>
+                <tr class="is-ours"><th scope="row">LIRA</th><td>0.5B</td><td class="best">99.6</td><td class="best">99.8</td><td class="best">98.5</td><td class="best">97.6</td><td class="best">98.9</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>CALVIN ABC→D</h3>
+          <p>Policies train on environments A, B and C and are evaluated on chains of five tasks in environment D. The margin over VLA-Adapter grows with sequence depth: five-task success rises from 76.5% to 80.5%. LIRA has the highest success for two to five consecutive tasks and the highest average length; VLA-Adapter has the highest single-task success.</p>
+          <p class="table-caption">Table 3 of the paper: success rates (%) for completing one to five tasks consecutively on CALVIN ABC→D, and the average completed sequence length.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Params</th>
+                  <th scope="col">1</th>
+                  <th scope="col">2</th>
+                  <th scope="col">3</th>
+                  <th scope="col">4</th>
+                  <th scope="col">5</th>
+                  <th scope="col">Avg. len. ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">UnifiedVLA</th><td>8.5B</td><td>98.9</td><td>94.8</td><td>89.0</td><td>82.8</td><td>75.1</td><td>4.41</td></tr>
+                <tr><th scope="row">OpenVLA</th><td>7B</td><td>91.3</td><td>77.8</td><td>62.0</td><td>52.1</td><td>43.5</td><td>3.27</td></tr>
+                <tr><th scope="row">UniVLA</th><td>7B</td><td>95.5</td><td>85.8</td><td>75.4</td><td>66.9</td><td>56.5</td><td>3.80</td></tr>
+                <tr><th scope="row">OpenVLA-OFT</th><td>7B</td><td>96.9</td><td>92.0</td><td>85.7</td><td>80.4</td><td>72.9</td><td>4.28</td></tr>
+                <tr><th scope="row">AffordanceVLA (full)</th><td>4B</td><td>96.8</td><td>92.0</td><td>87.5</td><td>80.8</td><td>75.9</td><td>4.33</td></tr>
+                <tr><th scope="row">VLA-Adapter</th><td>0.5B</td><td class="best">99.1</td><td>94.6</td><td>88.8</td><td>82.8</td><td>76.5</td><td>4.42</td></tr>
+                <tr><th scope="row">VLA-Adapter-Pro</th><td>0.5B</td><td>98.5</td><td>95.0</td><td>90.5</td><td>85.3</td><td>80.0</td><td>4.50</td></tr>
+                <tr class="is-ours"><th scope="row">LIRA</th><td>0.5B</td><td>98.8</td><td class="best">95.3</td><td class="best">91.0</td><td class="best">85.8</td><td class="best">80.5</td><td class="best">4.52</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="result-block">
+          <h3>Real robot</h3>
+          <p>
+            The physical platform is a 7-DoF Franka Research 3 arm with a Franka Hand gripper
+            and two Orbbec Gemini 336L cameras for the third-person and gripper views;
+            demonstrations are collected by SpaceMouse teleoperation. Four tasks are run, 10
+            trials each: Move (bring the gripper to the left or right of a target object),
+            Pick-and-Place (put a specified object into a plate), Collection (place a plate on
+            the instructed side, then an object into it) and Transfer (put two specified
+            objects into the same plate, one after the other). LIRA has the highest final
+            success on all four. The paper regards these results as preliminary, given 10
+            trials per task.
+          </p>
+          <p class="table-caption">Table 9 of the paper: real-world successes out of 10 trials per task. For the two-stage tasks, Step 1 is the intermediate subgoal and Step 2 the full instruction.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Move</th>
+                  <th scope="col">Pick-and-Place</th>
+                  <th scope="col">Collection · Step 1</th>
+                  <th scope="col">Collection · Step 2</th>
+                  <th scope="col">Transfer · Step 1</th>
+                  <th scope="col">Transfer · Step 2</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">OpenVLA-OFT</th><td>8/10</td><td>6/10</td><td>8/10</td><td>5/10</td><td>6/10</td><td>4/10</td></tr>
+                <tr><th scope="row">VLA-Adapter</th><td>9/10</td><td>7/10</td><td>9/10</td><td>6/10</td><td class="best">8/10</td><td>6/10</td></tr>
+                <tr class="is-ours"><th scope="row">LIRA</th><td class="best">10/10</td><td class="best">9/10</td><td class="best">10/10</td><td class="best">8/10</td><td class="best">8/10</td><td class="best">7/10</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="media-frame platform-photo" data-evidence="real-world">
+            <img src="assets/media/platform.webp" width="2400" height="1800" loading="lazy" alt="Labelled photograph of the tabletop platform: a white Franka Research 3 robot arm with a Franka Hand gripper, a gripper-view Orbbec Gemini 336L camera at the wrist, a third-view Orbbec Gemini 336L camera on a pole to the left, a SpaceMouse teleoperation controller, and task objects on the table: white, green and brown plates, a yellow bowl and three plush toys." />
+            <figcaption>
+              <span class="evidence-tag">Real-world</span>The physical platform of the
+              real-robot evaluation: Franka Research 3 arm, third-person and gripper-view
+              cameras, and the SpaceMouse teleoperation interface. A photograph of the setup;
+              the paper shows no frames of the real-robot trials.
+              <span class="figure-source">Fig. 4 of the paper.</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="result-block">
+          <h3>Ablations, resources and scope</h3>
+          <p>
+            On LIBERO-Long, combining depth-aligned task-token features with locally routed
+            LIRA Query features beats either source alone. More query tokens do not explain
+            the gain: the best last-layer-only variant reaches 92.8% with 256 tokens, against
+            97.6% for LIRA with 64. The local window is ahead of the strongest alternative
+            routing topology by 3.1 points on LIBERO-Long and 2.1 points on five-task CALVIN,
+            and the three-layer window is the best width, with global aggregation the worst
+            (Tables 5–7 of the paper).
+          </p>
+          <figure class="media-frame">
+            <img src="assets/media/ablations.webp" width="2400" height="617" loading="lazy" alt="Three plots of success rate on LIBERO-Long for three conditioning sources: task-token features, LIRA Query features, and both together. Left, single-layer conditioning against VLM layers 1 to 24: task-token features peak at 88.3 at layer 13 and then fall, LIRA Query features reach 91.0 at layer 24, and both together reach 92.3 at layer 24. Middle, local cross-layer routing against the number of LIRA Query tokens from 1 to 512: the combined curve is the highest throughout and peaks at 97.6 with 64 tokens. Right, detail at 64 tokens: 90.5, 92.6 and 97.6." />
+            <figcaption>Conditioning-source, VLM-layer and LIRA Query-token ablations on LIBERO-Long. <span class="figure-source">Fig. 3 of the paper.</span></figcaption>
+          </figure>
+          <p>
+            Against the reported configuration of OpenVLA-OFT, LIRA uses a 0.5B backbone
+            instead of 7B, 12.8&nbsp;GB of training memory instead of 62&nbsp;GB (batch size 8)
+            and reaches 186.3&nbsp;Hz throughput against 71.4&nbsp;Hz. The paper treats this as
+            a system-level comparison, since the two systems differ in backbone and training
+            protocol (Table 8).
+          </p>
+          <p>
+            The paper states the limits of its evidence: one compact VLM backbone, one
+            PFB-based action decoder, the evaluated LIBERO and CALVIN protocols, and a
+            single-robot study with 10 trials per task. It does not establish cross-embodiment
+            robustness or performance on contact-rich and force-sensitive manipulation, and the
+            LIBERO-Plus results do not imply unrestricted out-of-distribution generalisation.
+            Code and model checkpoints are not public yet; the authors state that they will be
+            released upon acceptance of the paper.
+          </p>
+        </div>
+      </section>
+
+      <section class="section container" id="citation">
+        <p class="eyebrow"><span class="eyebrow-rule"></span>CITATION</p>
+        <div class="bibtex">
+          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+          <pre id="bibtex"><code>@misc{zhang2026lira,
+  title={LIRA: Local Cross-Layer Information Routing for
+         Vision-Language-Action Decoding},
+  author={Zhewei Zhang and Puyue Wang and Guanren Qiao and Yijie Weng and
+          Jiawei Hu and Guo Li and Lujia Wang and Junyan Wang and Tao Gu and
+          Hongliang Lu and Guiliang Liu and Hong Jia and Xinhu Zheng},
+  year={2026},
+  eprint={2608.07596},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2608.07596},
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="wordmark small" href="/">
+          <img class="omega-glyph" src="assets/brand/omega-mark.svg" alt="" width="36" height="36" />
+          <span>OMEGA<span class="brand-lab">LAB</span></span>
+        </a>
+        <p>LIRA is part of OMEGA Lab's research on robot learning and manipulation at HKUST(GZ).</p>
+        <a class="text-link" href="/research/#robot-learning">More in Robot Learning &amp; Manipulation <span aria-hidden="true">→</span></a>
+      </div>
+    </footer>
+
+    <script src="assets/js/omega-page.js?v=1" defer></script>
+  </body>
+</html>

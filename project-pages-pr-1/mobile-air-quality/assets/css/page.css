@@ -1,0 +1,20 @@
+/* Styles only this page needs. The shared look lives in omega-page.css, which is replaced
+   when the template is refreshed, so put page-specific rules here. */
+
+/* The instrument photographs are 725 px wide in the paper: show them at their size
+   instead of stretching them across the column. */
+.media-frame.narrow {
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+/* Figures and tables that follow one another inside a result block. */
+.result-block > .media-frame {
+  margin-top: 20px;
+}
+.result-block > .table-wrap + .media-frame {
+  margin-top: 28px;
+}
+.result-block > .media-frame + p {
+  margin-top: 24px;
+}
