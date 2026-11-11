@@ -9,14 +9,14 @@
     "derivedVideo": "/videos/unit-overview.mp4",
     "usage": "Poster at 33 seconds; silent overview clip excerpted from 22 to 34 seconds of the hosted author introduction. Empty outer margins cropped (1056×594 from 1280×720); labels preserved. Shows input configurations, optional modalities, memory scaling and metric-scale perception; rights remain with the authors."
   },
-  "projects/lightvln-cover.png": {
+  "projects/lightvln-cover.webp": {
     "subject": "LightVLN author-provided project cover",
     "source": "Author-provided cover submitted by Yiming Zhao on 2026-11-03",
     "project": "https://lightvln-aerial-navigation.warmgame4.chatgpt.site/",
     "paper": "https://arxiv.org/abs/2610.05024",
     "credit": "Yiming Zhao and the LightVLN authors",
     "retrieved": "2026-11-06",
-    "usage": "Provided by Yiming Zhao for the OMEGA Lab project showcase. Original image, with labels and aspect ratio preserved. Campus simulation and onboard-compute HIL with virtual UAV motion; no real-flight claim."
+    "usage": "Provided by Yiming Zhao for the OMEGA Lab project showcase. Original image re-encoded as WebP at the same size; labels and aspect ratio preserved. Campus simulation and onboard-compute HIL with virtual UAV motion; no real-flight claim."
   },
   "xinhu-zheng.jpg": {
     "subject": "Xinhu Zheng",
@@ -127,7 +127,7 @@
     "retrieved": "2026-09-18",
     "usage": "Frame from the authors’ demonstration video. Preserve aspect ratio; rights remain with the respective authors."
   },
-  "projects/praxisworld-teaser.png": {
+  "projects/praxisworld-teaser.webp": {
     "subject": "PraxisWorld, Figure 1",
     "source": "https://sc2i-hkustgz.github.io/PraxisWorld/assets/figures/fig1_teaser.png",
     "paper": "https://sc2i-hkustgz.github.io/PraxisWorld/assets/paper/praxisworld.pdf",
