@@ -1,0 +1,1 @@
+function e(){let e=document.querySelector(`.language-switch[data-same-page]`);e&&e.setAttribute(`href`,e.pathname+location.search+location.hash)}export{e as t};
